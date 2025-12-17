@@ -1,0 +1,111 @@
+.registerPage {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(236, 234, 231, 0.8) 0%, rgba(255, 255, 255, 0.9) 100%);
+    padding: 20px;
+}
+
+.registerContainer {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.registerContainer h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.registerForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.inputGroup label {
+    font-size: 14px;
+    color: #5a6c7d;
+    font-weight: 500;
+}
+
+.inputGroup input {
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+}
+
+.inputGroup input:focus {
+    outline: none;
+    border-color: rgba(0, 123, 255, 1);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.registerButton {
+    background: rgba(0, 123, 255, 1);
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.registerButton:hover {
+    background: rgba(0, 89, 255, 1);
+}
+
+.registerButton:active {
+    transform: translateY(1px);
+}
+
+.loginLink {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.loginLink p {
+    color: #5a6c7d;
+    font-size: 14px;
+    margin: 0;
+}
+
+.loginLink a {
+    color: rgba(0, 123, 255, 1);
+    text-decoration: none;
+}
+
+.loginLink a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .registerContainer {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+
+    .registerContainer h1 {
+        font-size: 24px;
+    }
+}

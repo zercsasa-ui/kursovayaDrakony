@@ -1,0 +1,55 @@
+.mainPage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 60px; /* Отступ для фиксированного хедера */
+}
+
+/* Responsive design for header spacing */
+@media (max-width: 768px) {
+    .mainPage {
+        padding-top: 55px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mainPage {
+        padding-top: 50px;
+    }
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    text-align: center;
+}
+
+.content h1 {
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.galleryButton {
+    padding: 12px 24px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.galleryButton:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.galleryButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

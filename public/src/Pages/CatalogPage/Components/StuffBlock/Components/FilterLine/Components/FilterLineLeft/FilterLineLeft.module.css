@@ -1,0 +1,29 @@
+.filterLineLeft {
+    height: 79px;
+    display: flex;
+    align-items: center;
+    gap: 29px;
+    padding-left: 39px;
+}
+
+.filterElement {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    user-select: none;
+
+    &.active {
+        background-color: rgba(0, 0, 0, 0.05);
+        font-weight: 500;
+    }
+}
+
+img {
+    height: 7px;
+    width: 7px;
+}

@@ -1,0 +1,35 @@
+.catalogPage {
+    min-height: 100vh;
+    padding-top: 60px;
+}
+
+/* Responsive design for header spacing */
+@media (max-width: 768px) {
+    .catalogPage {
+        padding-top: 55px;
+    }
+}
+
+@media (max-width: 480px) {
+    .catalogPage {
+        padding-top: 50px;
+    }
+}
+
+main {
+    display: flex;
+    width: calc(100% - 40px);
+    padding: 0px 40px 0px 40px;
+    gap: 36px;
+    margin: 0 auto;
+    justify-content: space-around;
+}
+
+.filtersLeft {
+    width: 300px;
+    flex-shrink: 0;
+}
+
+.stuffRight {
+    flex: 1;
+}

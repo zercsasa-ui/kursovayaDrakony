@@ -1,0 +1,62 @@
+.materials {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 0;
+    margin: 0;
+
+    h1 {
+        padding: 0;
+        margin: 0;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 22px;
+        letter-spacing: 10%;
+        text-transform: uppercase;
+        color: rgba(30, 30, 30, 1);
+        position: static;
+    }
+
+    h1::after {
+        display: none;
+    }
+
+    div {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+}
+
+.materialButton {
+    padding: 0;
+    margin: 0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 10%;
+    text-transform: uppercase;
+    color: rgba(30, 30, 30, 1);
+    padding: 8px 10px;
+    border: 2px solid rgba(233, 227, 215, 1);
+    background: rgba(245, 243, 240, 1);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+}
+
+.materialButton:hover {
+    border-color: rgba(30, 30, 30, 1);
+    background: rgba(233, 227, 215, 1);
+}
+
+.materialButton.selected {
+    background: rgba(30, 30, 30, 1);
+    color: rgba(245, 243, 240, 1);
+    border-color: rgba(30, 30, 30, 1);
+}
+
+.materialButton.selected:hover {
+    background: rgba(50, 50, 50, 1);
+    border-color: rgba(50, 50, 50, 1);
+}

@@ -1,0 +1,38 @@
+.rightHeaderBlock {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.registrationButton {
+    color: rgba(114, 113, 110, 1);
+    font-size: 14px;
+    font-family: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.registrationButton:hover:not(:disabled) {
+    color: rgba(0, 123, 255, 1);
+}
+
+.registrationButton:disabled {
+    color: rgba(200, 200, 200, 1);
+    cursor: not-allowed;
+}
+
+.cartContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgb(0, 89, 255);
+}
+
+.cartContainer img {
+    height: 20px;
+}

@@ -1,0 +1,38 @@
+.stuffBlock {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid rgba(236, 234, 231, 1);
+    height: 100vh;
+    padding-top: 5px;
+}
+
+h1 {
+    padding-left: 40px;
+    color: #292929;
+    font-size: 35px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    position: relative;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 40px;
+    width: 50px;
+    height: 2px;
+    background: linear-gradient(to right, rgba(44, 62, 80, 0.6), transparent);
+}
+
+.tovarList {
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    overflow-y: auto;
+    flex: 1;
+    padding-bottom: 40px;
+}

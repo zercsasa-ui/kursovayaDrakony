@@ -1,0 +1,35 @@
+.midHeaderBlock {
+    display: flex;
+    gap: 36px;
+
+    .link {
+        color: rgba(114, 113, 110, 1);
+        font-size: 14px;
+        font-family: inherit;
+        background: none;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .link:hover:not(:disabled) {
+        color: rgba(0, 123, 255, 1);
+    }
+
+    .link:disabled {
+        color: rgba(200, 200, 200, 1);
+        cursor: not-allowed;
+    }
+
+    .link img{
+        height: 16px;
+    }
+
+    .link p {
+        margin: 0;
+        color: inherit;
+    }
+}

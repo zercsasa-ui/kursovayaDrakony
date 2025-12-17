@@ -1,0 +1,122 @@
+.videoProcessBlockBg {
+    background: white;
+    border-bottom: 1px solid rgba(236, 234, 231, 1);
+    width: 100%;
+    position: relative;
+    padding: 140px 0;
+}
+
+.videoProcessBlock {
+    width: calc(100% - 200px);
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 40px;
+}
+
+.videoContainer {
+    flex-shrink: 0;
+}
+
+.processVideo {
+    width: 360px;
+    height: 500px;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    background-color: #000;
+}
+
+.processVideo:hover {
+    transform: scale(1.02);
+}
+
+.textContent {
+    flex: 1;
+    max-width: 550px;
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.title {
+    font-size: 35px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.description {
+    font-size: 16px;
+    color: #5a6c7d;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .videoProcessBlock {
+        width: calc(100% - 100px);
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .processVideo {
+        width: 320px;
+        height: 180px;
+    }
+
+    .textContent {
+        height: auto;
+    }
+
+    .title {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    .videoProcessBlockBg {
+        padding: 60px 0;
+    }
+
+    .videoProcessBlock {
+        width: calc(100% - 40px);
+    }
+
+    .processVideo {
+        width: 280px;
+        height: 157px;
+    }
+
+    .title {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .description {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .videoProcessBlock {
+        width: calc(100% - 20px);
+        gap: 20px;
+    }
+
+    .processVideo {
+        width: 240px;
+        height: 135px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+}

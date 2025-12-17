@@ -1,0 +1,27 @@
+.galleryPage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    text-align: center;
+}
+
+.content h1 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.content p {
+    color: #666;
+    font-size: 18px;
+}

@@ -1,0 +1,34 @@
+.leftHeaderBlock{
+    display: flex;
+    gap: 60px;
+}
+
+.logoButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.logoButton img {
+    display: block;
+}
+
+.textHome {
+    color: rgba(114, 113, 110, 1);
+    font-size: 14px;
+    font-family: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.textHome:hover:not(:disabled) {
+    color: rgba(0, 123, 255, 1);
+}
+
+.textHome:disabled {
+    color: rgba(200, 200, 200, 1);
+    cursor: not-allowed;
+}

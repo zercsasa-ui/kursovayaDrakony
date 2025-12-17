@@ -1,0 +1,13 @@
+.search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    img{
+        height: 20px;
+    }
+
+    p {
+        color: rgba(114, 113, 110, 1);
+    }
+}
