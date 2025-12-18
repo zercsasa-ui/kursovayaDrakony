@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTrail, useSpring, animated } from '@react-spring/web';
 import styles from './Breadcrumbs.module.css';
 
 function Breadcrumbs() {
@@ -42,37 +43,43 @@ function Breadcrumbs() {
     }, [lastScrollY]);
 
     useEffect(() => {
-        const fetchBreadcrumbs = async () => {
-            setLoading(true);
-            try {
-                const response = await fetch(`/api/navigate/breadcrumbs?path=${location.pathname}`);
-                const data = await response.json();
-                if (data.success) {
-                    setCrumbs(data.breadcrumbs);
-                }
-            } catch (error) {
-                console.error('Error fetching breadcrumbs:', error);
-                // Fallback to default breadcrumbs
-                setCrumbs([{ label: 'Главная', path: '/' }]);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchBreadcrumbs();
+        // Client-side breadcrumb logic
+        let crumbs = [{ label: 'Главная', path: '/' }];
+        if (location.pathname.includes('/catalog')) {
+            crumbs.push({ label: 'Каталог', path: '/catalog' });
+        } else if (location.pathname.includes('/gallery')) {
+            crumbs.push({ label: 'Галерея', path: '/gallery' });
+        } else if (location.pathname.includes('/register')) {
+            crumbs.push({ label: 'Регистрация', path: '/register' });
+        } else if (location.pathname.includes('/login')) {
+            crumbs.push({ label: 'Авторизация', path: '/login' });
+        }
+        setCrumbs(crumbs);
     }, [location.pathname]);
 
+    const trail = useTrail(crumbs.length, {
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translateY(0px)' : 'translateY(-10px)',
+        from: { opacity: 0, transform: 'translateY(-10px)' },
+        config: { mass: 1, tension: 280, friction: 60 },
+    });
+
+    const containerStyle = useSpring({
+        opacity: isVisible ? 1 : 0,
+        config: { tension: 200, friction: 20 }
+    });
+
     return (
-        <div className={`${styles.breadcrumbs} ${isVisible ? styles.visible : styles.hidden}`}>
+        <animated.div className={styles.breadcrumbs} style={containerStyle}>
             <div className={styles.container}>
-                {crumbs.map((crumb, index) => (
-                    <span key={index}>
-                        <Link to={crumb.path}>{crumb.label}</Link>
+                {trail.map((style, index) => (
+                    <animated.span key={crumbs[index].path} style={style}>
+                        <Link to={crumbs[index].path}>{crumbs[index].label}</Link>
                         {index < crumbs.length - 1 && <span className={styles.separator}> {'>'} </span>}
-                    </span>
+                    </animated.span>
                 ))}
             </div>
-        </div>
+        </animated.div>
     );
 }
 

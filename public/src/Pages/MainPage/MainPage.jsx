@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import HeaderBlock from '../../Components/Header/HeaderBlock';
 import PrivetBlockMain from './Components/PrivetBlockMain/PrivetBlockMain';
 import VideoProcessBlock from './Components/VideoProcessBlock/VideoProcessBlock';
+import OtziviMainBlock from './Components/OtziviMainBlock/OtziviMainBlock';
 import styles from './MainPage.module.css';
 
 function MainPage() {
@@ -29,18 +30,7 @@ function MainPage() {
             <HeaderBlock />
             <PrivetBlockMain />
             <VideoProcessBlock />
-            <main>
-                <div className={styles.content}>
-                    <h1>Главная страница</h1>
-                    <button
-                        onClick={handleGoToGallery}
-                        disabled={isLoading}
-                        className={styles.galleryButton}
-                    >
-                        {isLoading ? 'Загрузка...' : 'Перейти в галерею'}
-                    </button>
-                </div>
-            </main>
+            <OtziviMainBlock />
         </div>
     );
 }

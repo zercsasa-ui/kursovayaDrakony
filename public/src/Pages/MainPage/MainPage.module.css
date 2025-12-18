@@ -2,7 +2,8 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    padding-top: 60px; /* Отступ для фиксированного хедера */
+    padding-top: 60px;
+    width: 100%;
 }
 
 /* Responsive design for header spacing */

@@ -1,4 +1,4 @@
-.registerPage {
+.authenticationPage {
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -7,17 +7,17 @@
     padding: 20px;
 }
 
-.registerContainer {
+.authenticationContainer {
     background: #ffffff;
     padding: 50px;
     border: 1px solid #e0e0e0;
     width: 100%;
     max-width: 400px;
     box-shadow: none;
-    margin-top: 100px;
+    margin-top: 40px;
 }
 
-.registerContainer h1 {
+.authenticationContainer h1 {
     text-align: center;
     color: #000000;
     margin-bottom: 40px;
@@ -26,7 +26,7 @@
     letter-spacing: -0.5px;
 }
 
-.registerForm {
+.authenticationForm {
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -68,36 +68,7 @@
     border-bottom-color: #999999;
 }
 
-.roleSelect {
-    width: 100%;
-    padding: 15px 0 8px 0;
-    border: none;
-    border-bottom: 1px solid #cccccc;
-    background: transparent;
-    font-size: 16px;
-    font-family: inherit;
-    color: #000000;
-    transition: border-color 0.3s ease;
-    box-sizing: border-box;
-    cursor: pointer;
-}
-
-.roleSelect:focus {
-    outline: none;
-    border-bottom-color: #000000;
-}
-
-.roleSelect:hover {
-    border-bottom-color: #999999;
-}
-
-.roleSelect option {
-    background: #ffffff;
-    color: #000000;
-    padding: 8px;
-}
-
-.registerButton {
+.authenticationButton {
     background: #000000;
     color: white;
     border: 1px solid #000000;
@@ -112,21 +83,21 @@
     margin-top: 20px;
 }
 
-.registerButton:hover {
+.authenticationButton:hover {
     background: transparent;
     color: #000000;
 }
 
-.registerButton:active {
+.authenticationButton:active {
     transform: none;
 }
 
-.loginLink {
+.registerLink {
     text-align: center;
     margin-top: 30px;
 }
 
-.loginLink p {
+.registerLink p {
     color: #999999;
     font-size: 12px;
     margin: 0;
@@ -134,24 +105,24 @@
     letter-spacing: 0.5px;
 }
 
-.loginLink a {
+.registerLink a {
     color: #000000;
     text-decoration: none;
     font-weight: 500;
 }
 
-.loginLink a:hover {
+.registerLink a:hover {
     text-decoration: underline;
 }
 
 /* Responsive design */
 @media (max-width: 480px) {
-    .registerContainer {
+    .authenticationContainer {
         padding: 40px 30px;
         margin: 20px;
     }
 
-    .registerContainer h1 {
+    .authenticationContainer h1 {
         font-size: 28px;
     }
 }

@@ -5,6 +5,7 @@ import MainPage from './Pages/MainPage/MainPage'
 import CatalogPage from './Pages/CatalogPage/CatalogPage'
 import GalleryPage from './Pages/GalleryPage/GalleryPage'
 import RegisterPage from './Pages/RegisterPage/RegisterPage'
+import AuthenticationPage from './Pages/AuthenticationPage/AuthenticationPage'
 import Breadcrumbs from './Components/Breadcrumbs/Breadcrumbs'
 import ScrollUp from './Components/ScrollUp/ScrollUp'
 
@@ -20,6 +21,7 @@ function App() {
                 <Route path='/catalog' element={ <CatalogPage/> } />
                 <Route path='/gallery' element={ <GalleryPage/> } />
                 <Route path='/register' element={ <RegisterPage/> } />
+                <Route path='/login' element={ <AuthenticationPage/> } />
             </Routes>
         </>
     )

@@ -1,103 +1,140 @@
-const db = require('../database/database');
+const { UserModel } = require('../database/database');
 
 class UserController {
   // Получить всех пользователей
   static getAllUsers(req, res) {
-    db.all('SELECT id, username, email, created_at FROM users', [], (err, rows) => {
-      if (err) {
+    UserModel.findAll()
+      .then(users => {
+        res.json({ users });
+      })
+      .catch(err => {
         res.status(500).json({ error: err.message });
-        return;
-      }
-      res.json({ users: rows });
-    });
+      });
   }
 
   // Создать нового пользователя
   static createUser(req, res) {
-    const { username, email, password } = req.body;
+    const { username, email, password, avatar, role } = req.body;
 
     if (!username || !email || !password) {
-      return res.status(400).json({ error: 'Все поля обязательны' });
+      return res.status(400).json({ error: 'Имя пользователя, email и пароль обязательны' });
     }
 
-    db.run('INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
-      [username, email, password],
-      function(err) {
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
-        res.json({ id: this.lastID, message: 'Пользователь создан' });
+    // Проверка роли
+    const validRoles = ['Покупатель', 'Редактор', 'Админ'];
+    if (role && !validRoles.includes(role)) {
+      return res.status(400).json({ error: 'Недопустимая роль. Допустимые роли: Покупатель, Редактор, Админ' });
+    }
+
+    const userData = {
+      username,
+      email,
+      password,
+      avatar: avatar || null,
+      role: role || 'Покупатель'
+    };
+
+    UserModel.create(userData)
+      .then(user => {
+        // Сохраняем пользователя в сессии после успешной регистрации
+        req.session.userId = user.id;
+        req.session.username = user.username;
+        req.session.role = user.role;
+
+        res.json({
+          id: user.id,
+          message: 'Пользователь создан',
+          user: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            role: user.role
+          }
+        });
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
       });
   }
 
   // Получить пользователя по ID
   static getUserById(req, res) {
     const { id } = req.params;
+    const userId = parseInt(id);
 
-    db.get('SELECT id, username, email, created_at FROM users WHERE id = ?',
-      [id],
-      (err, user) => {
-        if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-        }
+    if (isNaN(userId)) {
+      return res.status(400).json({ error: 'Неверный ID пользователя' });
+    }
 
+    UserModel.findById(userId)
+      .then(user => {
         if (user) {
           res.json({ user });
         } else {
           res.status(404).json({ error: 'Пользователь не найден' });
         }
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
       });
   }
 
   // Обновить пользователя
   static updateUser(req, res) {
     const { id } = req.params;
-    const { username, email, password } = req.body;
+    const { username, email, password, avatar, role } = req.body;
 
     if (!username || !email) {
       return res.status(400).json({ error: 'Имя пользователя и email обязательны' });
     }
 
-    const updateData = [username, email, id];
-    let query = 'UPDATE users SET username = ?, email = ? WHERE id = ?';
-
-    if (password) {
-      query = 'UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?';
-      updateData.splice(2, 0, password);
+    // Проверка роли
+    const validRoles = ['Покупатель', 'Редактор', 'Админ'];
+    if (role && !validRoles.includes(role)) {
+      return res.status(400).json({ error: 'Недопустимая роль. Допустимые роли: Покупатель, Редактор, Админ' });
     }
 
-    db.run(query, updateData, function(err) {
-      if (err) {
-        res.status(500).json({ error: err.message });
-        return;
-      }
+    const updateData = {
+      username,
+      email,
+      password: password || undefined,
+      avatar: avatar !== undefined ? avatar : undefined,
+      role: role || undefined
+    };
 
-      if (this.changes === 0) {
-        res.status(404).json({ error: 'Пользователь не найден' });
-      } else {
-        res.json({ message: 'Пользователь обновлен' });
-      }
-    });
+    UserModel.update(id, updateData)
+      .then(result => {
+        if (result.changes === 0) {
+          res.status(404).json({ error: 'Пользователь не найден' });
+        } else {
+          res.json({ message: 'Пользователь обновлен' });
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
+      });
   }
 
   // Удалить пользователя
   static deleteUser(req, res) {
     const { id } = req.params;
+    const userId = parseInt(id);
 
-    db.run('DELETE FROM users WHERE id = ?', [id], function(err) {
-      if (err) {
+    if (isNaN(userId)) {
+      return res.status(400).json({ error: 'Неверный ID пользователя' });
+    }
+
+    UserModel.delete(userId)
+      .then(result => {
+        if (result.changes === 0) {
+          res.status(404).json({ error: 'Пользователь не найден' });
+        } else {
+          res.json({ message: 'Пользователь удален' });
+        }
+      })
+      .catch(err => {
         res.status(500).json({ error: err.message });
-        return;
-      }
-
-      if (this.changes === 0) {
-        res.status(404).json({ error: 'Пользователь не найден' });
-      } else {
-        res.json({ message: 'Пользователь удален' });
-      }
-    });
+      });
   }
 }
 

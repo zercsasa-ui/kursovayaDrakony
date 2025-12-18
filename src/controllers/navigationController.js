@@ -29,7 +29,6 @@ const navigationController = {
 
     getBreadcrumbs: (req, res) => {
         const { path } = req.query;
-        console.log(`Breadcrumbs request for path: ${path}`);
 
         const crumbs = [{ label: 'Главная', path: '/' }];
 
@@ -39,6 +38,8 @@ const navigationController = {
             crumbs.push({ label: 'Галерея', path: '/gallery' });
         } else if (path && path.includes('/register')) {
             crumbs.push({ label: 'Регистрация', path: '/register' });
+        } else if (path && path.includes('/login')) {
+            crumbs.push({ label: 'Авторизация', path: '/login' });
         }
 
         res.json({

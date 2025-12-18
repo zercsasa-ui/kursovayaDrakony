@@ -7,31 +7,16 @@ function requireAuth(req, res, next) {
   }
 }
 
-// Middleware для проверки роли администратора (расширение для будущего)
+// Middleware для проверки роли администратора
 function requireAdmin(req, res, next) {
-  if (req.session.userId && req.session.role === 'admin') {
+  if (req.session.userId && req.session.role === 'Админ') {
     next();
   } else {
     res.status(403).json({ error: 'Требуются права администратора' });
   }
 }
 
-// Middleware для логирования запросов
-function requestLogger(req, res, next) {
-  const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}] ${req.method} ${req.url}`);
-  next();
-}
-
-// Middleware для обработки ошибок
-function errorHandler(err, req, res, next) {
-  console.error('Ошибка:', err);
-  res.status(500).json({ error: 'Внутренняя ошибка сервера' });
-}
-
 module.exports = {
   requireAuth,
-  requireAdmin,
-  requestLogger,
-  errorHandler
+  requireAdmin
 };

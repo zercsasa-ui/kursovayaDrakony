@@ -20,7 +20,8 @@ function initializeDatabase() {
     username TEXT UNIQUE NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    role TEXT DEFAULT 'user',
+    avatar TEXT,
+    role TEXT DEFAULT 'Покупатель',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
@@ -75,10 +76,10 @@ const UserModel = {
   // Создать нового пользователя
   create: (userData) => {
     return new Promise((resolve, reject) => {
-      const { username, email, password, role = 'user' } = userData;
+      const { username, email, password, avatar, role = 'Покупатель' } = userData;
       db.run(
-        'INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)',
-        [username, email, password, role],
+        'INSERT INTO users (username, email, password, avatar, role) VALUES (?, ?, ?, ?, ?)',
+        [username, email, password, avatar, role],
         function(err) {
           if (err) reject(err);
           else resolve({ id: this.lastID, ...userData });
@@ -90,7 +91,7 @@ const UserModel = {
   // Получить всех пользователей
   findAll: () => {
     return new Promise((resolve, reject) => {
-      db.all('SELECT id, username, email, role, created_at FROM users', [], (err, rows) => {
+      db.all('SELECT id, username, email, avatar, role, created_at FROM users', [], (err, rows) => {
         if (err) reject(err);
         else resolve(rows);
       });
@@ -100,7 +101,7 @@ const UserModel = {
   // Обновить пользователя
   update: (id, userData) => {
     return new Promise((resolve, reject) => {
-      const { username, email, password, role } = userData;
+      const { username, email, password, avatar, role } = userData;
       const updateData = [];
       let query = 'UPDATE users SET ';
 
@@ -115,6 +116,10 @@ const UserModel = {
       if (password !== undefined) {
         query += 'password = ?, ';
         updateData.push(password);
+      }
+      if (avatar !== undefined) {
+        query += 'avatar = ?, ';
+        updateData.push(avatar);
       }
       if (role !== undefined) {
         query += 'role = ?, ';
@@ -142,57 +147,63 @@ const UserModel = {
   }
 };
 
-// Функции для работы с сессиями
-const SessionModel = {
-  // Получить сессию
-  get: (sid) => {
-    return new Promise((resolve, reject) => {
-      db.get('SELECT sess FROM sessions WHERE sid = ?', [sid], (err, row) => {
-        if (err) reject(err);
-        else resolve(row ? JSON.parse(row.sess) : null);
-      });
-    });
-  },
 
-  // Сохранить сессию
-  set: (sid, sess, expire) => {
-    return new Promise((resolve, reject) => {
-      db.run(
-        'INSERT OR REPLACE INTO sessions (sid, sess, expire) VALUES (?, ?, ?)',
-        [sid, JSON.stringify(sess), expire],
-        function(err) {
-          if (err) reject(err);
-          else resolve();
+
+// TEMPORARY FUNCTION: Clear database on shutdown (for development only)
+// TODO: Remove this when database schema stabilizes
+function clearDatabase() {
+  console.log('TEMPORARY: Clearing database on shutdown...');
+  return new Promise((resolve, reject) => {
+    db.serialize(() => {
+      // Clear all users except admin
+      db.run('DELETE FROM users WHERE username != ?', ['Анд'], (err) => {
+        if (err) {
+          console.error('Error clearing users table:', err);
+          reject(err);
+          return;
         }
-      );
-    });
-  },
+        console.log('Users table cleared (admin preserved)');
 
-  // Удалить сессию
-  destroy: (sid) => {
-    return new Promise((resolve, reject) => {
-      db.run('DELETE FROM sessions WHERE sid = ?', [sid], function(err) {
-        if (err) reject(err);
-        else resolve();
+        db.run('DELETE FROM sessions', [], (err) => {
+          if (err) {
+            console.error('Error clearing sessions table:', err);
+            reject(err);
+            return;
+          }
+          console.log('Sessions table cleared');
+
+          // Note: Drakoni table is preserved and will be recreated on startup
+          resolve();
+        });
       });
     });
-  }
-};
+  });
+}
 
 // Graceful shutdown
-process.on('SIGINT', () => {
-  db.close((err) => {
-    if (err) {
-      console.error('Ошибка закрытия базы данных:', err.message);
-    } else {
-      console.log('База данных закрыта');
-    }
-    process.exit(0);
-  });
+process.on('SIGINT', async () => {
+  try {
+    await clearDatabase();
+    db.close((err) => {
+      if (err) {
+        console.error('Ошибка закрытия базы данных:', err.message);
+      } else {
+        console.log('База данных закрыта');
+      }
+      process.exit(0);
+    });
+  } catch (error) {
+    console.error('Error during database cleanup:', error);
+    db.close((err) => {
+      if (err) {
+        console.error('Ошибка закрытия базы данных:', err.message);
+      }
+      process.exit(1);
+    });
+  }
 });
 
 module.exports = {
   db,
-  UserModel,
-  SessionModel
+  UserModel
 };

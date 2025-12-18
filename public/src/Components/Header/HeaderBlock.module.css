@@ -38,10 +38,10 @@
     opacity: 45%;
 }
 
-.headerBlock.scrolled:hover {
+.headerBlockBg.scrolled:hover .headerBlock {
     width: calc(100% - 200px);
     height: 60px;
-        opacity: 100%;
+    opacity: 100%;
 }
 
 /* Responsive design */
@@ -56,7 +56,7 @@
         height: 45px;
     }
 
-    .headerBlock.scrolled:hover {
+    .headerBlockBg.scrolled:hover .headerBlock {
         width: calc(100% - 40px);
         height: 55px;
     }
@@ -73,7 +73,7 @@
         height: 40px;
     }
 
-    .headerBlock.scrolled:hover {
+    .headerBlockBg.scrolled:hover .headerBlock {
         width: calc(100% - 20px);
         height: 50px;
     }
