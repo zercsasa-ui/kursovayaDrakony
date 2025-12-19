@@ -15,7 +15,7 @@ const createDefaultDragons = () => {
         const db = new sqlite3.Database(dbPath);
 
         // Всегда пересоздаем драконов (очищаем и создаем заново)
-        db.run('DELETE FROM Drakoni', [], (err) => {
+        db.run('DELETE FROM Products WHERE type = "dragon"', [], (err) => {
             if (err) {
                 console.error('Ошибка при очистке таблицы драконов:', err);
                 db.close();
@@ -25,27 +25,31 @@ const createDefaultDragons = () => {
 
             const dragons = [
                 {
+                    type: 'dragon',
                     price: 120000.00,
                     name: "Дракон на борде",
                     description: "Описание первого дракона",
                     composition: "-Арт Борд;\n- Глина Ладолл;\n- Эпоксидная смола;\n- Краски;\n- Лак.",
-                    imageUrl: "/images/DrakonNaBorde.jpg"
+                    imageUrl: "/images/DrakonNaBorde.jpg",
+                    color: "Цветной"
                 },
                 {
+                    type: 'dragon',
                     price: 85000.00,
                     name: "Огненный дракон",
                     description: "Описание второго дракона",
                     composition: "-Полимерная глина;\n- Огнеупорные краски;\n- Металлические вставки;\n- Лак.",
-                    imageUrl: "/images/DrakonNaBorde.jpg"
+                    imageUrl: "/images/DrakonNaBorde.jpg",
+                    color: "Красный"
                 }
             ];
 
             let inserted = 0;
             dragons.forEach((dragon) => {
                 db.run(
-                    'INSERT INTO Drakoni (price, name, description, composition, imageUrl) VALUES (?, ?, ?, ?, ?)',
-                    [dragon.price, dragon.name, dragon.description, dragon.composition, dragon.imageUrl],
-                    function(err) {
+                    'INSERT INTO Products (type, price, name, description, composition, imageUrl, color) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                    [dragon.type, dragon.price, dragon.name, dragon.description, dragon.composition, dragon.imageUrl, dragon.color],
+                    function (err) {
                         if (err) {
                             console.error('Ошибка при создании дракона:', err);
                         } else {
@@ -53,6 +57,110 @@ const createDefaultDragons = () => {
                         }
                         inserted++;
                         if (inserted === dragons.length) {
+                            db.close();
+                            resolve();
+                        }
+                    }
+                );
+            });
+        });
+    });
+};
+
+// Функция для создания кукол при запуске
+const createDefaultDolls = () => {
+    return new Promise((resolve, reject) => {
+        const sqlite3 = require('sqlite3').verbose();
+        const path = require('path');
+        const dbPath = path.join(__dirname, 'database.db');
+        const db = new sqlite3.Database(dbPath);
+
+        // Всегда пересоздаем кукол (очищаем и создаем заново)
+        db.run('DELETE FROM Products WHERE type = "doll"', [], (err) => {
+            if (err) {
+                console.error('Ошибка при очистке таблицы кукол:', err);
+                db.close();
+                reject(err);
+                return;
+            }
+
+            const dolls = [
+                {
+                    type: 'doll',
+                    price: 75000.00,
+                    name: "Магическая кукла",
+                    description: "Красивая магическая кукла с волшебными свойствами",
+                    composition: "-Полимерная глина;\n- Волшебные нити;\n- Магические кристаллы;\n- Лак.",
+                    imageUrl: "/images/woman.png",
+                    color: "Цветной"
+                }
+            ];
+
+            let inserted = 0;
+            dolls.forEach((doll) => {
+                db.run(
+                    'INSERT INTO Products (type, price, name, description, composition, imageUrl, color) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                    [doll.type, doll.price, doll.name, doll.description, doll.composition, doll.imageUrl, doll.color],
+                    function (err) {
+                        if (err) {
+                            console.error('Ошибка при создании куклы:', err);
+                        } else {
+                            console.log(`Кукла "${doll.name}" создана`);
+                        }
+                        inserted++;
+                        if (inserted === dolls.length) {
+                            db.close();
+                            resolve();
+                        }
+                    }
+                );
+            });
+        });
+    });
+};
+
+// Функция для создания пропов при запуске
+const createDefaultProps = () => {
+    return new Promise((resolve, reject) => {
+        const sqlite3 = require('sqlite3').verbose();
+        const path = require('path');
+        const dbPath = path.join(__dirname, 'database.db');
+        const db = new sqlite3.Database(dbPath);
+
+        // Всегда пересоздаем пропы (очищаем и создаем заново)
+        db.run('DELETE FROM Products WHERE type = "props"', [], (err) => {
+            if (err) {
+                console.error('Ошибка при очистке таблицы пропов:', err);
+                db.close();
+                reject(err);
+                return;
+            }
+
+            const props = [
+                {
+                    type: 'props',
+                    price: 5000.00,
+                    name: "Крыло дракона",
+                    description: "Деталь для сборки дракона - крыло",
+                    composition: "-Полимерная глина;\n- Армирующие нити;\n- Краска.",
+                    imageUrl: "/images/DrakonNaBorde.jpg",
+                    color: "Цветной"
+                }
+            ];
+
+            let inserted = 0;
+            props.forEach((prop) => {
+                db.run(
+                    'INSERT INTO Products (type, price, name, description, composition, imageUrl, color) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                    [prop.type, prop.price, prop.name, prop.description, prop.composition, prop.imageUrl, prop.color],
+                    function (err) {
+                        if (err) {
+                            console.error('Ошибка при создании пропа:', err);
+                        } else {
+                            console.log(`Проп "${prop.name}" создан`);
+                        }
+                        inserted++;
+                        if (inserted === props.length) {
                             db.close();
                             resolve();
                         }
@@ -84,8 +192,8 @@ const createDefaultAdmin = () => {
                 // Создаем админа
                 db.run(
                     'INSERT INTO users (username, email, password, avatar, role) VALUES (?, ?, ?, ?, ?)',
-                    ['Анд', 'admin@drakony.ru', 'admin123', '/images/PrivetAva.jpg', 'Админ'],
-                    function(err) {
+                    ['Анд', 'admin@drakony.ru', '123', '/images/PrivetAva.jpg', 'Админ'],
+                    function (err) {
                         if (err) {
                             console.error('Ошибка при создании админа:', err);
                             reject(err);
@@ -98,41 +206,31 @@ const createDefaultAdmin = () => {
                 );
             } else {
                 console.log('Администратор "Анд" уже существует');
-                // Обновляем аватарку если она не установлена
-                if (!row.avatar) {
-                    db.run(
-                        'UPDATE users SET avatar = ? WHERE username = ?',
-                        ['/images/PrivetAva.jpg', 'Анд'],
-                        function(err) {
-                            if (err) {
-                                console.error('Ошибка при обновлении аватарки админа:', err);
-                            } else {
-                                console.log('Аватарка администратора "Анд" обновлена');
-                            }
-                            db.close();
-                            resolve();
-                        }
-                    );
-                } else {
-                    db.close();
-                    resolve();
-                }
+                resolve();
             }
         });
     });
 };
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
-  credentials: true
+    origin: ['http://localhost:5173', 'http://localhost:3000'],
+    credentials: true
 }));
 app.use(require('./src/config/session')); // Инициализация сессий
+app.use(express.static('public')); // Обслуживание статических файлов
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // API маршруты
 console.log('Registering routes...');
+app.use('/api/products', require('./src/routes/products'));
+console.log('Products routes registered');
+app.use('/api/figurines', require('./src/routes/figurine'));
 console.log('Figurine routes registered');
+app.use('/api/kykly', require('./src/routes/kykly'));
+console.log('Kykly routes registered');
+app.use('/api/props', require('./src/routes/props'));
+console.log('Props routes registered');
 app.use('/api/navigate', require('./src/routes/navigationRoutes'));
 console.log('Navigation routes registered');
 app.use('/api/auth', require('./src/routes/authRoutes'));
@@ -140,33 +238,36 @@ console.log('Auth routes registered');
 app.use('/api/users', require('./src/routes/userRoutes'));
 console.log('User routes registered');
 
-// Маршрут для получения всех драконов
-app.get('/api/figurines', (req, res) => {
-    console.log('Direct /api/figurines route called');
+// Временный роут для проверки пользователей
+app.get('/debug/users', (req, res) => {
     const sqlite3 = require('sqlite3').verbose();
     const path = require('path');
     const dbPath = path.join(__dirname, 'database.db');
-
     const db = new sqlite3.Database(dbPath);
-    db.all('SELECT * FROM Drakoni ORDER BY id ASC', [], (err, rows) => {
+
+    db.all('SELECT id, username, email, role, avatar FROM users', [], (err, rows) => {
         db.close();
         if (err) {
-            console.error('Database error:', err);
-            return res.status(500).json({ error: 'Database error' });
+            res.status(500).json({ error: err.message });
+        } else {
+            res.json({ users: rows });
         }
-        res.json(rows);
     });
 });
+
+
 
 app.listen(port, async () => {
     try {
         await sequelize.authenticate();
-        await sequelize.sync({ force: false });
+        await sequelize.sync({ force: true });
         console.log('База данных подключена успешно');
 
-        // Создаем админа и драконов при запуске
+        // Создаем админа, драконов, кукол и пропы при запуске
         await createDefaultAdmin();
         await createDefaultDragons();
+        await createDefaultDolls();
+        await createDefaultProps();
     } catch (e) {
         console.log('Ошибка подключения к базе данных:', e);
     }

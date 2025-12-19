@@ -1,18 +1,18 @@
 .catalogPage {
     min-height: 100vh;
-    padding-top: 60px;
+    padding-top: 80px;
 }
 
 /* Responsive design for header spacing */
 @media (max-width: 768px) {
     .catalogPage {
-        padding-top: 55px;
+        padding-top: 70px;
     }
 }
 
 @media (max-width: 480px) {
     .catalogPage {
-        padding-top: 50px;
+        padding-top: 65px;
     }
 }
 

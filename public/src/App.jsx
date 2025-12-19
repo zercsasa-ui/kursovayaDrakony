@@ -6,6 +6,7 @@ import CatalogPage from './Pages/CatalogPage/CatalogPage'
 import GalleryPage from './Pages/GalleryPage/GalleryPage'
 import RegisterPage from './Pages/RegisterPage/RegisterPage'
 import AuthenticationPage from './Pages/AuthenticationPage/AuthenticationPage'
+import AdminPage from './Pages/AdminPage/AdminPage'
 import Breadcrumbs from './Components/Breadcrumbs/Breadcrumbs'
 import ScrollUp from './Components/ScrollUp/ScrollUp'
 
@@ -14,7 +15,7 @@ function App() {
 
     return (
         <>
-            {location.pathname !== '/' && <Breadcrumbs />}
+            {location.pathname !== '/' && location.pathname !== '/admin' && <Breadcrumbs />}
             <ScrollUp />
             <Routes>
                 <Route path='/' element={ <MainPage/> } />
@@ -22,6 +23,7 @@ function App() {
                 <Route path='/gallery' element={ <GalleryPage/> } />
                 <Route path='/register' element={ <RegisterPage/> } />
                 <Route path='/login' element={ <AuthenticationPage/> } />
+                <Route path='/admin' element={ <AdminPage/> } />
             </Routes>
         </>
     )

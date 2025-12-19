@@ -10,5 +10,11 @@ const sequelize = new Sequelize({
 
 module.exports = sequelize;
 
-// Импорт моделей для их регистрации после экспорта sequelize
-require('./figurines');
+const { Product, Drakoni, Kykly } = require('./figurines');
+
+
+Object.keys(sequelize.models).forEach(modelName => {
+  if (sequelize.models[modelName].associate) {
+    sequelize.models[modelName].associate(sequelize.models);
+  }
+});

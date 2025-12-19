@@ -11,56 +11,48 @@ function StuffBlock() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchFigurines = async () => {
+        const fetchProducts = async () => {
             try {
-                const response = await fetch('/api/figurines');
+                // Fetch all products from unified Products table
+                const response = await fetch('/api/products');
                 if (!response.ok) {
-                    throw new Error('Failed to fetch figurines');
+                    throw new Error('Failed to fetch products');
                 }
-                const figurines = await response.json();
 
-                // Преобразование данных драконов в формат ProductCard
-                const formattedProducts = figurines.map(figurine => ({
-                    id: figurine.id,
-                    name: figurine.name,
-                    price: parseFloat(figurine.price) || 0,
-                    description: figurine.description || '',
-                    image: figurine.imageUrl || '/images/default.png',
-                    composition: figurine.composition || ''
+                const allProductsData = await response.json();
+
+                // Преобразование данных в формат ProductCard
+                const formattedProducts = allProductsData.map(product => ({
+                    id: `${product.type}_${product.id}`,
+                    name: product.name,
+                    price: parseFloat(product.price) || 0,
+                    description: product.description || '',
+                    image: product.imageUrl || '/images/default.png',
+                    composition: product.composition || '',
+                    color: product.color || '',
+                    type: product.type
                 }));
 
-                // Если драконов меньше 4, дублируем их до 4 штук
-                let finalProducts = [...formattedProducts];
-                while (finalProducts.length < 4 && finalProducts.length > 0) {
-                    // Добавляем копии существующих драконов с уникальными id
-                    finalProducts.forEach(product => {
-                        if (finalProducts.length < 4) {
-                            const duplicatedProduct = {
-                                ...product,
-                                id: `${product.id}_duplicate_${Date.now()}_${Math.random()}`
-                            };
-                            finalProducts.push(duplicatedProduct);
-                        }
-                    });
-                }
+                // Сортируем по ID для консистентности
+                formattedProducts.sort((a, b) => a.id.localeCompare(b.id));
 
-                setProducts(finalProducts);
+                setProducts(formattedProducts);
             } catch (err) {
-                console.error('Error fetching figurines:', err);
+                console.error('Error fetching products:', err);
                 setError(err.message);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchFigurines();
+        fetchProducts();
     }, []);
 
     if (loading) {
         return (
             <div className={styles.stuffBlock}>
-                <h1>ИГРУШКИ-ДРАКОНЫ</h1>
-                <div>Загрузка фигурок...</div>
+                <h1>ИГРУШКИ</h1>
+                <div>Загрузка игрушек...</div>
             </div>
         );
     }
@@ -68,7 +60,7 @@ function StuffBlock() {
     if (error) {
         return (
             <div className={styles.stuffBlock}>
-                <h1>ИГРУШКИ-ДРАКОНЫ</h1>
+                <h1>ИГРУШКИ</h1>
                 <div>Ошибка загрузки: {error}</div>
             </div>
         );
@@ -77,7 +69,7 @@ function StuffBlock() {
     return (
         <>
             <div className={styles.stuffBlock}>
-                <h1>ИГРУШКИ-ДРАКОНЫ</h1>
+                <h1>ИГРУШКИ</h1>
                 <Category/>
                 <FilterLine />
                 <div className={styles.tovarList}>
@@ -86,7 +78,7 @@ function StuffBlock() {
                             <ProductCard key={product.id} product={product} />
                         ))
                     ) : (
-                        <div>Фигурки не найдены</div>
+                        <div>Игрушки не найдены</div>
                     )}
                 </div>
             </div>

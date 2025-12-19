@@ -1,0 +1,328 @@
+.adminPage {
+    min-height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 20px 20px 20px;
+}
+
+.content h1 {
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.section {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section h2 {
+    color: #444;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #333;
+    padding-bottom: 10px;
+}
+
+.tableContainer {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.table th,
+.table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table td img {
+    width: 100px;
+    height: 100px;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+}
+
+.table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.avatar,
+.productImage {
+    max-width: 50px;
+    max-height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.fileInput {
+    width: 100%;
+    min-height: 36px;
+    padding: 8px 10px;
+    border: 1px solid #666666;
+    border-radius: 0;
+    background: #ffffff;
+    font-size: 13px;
+    font-family: inherit;
+    color: #000000;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.fileInput:focus {
+    outline: none;
+    border-color: #000000;
+}
+
+.fileInput:hover {
+    border-color: #333333;
+}
+
+.fileInput::file-selector-button {
+    background: #666666;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.fileInput::file-selector-button:hover {
+    background: #333333;
+}
+
+.actionButtons {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.editButton,
+.saveButton,
+.cancelButton {
+    background: #000000;
+    color: white;
+    border: 1px solid #000000;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-family: inherit;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.editButton:hover,
+.saveButton:hover,
+.cancelButton:hover {
+    background: transparent;
+    color: #000000;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 20px 5px 15px 5px;
+    border: none;
+    border-bottom: 1px solid #cccccc;
+    background: transparent;
+    font-size: 16px;
+    font-family: inherit;
+    color: #000000;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-bottom-color: #000000;
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+    border-bottom-color: #999999;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+select {
+    cursor: pointer;
+}
+
+select option {
+    background: #ffffff;
+    color: #000000;
+    padding: 8px;
+}
+
+.createForm {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #e9ecef;
+}
+
+.createForm h3 {
+    color: #444;
+    margin-bottom: 15px;
+    font-size: 18px;
+    border-bottom: 3px solid #333;
+    padding-bottom: 8px;
+}
+
+.form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.inputGroup label {
+    font-size: 14px;
+    color: #666666;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.inputGroup input,
+.inputGroup textarea {
+    width: 100%;
+    padding: 12px 0 8px 0;
+    border: none;
+    border-bottom: 1px solid #cccccc;
+    background: transparent;
+    font-size: 16px;
+    font-family: inherit;
+    color: #000000;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.inputGroup input:focus,
+.inputGroup textarea:focus {
+    outline: none;
+    border-bottom-color: #000000;
+}
+
+.inputGroup input:hover,
+.inputGroup textarea:hover {
+    border-bottom-color: #999999;
+}
+
+.inputGroup textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.createButton {
+    background: #000000;
+    color: white;
+    border: 1px solid #000000;
+    padding: 14px 28px;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    grid-column: 1 / -1;
+    justify-self: start;
+}
+
+.createButton:hover {
+    background: transparent;
+    color: #000000;
+}
+
+.createButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.createButton:disabled:hover {
+    background: #000000;
+    color: white;
+}
+
+.apiList ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.apiList li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+}
+
+.apiList li:last-child {
+    border-bottom: none;
+}
+
+.apiList strong {
+    color: #ff0055;
+    font-weight: 600;
+}
+
+/* Responsive design for form */
+@media (max-width: 768px) {
+    .form {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .createButton {
+        width: 100%;
+        justify-self: stretch;
+    }
+}

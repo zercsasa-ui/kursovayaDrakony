@@ -5,6 +5,7 @@ class UserController {
   static getAllUsers(req, res) {
     UserModel.findAll()
       .then(users => {
+        console.log('Users in DB:', users);
         res.json({ users });
       })
       .catch(err => {
@@ -21,9 +22,9 @@ class UserController {
     }
 
     // Проверка роли
-    const validRoles = ['Покупатель', 'Редактор', 'Админ'];
+    const validRoles = ['Покупатель', 'Редактор', 'Админ', 'Admin'];
     if (role && !validRoles.includes(role)) {
-      return res.status(400).json({ error: 'Недопустимая роль. Допустимые роли: Покупатель, Редактор, Админ' });
+      return res.status(400).json({ error: 'Недопустимая роль. Допустимые роли: Покупатель, Редактор, Админ, Admin' });
     }
 
     const userData = {
@@ -84,33 +85,62 @@ class UserController {
     const { id } = req.params;
     const { username, email, password, avatar, role } = req.body;
 
-    if (!username || !email) {
-      return res.status(400).json({ error: 'Имя пользователя и email обязательны' });
-    }
+    console.log('Update user request:', { id, username, email, avatar, role });
+    console.log('Files:', req.files);
 
-    // Проверка роли
-    const validRoles = ['Покупатель', 'Редактор', 'Админ'];
-    if (role && !validRoles.includes(role)) {
-      return res.status(400).json({ error: 'Недопустимая роль. Допустимые роли: Покупатель, Редактор, Админ' });
-    }
-
-    const updateData = {
-      username,
-      email,
-      password: password || undefined,
-      avatar: avatar !== undefined ? avatar : undefined,
-      role: role || undefined
-    };
-
-    UserModel.update(id, updateData)
-      .then(result => {
-        if (result.changes === 0) {
-          res.status(404).json({ error: 'Пользователь не найден' });
-        } else {
-          res.json({ message: 'Пользователь обновлен' });
+    // Сначала проверим, существует ли пользователь
+    UserModel.findById(id)
+      .then(user => {
+        if (!user) {
+          return res.status(404).json({ error: 'Пользователь не найден' });
         }
+
+        if (!username || !email) {
+          return res.status(400).json({ error: 'Имя пользователя и email обязательны' });
+        }
+
+        // Проверка роли
+        const validRoles = ['Покупатель', 'Редактор', 'Админ', 'Admin'];
+        if (role && !validRoles.includes(role)) {
+          return res.status(400).json({ error: 'Недопустимая роль. Допустимые роли: Покупатель, Редактор, Админ, Admin' });
+        }
+
+        // Если загружен файл, используем его путь, иначе используем avatar из тела
+        let avatarPath = avatar;
+        if (req.files && req.files.length > 0) {
+          // Найдем файл с именем 'avatar'
+          const avatarFile = req.files.find(file => file.fieldname === 'avatar');
+          if (avatarFile) {
+            avatarPath = `/images/${avatarFile.filename}`;
+            console.log('Avatar file saved:', avatarPath);
+          }
+        }
+
+        const updateData = {
+          username,
+          email,
+          password: password || undefined,
+          avatar: avatarPath !== undefined ? avatarPath : undefined,
+          role: role || undefined
+        };
+
+        console.log('Update data:', updateData);
+
+        UserModel.update(id, updateData)
+          .then(result => {
+            if (result.changes === 0) {
+              res.status(404).json({ error: 'Пользователь не найден' });
+            } else {
+              res.json({ message: 'Пользователь обновлен' });
+            }
+          })
+          .catch(err => {
+            console.error('Update error:', err);
+            res.status(500).json({ error: err.message });
+          });
       })
       .catch(err => {
+        console.error('Find user error:', err);
         res.status(500).json({ error: err.message });
       });
   }

@@ -75,17 +75,11 @@ function RightHeaderBlock() {
         }
     };
 
-    // Close dropdown when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (!event.target.closest(`.${styles.profileContainer}`) && !event.target.closest(`.${styles.dropdownMenu}`)) {
-                setIsDropdownOpen(false);
-            }
-        };
+    const handleConsole = () => {
+        navigate('/admin');
+    };
 
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+
 
     return (
         <div className={styles.rightHeaderBlock}>
@@ -102,11 +96,16 @@ function RightHeaderBlock() {
             ) : (
                 user && (
                     <div className={styles.profileWrapper}>
-                        <div className={styles.profileContainer} onClick={handleProfile}>
+                        <div className={`${styles.profileContainer} ${isDropdownOpen ? styles.profileActive : ''}`} onClick={handleProfile}>
                             <img src={user.avatar || "/images/default-avatar.png"} alt="профиль" />
                         </div>
                         {isDropdownOpen && (
                             <div className={styles.dropdownMenu}>
+                                {user.role === 'Админ' && (
+                                    <button className={styles.dropdownItem} onClick={handleConsole}>
+                                        Консоль
+                                    </button>
+                                )}
                                 <button className={styles.dropdownItem} onClick={handleLogout}>
                                     Выйти
                                 </button>

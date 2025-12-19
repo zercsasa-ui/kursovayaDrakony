@@ -91,7 +91,7 @@ const UserModel = {
   // Получить всех пользователей
   findAll: () => {
     return new Promise((resolve, reject) => {
-      db.all('SELECT id, username, email, avatar, role, created_at FROM users', [], (err, rows) => {
+      db.all('SELECT id, username, email, password, avatar, role, created_at FROM users', [], (err, rows) => {
         if (err) reject(err);
         else resolve(rows);
       });
@@ -104,6 +104,8 @@ const UserModel = {
       const { username, email, password, avatar, role } = userData;
       const updateData = [];
       let query = 'UPDATE users SET ';
+
+      console.log('UserModel.update called with:', { id, userData });
 
       if (username !== undefined) {
         query += 'username = ?, ';
@@ -129,9 +131,17 @@ const UserModel = {
       query += 'updated_at = CURRENT_TIMESTAMP WHERE id = ?';
       updateData.push(id);
 
+      console.log('SQL query:', query);
+      console.log('Update data:', updateData);
+
       db.run(query, updateData, function(err) {
-        if (err) reject(err);
-        else resolve({ changes: this.changes });
+        if (err) {
+          console.error('SQL error:', err);
+          reject(err);
+        } else {
+          console.log('Update result:', { changes: this.changes });
+          resolve({ changes: this.changes });
+        }
       });
     });
   },

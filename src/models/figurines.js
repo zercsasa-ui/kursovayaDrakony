@@ -1,11 +1,17 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./index');
 
-const Drakoni = sequelize.define('Drakoni', {
+// Единая модель для всех товаров (драконы + куклы)
+const Product = sequelize.define('Product', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
+  },
+  type: {
+    type: DataTypes.ENUM('dragon', 'doll', 'props'),
+    allowNull: false,
+    defaultValue: 'dragon',
   },
   price: {
     type: DataTypes.DECIMAL(10, 2),
@@ -27,9 +33,17 @@ const Drakoni = sequelize.define('Drakoni', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  color: {
+    type: DataTypes.ENUM('Красный', 'Черный', 'Цветной'),
+    allowNull: true,
+  },
 }, {
-  tableName: 'Drakoni',
+  tableName: 'Products',
   timestamps: false,
 });
 
-module.exports = { Drakoni };
+// Для обратной совместимости - алиасы для старых названий
+const Drakoni = Product;
+const Kykly = Product;
+
+module.exports = { Product, Drakoni, Kykly };

@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     gap: 29px;
-
+    padding-right: 92px;
 }
 
 .filterElement {
@@ -16,6 +16,8 @@
     border-radius: 4px;
     transition: background-color 0.3s;
     user-select: none;
+    white-space: nowrap;
+    flex-shrink: 0;
 
     &.active {
         background-color: rgba(0, 0, 0, 0.05);
@@ -23,7 +25,39 @@
     }
 }
 
+.filterElement p {
+    margin: 0;
+    white-space: nowrap;
+}
+
 input{
-    height: 12px;
-    width: 12px;
+    height: 15px;
+    width: 15px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .filterLineRight {
+        gap: 15px;
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 0;
+    }
+
+    .filterElement {
+        gap: 3px;
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .filterLineRight {
+        gap: 10px;
+    }
+
+    .filterElement {
+        padding: 4px 6px;
+        font-size: 12px;
+    }
 }

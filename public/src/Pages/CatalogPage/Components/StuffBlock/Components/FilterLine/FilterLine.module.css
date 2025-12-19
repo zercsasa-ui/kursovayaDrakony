@@ -1,5 +1,20 @@
-.filterLine{
-width: 100%;
-display: flex;
-justify-content: space-between;  
+.filterLine {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .filterLine {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .filterLine {
+        gap: 5px;
+    }
 }

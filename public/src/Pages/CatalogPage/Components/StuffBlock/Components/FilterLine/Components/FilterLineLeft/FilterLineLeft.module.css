@@ -16,6 +16,8 @@
     border-radius: 4px;
     transition: background-color 0.3s;
     user-select: none;
+    white-space: nowrap;
+    flex-shrink: 0;
 
     &.active {
         background-color: rgba(0, 0, 0, 0.05);
@@ -23,7 +25,41 @@
     }
 }
 
+.filterElement p {
+    margin: 0;
+    white-space: nowrap;
+}
+
 img {
     height: 7px;
     width: 7px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .filterLineLeft {
+        gap: 15px;
+        padding-left: 20px;
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 0 10px 20px;
+    }
+
+    .filterElement {
+        gap: 6px;
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .filterLineLeft {
+        gap: 10px;
+        padding-left: 10px;
+    }
+
+    .filterElement {
+        padding: 4px 6px;
+        font-size: 12px;
+    }
 }
