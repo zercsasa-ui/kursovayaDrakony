@@ -1,9 +1,18 @@
+import { useState } from 'react';
 import HeaderBlock from '../../Components/Header/HeaderBlock';
 import styles from './CatalogPage.module.css';
 import FiltersBlock from './Components/FiltersBlock/FiltersBlock';
 import StuffBlock from './Components/StuffBlock/StuffBlock';
 
 function CatalogPage() {
+    const [filters, setFilters] = useState({
+        category: 'all',
+        materials: [],
+        maxPrice: null,
+        colors: [],
+        inStock: false,
+        specialOffers: false
+    });
 
     return (
         <>
@@ -11,11 +20,10 @@ function CatalogPage() {
                 <HeaderBlock />
                 <main>
                     <div className={styles.filtersLeft}>
-                        <FiltersBlock />
-      
+                        <FiltersBlock setFilters={setFilters} />
                     </div>
                     <div className={styles.stuffRight}>
-                        <StuffBlock />   
+                        <StuffBlock filters={filters} setFilters={setFilters} />
                     </div>
                 </main>
             </div>

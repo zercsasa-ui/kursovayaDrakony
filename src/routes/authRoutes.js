@@ -10,5 +10,6 @@ router.get('/session', AuthController.getSession);
 
 // Защищенные маршруты (требуют авторизации)
 router.get('/user', requireAuth, AuthController.getCurrentUser);
+router.post('/verify-password', requireAuth, AuthController.verifyPassword);
 
 module.exports = router;

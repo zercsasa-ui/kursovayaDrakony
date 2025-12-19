@@ -85,6 +85,31 @@ class AuthController {
       res.json({ authenticated: false });
     }
   }
+
+  // Проверка пароля текущего пользователя
+  static verifyPassword(req, res) {
+    const { password } = req.body;
+
+    if (!req.session.userId) {
+      return res.status(401).json({ error: 'Не авторизован' });
+    }
+
+    if (!password) {
+      return res.status(400).json({ error: 'Пароль обязателен' });
+    }
+
+    UserModel.findById(req.session.userId)
+      .then(user => {
+        if (user && user.password === password) {
+          res.json({ success: true, message: 'Пароль верный' });
+        } else {
+          res.status(401).json({ error: 'Неверный пароль' });
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
+      });
+  }
 }
 
 module.exports = AuthController;

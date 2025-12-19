@@ -68,7 +68,7 @@ router.get('/:id', async (req, res) => {
 // Создать новую куклу
 router.post('/', upload.any(), async (req, res) => {
   try {
-    const { price, name, description, composition, imageUrl, color } = req.body;
+    const { price, name, description, composition, imageUrl, color, inStock, popularity, specialOffer } = req.body;
 
     // Если загружен файл, используем его путь, иначе используем imageUrl из тела
     let imagePath = imageUrl;
@@ -88,6 +88,9 @@ router.post('/', upload.any(), async (req, res) => {
       composition,
       imageUrl: imagePath,
       color,
+      inStock: inStock || 0,
+      popularity: popularity || 0,
+      specialOffer: specialOffer === 'true' || specialOffer === true,
     });
 
     res.status(201).json(doll);
@@ -101,7 +104,7 @@ router.post('/', upload.any(), async (req, res) => {
 router.put('/:id', upload.any(), async (req, res) => {
   try {
     const { id } = req.params;
-    const { price, name, description, composition, imageUrl, color } = req.body;
+    const { price, name, description, composition, imageUrl, color, inStock, popularity, specialOffer } = req.body;
 
     // Если загружен файл, используем его путь, иначе используем imageUrl из тела
     let imagePath = imageUrl;
@@ -121,6 +124,9 @@ router.put('/:id', upload.any(), async (req, res) => {
         composition,
         imageUrl: imagePath,
         color,
+        inStock: inStock || 0,
+        popularity: popularity || 0,
+        specialOffer: specialOffer === 'true' || specialOffer === true,
       },
       {
         where: { id, type: 'doll' }

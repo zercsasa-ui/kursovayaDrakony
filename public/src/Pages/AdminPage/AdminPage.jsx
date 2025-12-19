@@ -12,6 +12,10 @@ function AdminPage() {
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
     const [editingProduct, setEditingProduct] = useState(null);
+    const [currentUser, setCurrentUser] = useState(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deleteTarget, setDeleteTarget] = useState(null);
+    const [deletePassword, setDeletePassword] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -42,6 +46,7 @@ function AdminPage() {
                 return;
             }
 
+            setCurrentUser(userData.user);
             setIsAuthorized(true);
             fetchData();
         } catch (error) {
@@ -190,17 +195,26 @@ function AdminPage() {
     const handleSaveProduct = async (productId, product) => {
         const productRow = document.querySelector(`tr[data-product-id="${productId}"]`);
 
-        const nameInput = productRow.querySelector('input[type="text"]'); // name
-        const priceInput = productRow.querySelector('input[type="number"]');
+        const inputs = productRow.querySelectorAll('input');
+        const nameInput = inputs[0]; // name (text)
+        const priceInput = inputs[1]; // price (number)
+        const inStockInput = inputs[2]; // inStock (number)
+        const popularityInput = inputs[3]; // popularity (number)
+        const specialOfferInput = inputs[4]; // specialOffer (checkbox)
+        const fileInput = inputs[5]; // image file
+
         const colorSelect = productRow.querySelector('select'); // color select
-        const descriptionTextarea = productRow.querySelectorAll('textarea')[0];
-        const compositionTextarea = productRow.querySelectorAll('textarea')[1];
-        const fileInput = productRow.querySelector('input[type="file"]');
+        const textareas = productRow.querySelectorAll('textarea');
+        const descriptionTextarea = textareas[0];
+        const compositionTextarea = textareas[1];
 
         const formData = new FormData();
         formData.append('name', nameInput.value);
         formData.append('price', priceInput.value);
         formData.append('color', colorSelect.value);
+        formData.append('inStock', inStockInput.value);
+        formData.append('popularity', popularityInput.value);
+        formData.append('specialOffer', specialOfferInput.checked);
         formData.append('description', descriptionTextarea.value);
         formData.append('composition', compositionTextarea.value);
 
@@ -209,7 +223,7 @@ function AdminPage() {
             formData.append('imageUrl', fileInput.files[0]);
         }
 
-        const apiEndpoint = product.type === 'doll' ? 'kykly' : 'figurines';
+        const apiEndpoint = product.type === 'doll' ? 'kykly' : product.type === 'props' ? 'props' : 'figurines';
 
         try {
             const response = await fetch(`http://localhost:3000/api/${apiEndpoint}/${product.originalId}`, {
@@ -235,13 +249,78 @@ function AdminPage() {
         setEditingProduct(null);
     };
 
+    const handleDeleteUser = (userId) => {
+        setDeleteTarget({ type: 'user', id: userId });
+        setShowDeleteModal(true);
+    };
+
+    const handleDeleteProduct = (product) => {
+        setDeleteTarget({ type: 'product', product });
+        setShowDeleteModal(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!deleteTarget || !deletePassword) return;
+
+        try {
+            // Verify admin password
+            const verifyResponse = await fetch('http://localhost:3000/api/auth/verify-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ password: deletePassword })
+            });
+
+            if (!verifyResponse.ok) {
+                alert('Неверный пароль администратора');
+                return;
+            }
+
+            let deleteResponse;
+            if (deleteTarget.type === 'user') {
+                deleteResponse = await fetch(`http://localhost:3000/api/users/${deleteTarget.id}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+            } else if (deleteTarget.type === 'product') {
+                const apiEndpoint = deleteTarget.product.type === 'doll' ? 'kykly' : deleteTarget.product.type === 'props' ? 'props' : 'figurines';
+                deleteResponse = await fetch(`http://localhost:3000/api/${apiEndpoint}/${deleteTarget.product.originalId}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+            }
+
+            if (deleteResponse.ok) {
+                setShowDeleteModal(false);
+                setDeleteTarget(null);
+                setDeletePassword('');
+                fetchData(); // Refresh data
+                alert(deleteTarget.type === 'user' ? 'Пользователь удален успешно' : 'Товар удален успешно');
+            } else {
+                alert('Ошибка при удалении');
+            }
+        } catch (error) {
+            console.error('Error deleting:', error);
+            alert('Ошибка при удалении');
+        }
+    };
+
+    const cancelDelete = () => {
+        setShowDeleteModal(false);
+        setDeleteTarget(null);
+        setDeletePassword('');
+    };
+
     const [newFigurine, setNewFigurine] = useState({
         productType: 'dragon',
         name: '',
         price: '',
         color: '',
         description: '',
-        composition: ''
+        composition: '',
+        inStock: '',
+        popularity: '',
+        specialOffer: false
     });
     const [creatingFigurine, setCreatingFigurine] = useState(false);
 
@@ -263,6 +342,9 @@ function AdminPage() {
         formData.append('color', newFigurine.color);
         formData.append('description', newFigurine.description);
         formData.append('composition', newFigurine.composition);
+        formData.append('inStock', newFigurine.inStock);
+        formData.append('popularity', newFigurine.popularity);
+        formData.append('specialOffer', newFigurine.specialOffer);
 
         // Handle image file
         const imageInput = document.querySelector('input[name="imageUrl"]');
@@ -270,7 +352,7 @@ function AdminPage() {
             formData.append('imageUrl', imageInput.files[0]);
         }
 
-        const apiEndpoint = newFigurine.productType === 'doll' ? 'kykly' : 'figurines';
+        const apiEndpoint = newFigurine.productType === 'doll' ? 'kykly' : newFigurine.productType === 'props' ? 'props' : 'figurines';
 
         try {
             const response = await fetch(`http://localhost:3000/api/${apiEndpoint}`, {
@@ -286,7 +368,10 @@ function AdminPage() {
                     price: '',
                     color: '',
                     description: '',
-                    composition: ''
+                    composition: '',
+                    inStock: '',
+                    popularity: '',
+                    specialOffer: false
                 });
                 // Clear file input
                 if (imageInput) imageInput.value = '';
@@ -383,7 +468,12 @@ function AdminPage() {
                                                     <button onClick={handleCancelUserEdit} className={styles.cancelButton}>Отмена</button>
                                                 </div>
                                             ) : (
-                                                <button onClick={() => handleEditUser(user.id)} className={styles.editButton}>Редактировать</button>
+                                                <div className={styles.actionButtons}>
+                                                    <button onClick={() => handleEditUser(user.id)} className={styles.editButton}>Редактировать</button>
+                                                    {currentUser && currentUser.id !== user.id && (
+                                                        <button onClick={() => handleDeleteUser(user.id)} className={styles.deleteButton}>Удалить</button>
+                                                    )}
+                                                </div>
                                             )}
                                         </td>
                                     </tr>
@@ -410,6 +500,7 @@ function AdminPage() {
                                 >
                                     <option value="dragon">Дракон</option>
                                     <option value="doll">Кукла</option>
+                                    <option value="props">Проп</option>
                                 </select>
                             </div>
 
@@ -476,6 +567,44 @@ function AdminPage() {
                             </div>
 
                             <div className={styles.inputGroup}>
+                                <label htmlFor="inStock">В наличии</label>
+                                <input
+                                    type="number"
+                                    id="inStock"
+                                    name="inStock"
+                                    min="0"
+                                    value={newFigurine.inStock}
+                                    onChange={handleNewFigurineChange}
+                                />
+                            </div>
+
+                            <div className={styles.inputGroup}>
+                                <label htmlFor="popularity">Популярность</label>
+                                <input
+                                    type="number"
+                                    id="popularity"
+                                    name="popularity"
+                                    min="0"
+                                    value={newFigurine.popularity}
+                                    onChange={handleNewFigurineChange}
+                                />
+                            </div>
+
+                            <div className={styles.inputGroup}>
+                                <label htmlFor="specialOffer">Спецпредложение</label>
+                                <input
+                                    type="checkbox"
+                                    id="specialOffer"
+                                    name="specialOffer"
+                                    checked={newFigurine.specialOffer}
+                                    onChange={(e) => setNewFigurine(prev => ({
+                                        ...prev,
+                                        specialOffer: e.target.checked
+                                    }))}
+                                />
+                            </div>
+
+                            <div className={styles.inputGroup}>
                                 <label htmlFor="imageUrl">Изображение</label>
                                 <input
                                     type="file"
@@ -500,6 +629,9 @@ function AdminPage() {
                                     <th>Название</th>
                                     <th>Цена</th>
                                     <th>Цвет</th>
+                                    <th>В наличии</th>
+                                    <th>Популярность</th>
+                                    <th>Спецпредложение</th>
                                     <th>Описание</th>
                                     <th>Состав</th>
                                     <th>Изображение</th>
@@ -538,6 +670,27 @@ function AdminPage() {
                                         </td>
                                         <td>
                                             {editingProduct === `${product.type}_${product.originalId}` ? (
+                                                <input type="number" min="0" defaultValue={product.inStock || 0} />
+                                            ) : (
+                                                product.inStock || 0
+                                            )}
+                                        </td>
+                                        <td>
+                                            {editingProduct === `${product.type}_${product.originalId}` ? (
+                                                <input type="number" min="0" defaultValue={product.popularity || 0} />
+                                            ) : (
+                                                product.popularity || 0
+                                            )}
+                                        </td>
+                                        <td>
+                                            {editingProduct === `${product.type}_${product.originalId}` ? (
+                                                <input type="checkbox" defaultChecked={product.specialOffer || false} />
+                                            ) : (
+                                                product.specialOffer ? 'Да' : 'Нет'
+                                            )}
+                                        </td>
+                                        <td>
+                                            {editingProduct === `${product.type}_${product.originalId}` ? (
                                                 <textarea defaultValue={product.description} rows="3" />
                                             ) : (
                                                 product.description
@@ -564,7 +717,10 @@ function AdminPage() {
                                                     <button onClick={handleCancelProductEdit} className={styles.cancelButton}>Отмена</button>
                                                 </div>
                                             ) : (
-                                                <button onClick={() => handleEditProduct(`${product.type}_${product.originalId}`)} className={styles.editButton}>Редактировать</button>
+                                                <div className={styles.actionButtons}>
+                                                    <button onClick={() => handleEditProduct(`${product.type}_${product.originalId}`)} className={styles.editButton}>Редактировать</button>
+                                                    <button onClick={() => handleDeleteProduct(product)} className={styles.deleteButton}>Удалить</button>
+                                                </div>
                                             )}
                                         </td>
                                     </tr>
@@ -602,6 +758,27 @@ function AdminPage() {
                         </ul>
                     </div>
                 </div>
+
+                {showDeleteModal && (
+                    <div className={styles.modalOverlay}>
+                        <div className={styles.modal}>
+                            <h3>Подтверждение удаления</h3>
+                            <p>Вы действительно хотите удалить {deleteTarget?.type === 'user' ? 'пользователя' : 'товар'}?</p>
+                            <p>Для подтверждения введите пароль администратора:</p>
+                            <input
+                                type="password"
+                                value={deletePassword}
+                                onChange={(e) => setDeletePassword(e.target.value)}
+                                placeholder="Пароль администратора"
+                                className={styles.passwordInput}
+                            />
+                            <div className={styles.modalButtons}>
+                                <button onClick={confirmDelete} className={styles.confirmButton}>Удалить</button>
+                                <button onClick={cancelDelete} className={styles.cancelButton}>Отмена</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

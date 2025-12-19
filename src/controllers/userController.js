@@ -31,7 +31,7 @@ class UserController {
       username,
       email,
       password,
-      avatar: avatar || null,
+      avatar: avatar || '/images/woman.png',
       role: role || 'Покупатель'
     };
 

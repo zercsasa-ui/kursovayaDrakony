@@ -31,7 +31,7 @@ const createDefaultDragons = () => {
                     description: "Описание первого дракона",
                     composition: "-Арт Борд;\n- Глина Ладолл;\n- Эпоксидная смола;\n- Краски;\n- Лак.",
                     imageUrl: "/images/DrakonNaBorde.jpg",
-                    color: "Цветной"
+                    color: "Разноцветный"
                 },
                 {
                     type: 'dragon',
@@ -92,7 +92,7 @@ const createDefaultDolls = () => {
                     description: "Красивая магическая кукла с волшебными свойствами",
                     composition: "-Полимерная глина;\n- Волшебные нити;\n- Магические кристаллы;\n- Лак.",
                     imageUrl: "/images/woman.png",
-                    color: "Цветной"
+                    color: "Разноцветный"
                 }
             ];
 
@@ -144,7 +144,7 @@ const createDefaultProps = () => {
                     description: "Деталь для сборки дракона - крыло",
                     composition: "-Полимерная глина;\n- Армирующие нити;\n- Краска.",
                     imageUrl: "/images/DrakonNaBorde.jpg",
-                    color: "Цветной"
+                    color: "Черный"
                 }
             ];
 

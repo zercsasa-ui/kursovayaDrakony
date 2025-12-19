@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Materials.module.css';
 
-function Materials() {
+function Materials({ setFilters }) {
     const [selectedMaterials, setSelectedMaterials] = useState(new Set());
 
     const materials = [
@@ -12,6 +12,13 @@ function Materials() {
         'Кожа',
         'Стекло'
     ];
+
+    useEffect(() => {
+        setFilters(prev => ({
+            ...prev,
+            materials: Array.from(selectedMaterials)
+        }));
+    }, [selectedMaterials, setFilters]);
 
     const handleMaterialClick = (material) => {
         setSelectedMaterials(prev => {

@@ -2,13 +2,24 @@ import { useState } from 'react';
 import styles from './ProductCard.module.css';
 
 function ProductCard({ product }) {
-    const { name, price, description, image, id } = product;
+    const { name, price, description, image, id, type, color, inStock, popularity, specialOffer } = product;
     const [imageError, setImageError] = useState(false);
 
     // Обрезаем описание до 80 символов и добавляем троеточие
     const truncatedDescription = description && description.length > 80
-        ? description.substring(0, 80) + '...'
+        ? description.substring(0, 50) + '...'
         : description;
+
+    // Обрезаем название до 20 символов
+    const truncatedName = name && name.length > 20
+        ? name.substring(0, 18) + '...'
+        : name;
+
+    // Обрезаем цену до 7 символов (включая ₽)
+    const priceString = price + ' ₽';
+    const truncatedPrice = priceString.length > 7
+        ? priceString.substring(0, 12)
+        : priceString;
 
     const handleImageError = () => {
         setImageError(true);
@@ -33,10 +44,39 @@ function ProductCard({ product }) {
             </div>
 
             <div className={styles.productInfo}>
-                <h3 className={styles.productName}>{name}</h3>
+                <h3 className={styles.productName}>{truncatedName}</h3>
                 <p className={styles.productDescription}>{truncatedDescription}</p>
+
+                <div className={styles.productDetails}>
+                    <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>Тип:</span>
+                        <span className={styles.detailValue}>
+                            {type === 'dragon' ? 'Дракон' : type === 'doll' ? 'Кукла' : 'Реквизит'}
+                        </span>
+                    </div>
+                    {color && (
+                        <div className={styles.detailRow}>
+                            <span className={styles.detailLabel}>Цвет:</span>
+                            <span className={styles.detailValue}>{color}</span>
+                        </div>
+                    )}
+                    <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>В наличии:</span>
+                        <span className={styles.detailValue}>{inStock} шт.</span>
+                    </div>
+                    <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>Уже купили:</span>
+                        <span className={styles.detailValue}>{popularity} шт.</span>
+                    </div>
+                    {specialOffer && (
+                        <div className={styles.specialOffer}>
+                            <span className={styles.specialOfferText}>СПЕЦИАЛЬНОЕ ПРЕДЛОЖЕНИЕ</span>
+                        </div>
+                    )}
+                </div>
+
                 <div className={styles.productFooter}>
-                    <span className={styles.productPrice}>{price} ₽</span>
+                    <span className={styles.productPrice}>{truncatedPrice}</span>
                     <button className={styles.addToCartBtn}>
                         В корзину
                     </button>

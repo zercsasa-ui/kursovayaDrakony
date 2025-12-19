@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Colors.module.css';
 
-function Colors() {
+function Colors({ setFilters }) {
     const [selectedColors, setSelectedColors] = useState([]);
 
     const someColors = [
-        { color: 'black', background: 'black', glow: '#000' },
-        { color: 'red', background: 'red', glow: '#f00' },
-        { color: 'rainbow', background: 'linear-gradient(45deg, #ffb3ba, #ffdfba, #ffffba, #baffba, #bae1ff, #d1baff, #ffb3ff)', glow: '#ffd700' }
+        { color: 'Черный', background: 'black', glow: '#000' },
+        { color: 'Красный', background: 'red', glow: '#f00' },
+        { color: 'Разноцветный', background: 'linear-gradient(45deg, #ffb3ba, #ffdfba, #ffffba, #baffba, #bae1ff, #d1baff, #ffb3ff)', glow: '#ffd700' }
     ];
 
     const toggleColor = (color) => {
@@ -17,6 +17,13 @@ function Colors() {
             setSelectedColors([...selectedColors, color]);
         }
     };
+
+    useEffect(() => {
+        setFilters(prev => ({
+            ...prev,
+            colors: [...selectedColors]
+        }));
+    }, [selectedColors, setFilters]);
 
     return (
         <>

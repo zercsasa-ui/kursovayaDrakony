@@ -96,6 +96,9 @@ function RightHeaderBlock() {
             ) : (
                 user && (
                     <div className={styles.profileWrapper}>
+                        <span className={styles.usernameDisplay}>
+                            {user.username}
+                        </span>
                         <div className={`${styles.profileContainer} ${isDropdownOpen ? styles.profileActive : ''}`} onClick={handleProfile}>
                             <img src={user.avatar || "/images/default-avatar.png"} alt="профиль" />
                         </div>

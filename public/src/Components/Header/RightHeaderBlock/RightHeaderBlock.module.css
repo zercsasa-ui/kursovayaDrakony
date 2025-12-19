@@ -90,6 +90,9 @@
 
 .profileWrapper {
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .dropdownMenu {
@@ -132,4 +135,11 @@
 .dropdownItem:hover {
     background-color: #f0f0f0;
     color: #000000;
+}
+
+.usernameDisplay {
+    font-size: 14px;
+    color: #000000;
+    font-weight: 500;
+    white-space: nowrap;
 }

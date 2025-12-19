@@ -34,8 +34,23 @@ const Product = sequelize.define('Product', {
     allowNull: true,
   },
   color: {
-    type: DataTypes.ENUM('Красный', 'Черный', 'Цветной'),
+    type: DataTypes.ENUM('Красный', 'Черный', 'Разноцветный'),
     allowNull: true,
+  },
+  inStock: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 0,
+  },
+  popularity: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 0,
+  },
+  specialOffer: {
+    type: DataTypes.BOOLEAN,
+    allowNull: true,
+    defaultValue: false,
   },
 }, {
   tableName: 'Products',
