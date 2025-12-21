@@ -376,18 +376,71 @@ function ProfilePage() {
                                         </div>
                                     </div>
                                     <div className={styles.orderDetails}>
-                                        <div className={styles.orderItems}>
-                                            <h4>Купленные товары:</h4>
-                                            <ul>
-                                                {order.items.map((item, index) => (
-                                                    <li key={index}>
-                                                        {item.name} x{item.quantity} - {item.price * item.quantity} ₽
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
+                                        {order.customOrderData ? (
+                                            // Custom order display
+                                            <div className={styles.customOrderDetails}>
+                                                <h4>Кастомная фигурка:</h4>
+                                                <div className={styles.customOrderInfo}>
+                                                    <p><strong>Название:</strong> {order.customOrderData.name}</p>
+                                                    {order.customOrderData.budget && (
+                                                        <p><strong>Бюджет:</strong> {order.customOrderData.budget} ₽</p>
+                                                    )}
+                                                    <p><strong>Описание:</strong></p>
+                                                    <div className={styles.customOrderDescription}>
+                                                        {order.customOrderData.description}
+                                                    </div>
+                                                    {order.adminResponse && order.status === 'Согласование' && (
+                                                        <div className={styles.adminResponse}>
+                                                            <p><strong>Ответ администратора:</strong></p>
+                                                            <div className={styles.adminResponseText}>
+                                                                {typeof order.adminResponse === 'string'
+                                                                    ? JSON.parse(order.adminResponse).message
+                                                                    : order.adminResponse.message}
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            // Regular order display
+                                            <div className={styles.orderItems}>
+                                                <h4>Купленные товары:</h4>
+                                                <ul>
+                                                    {order.items.map((item, index) => (
+                                                        <li key={index}>
+                                                            {item.name} x{item.quantity} - {item.price * item.quantity} ₽
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                                {order.adminResponse && order.status === 'Согласование' && (
+                                                    <div className={styles.adminResponse}>
+                                                        <p><strong>Ответ администратора:</strong></p>
+                                                        <div className={styles.adminResponseText}>
+                                                            {typeof order.adminResponse === 'string'
+                                                                ? JSON.parse(order.adminResponse).message
+                                                                : order.adminResponse.message}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
                                         <div className={styles.orderTotal}>
-                                            <strong>Итого: {order.totalPrice} ₽</strong>
+                                            {!(order.customOrderData && order.status === 'Оценка работы') && (
+                                                <>
+                                                    <strong>Итого: {order.totalPrice} ₽</strong>
+                                                    {order.customOrderData && order.totalPrice && order.status === 'Согласование' && (
+                                                        <button
+                                                            onClick={() => navigate(`/buy?customOrderId=${order.id}`)}
+                                                            className={styles.sendButton}
+                                                        >
+                                                            Оплатить
+                                                        </button>
+                                                    )}
+                                                </>
+                                            )}
+                                            {order.customOrderData && order.status === 'Оценка работы' && (
+                                                <strong>Ожидание оценки стоимости</strong>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

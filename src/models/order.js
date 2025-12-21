@@ -24,12 +24,20 @@ const Order = sequelize.define('Order', {
     allowNull: false,
   },
   status: {
-    type: DataTypes.ENUM('Собираем', 'В пути', 'Доставлен', 'Создаем кастомуную фигурку'),
+    type: DataTypes.ENUM('Собираем', 'В пути', 'Доставлен', 'Создаем кастомуную фигурку', 'Оценка работы', 'Согласование'),
     allowNull: false,
     defaultValue: 'Собираем',
   },
   customerData: {
     type: DataTypes.TEXT, // JSON string containing customer delivery info
+    allowNull: true,
+  },
+  customOrderData: {
+    type: DataTypes.TEXT, // JSON string containing custom order details (name, budget, description)
+    allowNull: true,
+  },
+  adminResponse: {
+    type: DataTypes.TEXT, // JSON string containing admin response (price, message)
     allowNull: true,
   },
 }, {

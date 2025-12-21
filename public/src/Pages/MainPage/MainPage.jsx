@@ -6,6 +6,7 @@ import PrivetBlockMain from './Components/PrivetBlockMain/PrivetBlockMain';
 import VideoProcessBlock from './Components/VideoProcessBlock/VideoProcessBlock';
 import StepByStepInstructions from './Components/StepByStepInstructions/StepByStepInstructions';
 import LatestPublicationBlock from './Components/LatestPublicationBlock/LatestPublicationBlock';
+import CustomFigurinesBlock from './Components/CustomFigurinesBlock/CustomFigurinesBlock';
 import OtziviMainBlock from './Components/OtziviMainBlock/OtziviMainBlock';
 import styles from './MainPage.module.css';
 
@@ -88,6 +89,7 @@ function MainPage() {
                 item && <animated.div style={style}><StepByStepInstructions /></animated.div>
             )}
             <LatestPublicationBlock />
+            <CustomFigurinesBlock />
             <OtziviMainBlock />
         </div>
     );

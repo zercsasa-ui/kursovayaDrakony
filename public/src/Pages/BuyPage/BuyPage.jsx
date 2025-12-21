@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useCart } from '../../context/CartContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import HeaderBlock from '../../Components/Header/HeaderBlock';
 import Breadcrumbs from '../../Components/Breadcrumbs/Breadcrumbs';
 import styles from './BuyPage.module.css';
@@ -8,6 +8,9 @@ import styles from './BuyPage.module.css';
 function BuyPage() {
     const { cartItems, getTotalPrice, clearCart } = useCart();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const customOrderId = searchParams.get('customOrderId');
+    const [customOrder, setCustomOrder] = useState(null);
     const [userData, setUserData] = useState({
         firstName: '',
         lastName: '',
@@ -47,16 +50,38 @@ function BuyPage() {
             }
         };
 
+        // Fetch custom order if present
+        const fetchCustomOrder = async () => {
+            if (customOrderId) {
+                try {
+                    const response = await fetch(`http://localhost:3000/api/orders/${customOrderId}`, {
+                        credentials: 'include'
+                    });
+                    if (response.ok) {
+                        const orderData = await response.json();
+                        setCustomOrder(orderData);
+                    } else {
+                        console.error('Error fetching custom order');
+                        navigate('/profile');
+                    }
+                } catch (error) {
+                    console.error('Error fetching custom order:', error);
+                    navigate('/profile');
+                }
+            }
+        };
+
         getCurrentUser();
-    }, []);
+        fetchCustomOrder();
+    }, [customOrderId, navigate]);
 
     // Separate effect for cart checking to prevent interference with cart loading
     useEffect(() => {
-        // Only redirect if cart is empty and we're not loading
-        if (!loading && cartItems.length === 0) {
+        // Only redirect if cart is empty and we're not loading and not a custom order
+        if (!loading && cartItems.length === 0 && !customOrderId) {
             navigate('/cart');
         }
-    }, [cartItems, loading, navigate]);
+    }, [cartItems, loading, navigate, customOrderId]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -98,11 +123,16 @@ function BuyPage() {
         };
         localStorage.setItem('customerData', JSON.stringify(customerInfo));
 
+        // Save custom order data if present
+        if (customOrder) {
+            localStorage.setItem('customOrderData', JSON.stringify(customOrder));
+        }
+
         // Navigate to payment page
         navigate('/payment');
     };
 
-    const totalPrice = getTotalPrice();
+    const totalPrice = customOrder ? customOrder.totalPrice : getTotalPrice();
 
     if (loading) {
         return (
@@ -127,27 +157,53 @@ function BuyPage() {
                             <h2 className={styles.sectionTitle}>Ваш заказ</h2>
 
                             <div className={styles.itemsList}>
-                                {cartItems.map(item => (
-                                    <div key={item.id} className={styles.orderItem}>
+                                {customOrder ? (
+                                    // Custom order item
+                                    <div className={styles.orderItem}>
                                         <div className={styles.itemImage}>
                                             <img
-                                                src={item.image}
-                                                alt={item.name}
+                                                src="/images/Custom.jpg"
+                                                alt="Custom item"
                                                 onError={(e) => {
                                                     e.target.src = '/images/default.png';
                                                 }}
                                             />
                                         </div>
                                         <div className={styles.itemDetails}>
-                                            <h3 className={styles.itemName}>{item.name}</h3>
-                                            <p className={styles.itemQuantity}>Количество: {item.quantity}</p>
-                                            <p className={styles.itemPrice}>{item.price} ₽</p>
+                                            <h3 className={styles.itemName}>
+                                                Кастомный товар: {customOrder.customOrderData ? (typeof customOrder.customOrderData === 'string' ? JSON.parse(customOrder.customOrderData).name : customOrder.customOrderData.name) : 'Кастомный заказ'}
+                                            </h3>
+                                            <p className={styles.itemQuantity}>Количество: 1</p>
+                                            <p className={styles.itemPrice}>{customOrder.totalPrice} ₽</p>
                                         </div>
                                         <div className={styles.itemTotal}>
-                                            {item.price * item.quantity} ₽
+                                            {customOrder.totalPrice} ₽
                                         </div>
                                     </div>
-                                ))}
+                                ) : (
+                                    // Regular cart items
+                                    cartItems.map(item => (
+                                        <div key={item.id} className={styles.orderItem}>
+                                            <div className={styles.itemImage}>
+                                                <img
+                                                    src={item.image}
+                                                    alt={item.name}
+                                                    onError={(e) => {
+                                                        e.target.src = '/images/default.png';
+                                                    }}
+                                                />
+                                            </div>
+                                            <div className={styles.itemDetails}>
+                                                <h3 className={styles.itemName}>{item.name}</h3>
+                                                <p className={styles.itemQuantity}>Количество: {item.quantity}</p>
+                                                <p className={styles.itemPrice}>{item.price} ₽</p>
+                                            </div>
+                                            <div className={styles.itemTotal}>
+                                                {item.price * item.quantity} ₽
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
                             </div>
 
                             <div className={styles.orderTotal}>
@@ -282,9 +338,9 @@ function BuyPage() {
                                     <button
                                         type="button"
                                         className={styles.backButton}
-                                        onClick={() => navigate('/cart')}
+                                        onClick={() => navigate(customOrder ? '/profile' : '/cart')}
                                     >
-                                        Вернуться в корзину
+                                        {customOrder ? 'Вернуться в профиль' : 'Вернуться в корзину'}
                                     </button>
                                     <button
                                         type="button"

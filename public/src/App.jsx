@@ -12,6 +12,7 @@ import PageOfSelectProduct from './Pages/PageOfSelectProduct/PageOfSelectProduct
 import CartPage from './Pages/ShapingCart/CartPage'
 import BuyPage from './Pages/BuyPage/BuyPage'
 import GiveMoneyPage from './Pages/GiveMoneyPage/GiveMoneyPage'
+import CustomOrderPage from './Pages/CustomOrderPage/CustomOrderPage'
 import Breadcrumbs from './Components/Breadcrumbs/Breadcrumbs'
 import ScrollUp from './Components/ScrollUp/ScrollUp'
 
@@ -33,6 +34,7 @@ function App() {
                 <Route path='/cart' element={ <CartPage/> } />
                 <Route path='/buy' element={ <BuyPage/> } />
                 <Route path='/payment' element={ <GiveMoneyPage/> } />
+                <Route path='/custom-order' element={ <CustomOrderPage/> } />
                 <Route path='/admin' element={ <AdminPage/> } />
             </Routes>
         </>

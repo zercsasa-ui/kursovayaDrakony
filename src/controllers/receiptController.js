@@ -6,7 +6,7 @@ const { Product, Order } = require('../models');
 // Создать чек
 const createReceipt = async (req, res) => {
     try {
-        const { cartItems, totalPrice, customerData } = req.body;
+        const { cartItems, customOrder, totalPrice, customerData } = req.body;
 
         // Получить информацию о пользователе из сессии
         const userId = req.session.userId;
@@ -19,7 +19,11 @@ const createReceipt = async (req, res) => {
             return res.status(404).json({ error: 'Пользователь не найден' });
         }
 
-        if (!cartItems || !Array.isArray(cartItems) || cartItems.length === 0) {
+        if (!cartItems && !customOrder) {
+            return res.status(400).json({ error: 'Нет данных для создания чека' });
+        }
+
+        if (cartItems && (!Array.isArray(cartItems) || cartItems.length === 0)) {
             return res.status(400).json({ error: 'Корзина пуста или данные некорректны' });
         }
 
@@ -67,26 +71,35 @@ const createReceipt = async (req, res) => {
 
         receiptContent += `ТОВАРЫ:\n`;
 
-        cartItems.forEach(item => {
-            receiptContent += `${item.name} x${item.quantity} - ${item.price * item.quantity} ₽\n`;
-        });
+        if (customOrder) {
+            // Custom order
+            const customData = typeof customOrder.customOrderData === 'string' ? JSON.parse(customOrder.customOrderData) : customOrder.customOrderData;
+            receiptContent += `Кастомный товар: ${customData.name} - ${customOrder.totalPrice} ₽\n`;
+        } else {
+            // Regular cart items
+            cartItems.forEach(item => {
+                receiptContent += `${item.name} x${item.quantity} - ${item.price * item.quantity} ₽\n`;
+            });
+        }
 
         receiptContent += `\n============================\n`;
         receiptContent += `Итого: ${totalPrice} ₽\n`;
         receiptContent += `============================\n`;
         receiptContent += `Спасибо за покупку!\n`;
 
-        // Обновляем популярность товаров вместо возврата на склад
-        for (const item of cartItems) {
-            try {
-                const product = await Product.findByPk(item.id);
-                if (product) {
-                    product.popularity += item.quantity;
-                    await product.save();
-                    console.log(`Обновлена популярность товара ${item.name}: +${item.quantity}`);
+        // Обновляем популярность товаров только для обычных заказов
+        if (cartItems) {
+            for (const item of cartItems) {
+                try {
+                    const product = await Product.findByPk(item.id);
+                    if (product) {
+                        product.popularity += item.quantity;
+                        await product.save();
+                        console.log(`Обновлена популярность товара ${item.name}: +${item.quantity}`);
+                    }
+                } catch (error) {
+                    console.error(`Ошибка при обновлении популярности товара ${item.name}:`, error);
                 }
-            } catch (error) {
-                console.error(`Ошибка при обновлении популярности товара ${item.name}:`, error);
             }
         }
 
@@ -95,19 +108,34 @@ const createReceipt = async (req, res) => {
 
         console.log(`Чек создан: ${filePath}`);
 
-        // Создаем заказ в базе данных
-        try {
-            const order = await Order.create({
-                userId: userId,
-                items: JSON.stringify(cartItems),
-                totalPrice: totalPrice,
-                customerData: customerData ? JSON.stringify(customerData) : null,
-                status: 'Собираем'
-            });
-            console.log(`Заказ создан: ${order.id}`);
-        } catch (orderError) {
-            console.error('Ошибка при создании заказа:', orderError);
-            // Не прерываем процесс, если создание заказа не удалось
+        if (customOrder) {
+            // Update existing custom order status
+            try {
+                const order = await Order.findByPk(customOrder.id);
+                if (order) {
+                    order.status = 'Создаем кастомуную фигурку';
+                    order.customerData = customerData ? JSON.stringify(customerData) : order.customerData;
+                    await order.save();
+                    console.log(`Статус кастомного заказа обновлен: ${order.id}`);
+                }
+            } catch (orderError) {
+                console.error('Ошибка при обновлении статуса кастомного заказа:', orderError);
+            }
+        } else {
+            // Создаем новый заказ для обычных товаров
+            try {
+                const order = await Order.create({
+                    userId: userId,
+                    items: JSON.stringify(cartItems),
+                    totalPrice: totalPrice,
+                    customerData: customerData ? JSON.stringify(customerData) : null,
+                    status: 'Собираем'
+                });
+                console.log(`Заказ создан: ${order.id}`);
+            } catch (orderError) {
+                console.error('Ошибка при создании заказа:', orderError);
+                // Не прерываем процесс, если создание заказа не удалось
+            }
         }
 
         res.json({

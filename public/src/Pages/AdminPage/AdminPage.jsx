@@ -405,33 +405,60 @@ function AdminPage() {
     const handleSaveOrder = async (orderId) => {
         const orderRow = document.querySelector(`tr[data-order-id="${orderId}"]`);
         const statusSelect = orderRow.querySelector('select');
-
         const status = statusSelect.value;
 
-        const validStatuses = ['Собираем', 'В пути', 'Доставлен', 'Создаем кастомуную фигурку'];
+        // Find the order to check if it's a custom order
+        const order = orders.find(o => o.id === orderId);
+
+        const validStatuses = ['Собираем', 'В пути', 'Доставлен', 'Создаем кастомуную фигурку', 'Оценка работы', 'Согласование'];
         if (!validStatuses.includes(status)) {
             showNotification('Неверный статус заказа', 'error');
             return;
         }
 
         try {
-            const response = await fetch(`http://localhost:3000/api/orders/${orderId}/status`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify({ status })
-            });
+            if (order.customOrderData) {
+                // Custom order - update price and response
+                const priceInput = orderRow.querySelector('input[type="number"]');
+                const responseTextarea = orderRow.querySelector('textarea');
 
-            if (response.ok) {
-                setEditingOrder(null);
-                fetchData(); // Refresh data
-                showNotification('Статус заказа обновлен успешно', 'success');
+                const totalPrice = priceInput ? parseFloat(priceInput.value) || 0 : 0;
+                const response = responseTextarea ? responseTextarea.value.trim() : '';
+
+                const response_custom = await fetch(`http://localhost:3000/api/orders/${orderId}/custom`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ totalPrice, response, status })
+                });
+
+                if (response_custom.ok) {
+                    setEditingOrder(null);
+                    fetchData(); // Refresh data
+                    showNotification('Кастомный заказ обновлен успешно', 'success');
+                } else {
+                    showNotification('Ошибка при обновлении кастомного заказа', 'error');
+                }
             } else {
-                showNotification('Ошибка при обновлении статуса заказа', 'error');
+                // Regular order - update status only
+                const response_status = await fetch(`http://localhost:3000/api/orders/${orderId}/status`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ status })
+                });
+
+                if (response_status.ok) {
+                    setEditingOrder(null);
+                    fetchData(); // Refresh data
+                    showNotification('Статус заказа обновлен успешно', 'success');
+                } else {
+                    showNotification('Ошибка при обновлении статуса заказа', 'error');
+                }
             }
         } catch (error) {
-            console.error('Error updating order status:', error);
-            showNotification('Ошибка при обновлении статуса заказа', 'error');
+            console.error('Error updating order:', error);
+            showNotification('Ошибка при обновлении заказа', 'error');
         }
     };
 
@@ -446,6 +473,11 @@ function AdminPage() {
 
     const handleDeleteProduct = (product) => {
         setDeleteTarget({ type: 'product', product });
+        setShowDeleteModal(true);
+    };
+
+    const handleDeleteOrder = (orderId) => {
+        setDeleteTarget({ type: 'order', id: orderId });
         setShowDeleteModal(true);
     };
 
@@ -478,6 +510,11 @@ function AdminPage() {
                     method: 'DELETE',
                     credentials: 'include'
                 });
+            } else if (deleteTarget.type === 'order') {
+                deleteResponse = await fetch(`http://localhost:3000/api/orders/${deleteTarget.id}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
             }
 
             if (deleteResponse.ok) {
@@ -485,7 +522,10 @@ function AdminPage() {
                 setDeleteTarget(null);
                 setDeletePassword('');
                 fetchData(); // Refresh data
-                showNotification(deleteTarget.type === 'user' ? 'Пользователь удален успешно' : 'Товар удален успешно', 'success');
+                const successMessage = deleteTarget.type === 'user' ? 'Пользователь удален успешно' :
+                                      deleteTarget.type === 'product' ? 'Товар удален успешно' :
+                                      'Заказ удален успешно';
+                showNotification(successMessage, 'success');
             } else {
                 showNotification('Ошибка при удалении', 'error');
             }
@@ -939,7 +979,7 @@ function AdminPage() {
                 </div>
 
                 <div className={styles.section}>
-                    <h2>Заказы</h2>
+                    <h2>Обычные заказы</h2>
                     <div className={styles.tableContainer}>
                         <table className={styles.table}>
                             <thead>
@@ -955,7 +995,7 @@ function AdminPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {orders.map(order => (
+                                {orders.filter(order => !order.customOrderData).map(order => (
                                     <tr key={order.id} data-order-id={order.id}>
                                         <td>{order.id}</td>
                                         <td>{order.user?.username || 'Неизвестен'}</td>
@@ -990,6 +1030,8 @@ function AdminPage() {
                                                     <option value="В пути">В пути</option>
                                                     <option value="Доставлен">Доставлен</option>
                                                     <option value="Создаем кастомуную фигурку">Создаем кастомуную фигурку</option>
+                                                    <option value="Оценка работы">Оценка работы</option>
+                                                    <option value="Согласование">Согласование</option>
                                                 </select>
                                             ) : (
                                                 order.status
@@ -1005,6 +1047,118 @@ function AdminPage() {
                                             ) : (
                                                 <div className={styles.actionButtons}>
                                                     <button onClick={() => handleEditOrder(order.id)} className={styles.editButton}>Изменить статус</button>
+                                                    <button onClick={() => handleDeleteOrder(order.id)} className={styles.deleteButton}>Удалить</button>
+                                                </div>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div className={styles.section}>
+                    <h2>Кастомные заказы</h2>
+                    <div className={styles.tableContainer}>
+                        <table className={styles.table}>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Пользователь</th>
+                                    <th>Email</th>
+                                    <th>Название фигурки</th>
+                                    <th>Бюджет клиента</th>
+                                    <th>Цена</th>
+                                    <th>Ответ администратора</th>
+                                    <th>Статус</th>
+                                    <th>Дата</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orders.filter(order => order.customOrderData).map(order => (
+                                    <tr key={order.id} data-order-id={order.id}>
+                                        <td>{order.id}</td>
+                                        <td>{order.user?.username || 'Неизвестен'}</td>
+                                        <td>{order.user?.email || 'Неизвестен'}</td>
+                                        <td>
+                                            {(() => {
+                                                const customData = typeof order.customOrderData === 'string'
+                                                    ? JSON.parse(order.customOrderData)
+                                                    : order.customOrderData;
+                                                return customData.name;
+                                            })()}
+                                        </td>
+                                        <td>
+                                            {(() => {
+                                                const customData = typeof order.customOrderData === 'string'
+                                                    ? JSON.parse(order.customOrderData)
+                                                    : order.customOrderData;
+                                                return customData.budget ? `${customData.budget} ₽` : 'Не указан';
+                                            })()}
+                                        </td>
+                                        <td>
+                                            {editingOrder === order.id ? (
+                                                <input
+                                                    type="number"
+                                                    defaultValue={order.totalPrice || ''}
+                                                    placeholder="Цена"
+                                                    style={{ width: '80px' }}
+                                                />
+                                            ) : (
+                                                order.totalPrice ? `${order.totalPrice} ₽` : 'Не установлена'
+                                            )}
+                                        </td>
+                                        <td>
+                                            {editingOrder === order.id ? (
+                                                <textarea
+                                                    defaultValue={order.adminResponse ? (typeof order.adminResponse === 'string' ? JSON.parse(order.adminResponse).message : order.adminResponse.message) : ''}
+                                                    placeholder="Ответ администратора"
+                                                    rows="3"
+                                                    style={{ width: '250px', resize: 'vertical' }}
+                                                />
+                                            ) : (
+                                                order.adminResponse ? (
+                                                    <div style={{
+                                                        maxWidth: '250px',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                        whiteSpace: 'nowrap'
+                                                    }}>
+                                                        {typeof order.adminResponse === 'string'
+                                                            ? JSON.parse(order.adminResponse).message
+                                                            : order.adminResponse.message}
+                                                    </div>
+                                                ) : (
+                                                    'Нет ответа'
+                                                )
+                                            )}
+                                        </td>
+                                        <td>
+                                            {editingOrder === order.id ? (
+                                                <select defaultValue={order.status}>
+                                                    <option value="Оценка работы">Оценка работы</option>
+                                                    <option value="Создаем кастомуную фигурку">Создаем кастомуную фигурку</option>
+                                                    <option value="Согласование">Согласование</option>
+                                                    <option value="В пути">В пути</option>
+                                                    <option value="Доставлен">Доставлен</option>
+                                                </select>
+                                            ) : (
+                                                order.status
+                                            )}
+                                        </td>
+                                        <td>{new Date(order.createdAt).toLocaleDateString('ru-RU')}</td>
+                                        <td>
+                                            {editingOrder === order.id ? (
+                                                <div className={styles.actionButtons}>
+                                                    <button onClick={() => handleSaveOrder(order.id)} className={styles.saveButton}>Сохранить</button>
+                                                    <button onClick={handleCancelOrderEdit} className={styles.cancelButton}>Отмена</button>
+                                                </div>
+                                            ) : (
+                                                <div className={styles.actionButtons}>
+                                                    <button onClick={() => handleEditOrder(order.id)} className={styles.editButton}>Редактировать</button>
+                                                    <button onClick={() => handleDeleteOrder(order.id)} className={styles.deleteButton}>Удалить</button>
                                                 </div>
                                             )}
                                         </td>
@@ -1042,6 +1196,7 @@ function AdminPage() {
                             <li><strong>GET /api/orders</strong> - Получить заказы пользователя</li>
                             <li><strong>GET /api/orders/all</strong> - Получить все заказы (админ)</li>
                             <li><strong>PUT /api/orders/:id/status</strong> - Обновить статус заказа</li>
+                            <li><strong>DELETE /api/orders/:id</strong> - Удалить заказ (админ)</li>
                             <li><strong>GET /debug/users</strong> - Отладка пользователей</li>
                         </ul>
                     </div>
@@ -1051,7 +1206,7 @@ function AdminPage() {
                     <div className={styles.modalOverlay}>
                         <div className={styles.modal}>
                             <h3>Подтверждение удаления</h3>
-                            <p>Вы действительно хотите удалить {deleteTarget?.type === 'user' ? 'пользователя' : 'товар'}?</p>
+                            <p>Вы действительно хотите удалить {deleteTarget?.type === 'user' ? 'пользователя' : deleteTarget?.type === 'product' ? 'товар' : 'заказ'}?</p>
                             <p>Для подтверждения введите пароль администратора:</p>
                             <input
                                 type="password"

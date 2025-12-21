@@ -10,13 +10,28 @@ function GiveMoneyPage() {
     const { cartItems, getTotalPrice, clearCart, loadCart } = useCart();
     const [checking, setChecking] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [customOrderData, setCustomOrderData] = useState(null);
 
     useEffect(() => {
         loadCart();
+
+        // Check if there's custom order data in localStorage
+        const customOrder = localStorage.getItem('customOrderData');
+        if (customOrder) {
+            try {
+                setCustomOrderData(JSON.parse(customOrder));
+            } catch (error) {
+                console.error('Error parsing custom order data:', error);
+            }
+        }
     }, [loadCart]);
 
     const handleCancel = () => {
-        navigate('/cart');
+        if (customOrderData) {
+            navigate('/profile');
+        } else {
+            navigate('/cart');
+        }
     };
 
     const generateReceipt = async () => {
@@ -32,25 +47,44 @@ function GiveMoneyPage() {
                 }
             }
 
+            let receiptData;
+            if (customOrderData) {
+                // Custom order receipt
+                receiptData = {
+                    customOrder: customOrderData,
+                    totalPrice: customOrderData.totalPrice,
+                    customerData: parsedCustomerData
+                };
+            } else {
+                // Regular cart receipt
+                receiptData = {
+                    cartItems: cartItems,
+                    totalPrice: getTotalPrice(),
+                    customerData: parsedCustomerData
+                };
+            }
+
             const response = await fetch('http://localhost:3000/api/receipts', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: JSON.stringify({
-                    cartItems: cartItems,
-                    totalPrice: getTotalPrice(),
-                    customerData: parsedCustomerData
-                }),
+                body: JSON.stringify(receiptData),
             });
 
             if (response.ok) {
                 const result = await response.json();
                 console.log('Чек создан:', result.receiptPath);
 
-                // Очищаем корзину после создания чека
-                clearCart();
+                // Clear cart only for regular orders
+                if (!customOrderData) {
+                    clearCart();
+                }
+
+                // Clear localStorage data
+                localStorage.removeItem('customerData');
+                localStorage.removeItem('customOrderData');
             } else {
                 const error = await response.json();
                 console.error('Ошибка при создании чека:', error.error);
@@ -107,7 +141,7 @@ function GiveMoneyPage() {
                         <div className={styles.paymentDetails}>
                             <h3>Реквизиты для оплаты:</h3>
                             <div className={styles.details}>
-                                <p><strong>Сумма:</strong> {getTotalPrice()} ₽</p>
+                                <p><strong>Сумма:</strong> {customOrderData ? customOrderData.totalPrice : getTotalPrice()} ₽</p>
                                 <p><strong>Получатель:</strong> ***</p>
                                 <p><strong>ИНН:</strong> ***</p>
                                 <p><strong>Номер карты:</strong> ***</p>
