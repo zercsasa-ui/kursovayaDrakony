@@ -38,8 +38,6 @@ function ProductCard({ product, onShowNotification, onRefreshProducts }) {
         const result = await addToCart(product);
         if (result.success) {
             onShowNotification && onShowNotification(truncatedName, 'success');
-            // Refresh products to show updated inventory in real-time
-            onRefreshProducts && onRefreshProducts();
             console.log('Товар добавлен в корзину:', product.name);
         } else {
             let message = 'Произошла ошибка';
@@ -57,6 +55,8 @@ function ProductCard({ product, onShowNotification, onRefreshProducts }) {
             onShowNotification && onShowNotification(message, 'error');
             console.log('Не удалось добавить товар в корзину:', product.name, 'Ошибка:', result.error);
         }
+        // Refresh products to show updated inventory in real-time
+        onRefreshProducts && onRefreshProducts();
     };
 
     return (

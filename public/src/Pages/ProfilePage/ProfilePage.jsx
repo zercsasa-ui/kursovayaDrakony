@@ -5,6 +5,7 @@ import styles from './ProfilePage.module.css';
 
 function ProfilePage() {
     const [user, setUser] = useState(null);
+    const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -28,6 +29,28 @@ function ProfilePage() {
     useEffect(() => {
         checkAuthAndFetchUser();
     }, []);
+
+    useEffect(() => {
+        if (isAuthorized) {
+            fetchOrders();
+        }
+    }, [isAuthorized]);
+
+    const fetchOrders = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/api/orders', {
+                credentials: 'include'
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setOrders(data.orders || []);
+            } else {
+                console.error('Error fetching orders');
+            }
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+        }
+    };
 
     // Auto-hide success notification after 3 seconds with fade-out animation
     useEffect(() => {
@@ -331,6 +354,47 @@ function ProfilePage() {
                         </div>
                     </div>
                 )}
+
+                {/* Order Status Block */}
+                <div className={styles.ordersBlock}>
+                    <h2>Статус заказа</h2>
+                    {orders.length === 0 ? (
+                        <p>У вас пока нет заказов.</p>
+                    ) : (
+                        <div className={styles.ordersList}>
+                            {orders.map(order => (
+                                <div key={order.id} className={styles.orderItem}>
+                                    <div className={styles.orderHeader}>
+                                        <div className={styles.orderInfo}>
+                                            <span className={styles.orderId}>Заказ #{order.id}</span>
+                                            <span className={styles.orderDate}>
+                                                {new Date(order.createdAt).toLocaleDateString('ru-RU')}
+                                            </span>
+                                        </div>
+                                        <div className={`${styles.orderStatus} ${styles[order.status.replace(/\s+/g, '').toLowerCase()]}`}>
+                                            {order.status}
+                                        </div>
+                                    </div>
+                                    <div className={styles.orderDetails}>
+                                        <div className={styles.orderItems}>
+                                            <h4>Купленные товары:</h4>
+                                            <ul>
+                                                {order.items.map((item, index) => (
+                                                    <li key={index}>
+                                                        {item.name} x{item.quantity} - {item.price * item.quantity} ₽
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        <div className={styles.orderTotal}>
+                                            <strong>Итого: {order.totalPrice} ₽</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
 
             {showSuccessNotification && (

@@ -8,10 +8,12 @@ function AdminPage() {
     const [figurines, setFigurines] = useState([]);
     const [dolls, setDolls] = useState([]);
     const [products, setProducts] = useState([]);
+    const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
     const [editingProduct, setEditingProduct] = useState(null);
+    const [editingOrder, setEditingOrder] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleteTarget, setDeleteTarget] = useState(null);
@@ -116,19 +118,22 @@ function AdminPage() {
 
     const fetchData = async () => {
         try {
-            const [usersResponse, figurinesResponse, dollsResponse] = await Promise.all([
+            const [usersResponse, figurinesResponse, dollsResponse, ordersResponse] = await Promise.all([
                 fetch('http://localhost:3000/api/users', { credentials: 'include' }),
                 fetch('http://localhost:3000/api/figurines', { credentials: 'include' }),
-                fetch('http://localhost:3000/api/kykly', { credentials: 'include' })
+                fetch('http://localhost:3000/api/kykly', { credentials: 'include' }),
+                fetch('http://localhost:3000/api/orders/all', { credentials: 'include' })
             ]);
 
             const usersData = await usersResponse.json();
             const figurinesData = await figurinesResponse.json();
             const dollsData = await dollsResponse.json();
+            const ordersData = await ordersResponse.json();
 
             setUsers(usersData.users || []);
             setFigurines(figurinesData || []);
             setDolls(dollsData || []);
+            setOrders(ordersData.orders || []);
 
             // Combine all products
             const allProducts = [
@@ -391,6 +396,47 @@ function AdminPage() {
 
     const handleCancelProductEdit = () => {
         setEditingProduct(null);
+    };
+
+    const handleEditOrder = (orderId) => {
+        setEditingOrder(orderId);
+    };
+
+    const handleSaveOrder = async (orderId) => {
+        const orderRow = document.querySelector(`tr[data-order-id="${orderId}"]`);
+        const statusSelect = orderRow.querySelector('select');
+
+        const status = statusSelect.value;
+
+        const validStatuses = ['Собираем', 'В пути', 'Доставлен', 'Создаем кастомуную фигурку'];
+        if (!validStatuses.includes(status)) {
+            showNotification('Неверный статус заказа', 'error');
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:3000/api/orders/${orderId}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ status })
+            });
+
+            if (response.ok) {
+                setEditingOrder(null);
+                fetchData(); // Refresh data
+                showNotification('Статус заказа обновлен успешно', 'success');
+            } else {
+                showNotification('Ошибка при обновлении статуса заказа', 'error');
+            }
+        } catch (error) {
+            console.error('Error updating order status:', error);
+            showNotification('Ошибка при обновлении статуса заказа', 'error');
+        }
+    };
+
+    const handleCancelOrderEdit = () => {
+        setEditingOrder(null);
     };
 
     const handleDeleteUser = (userId) => {
@@ -893,6 +939,83 @@ function AdminPage() {
                 </div>
 
                 <div className={styles.section}>
+                    <h2>Заказы</h2>
+                    <div className={styles.tableContainer}>
+                        <table className={styles.table}>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Пользователь</th>
+                                    <th>Email</th>
+                                    <th>Товары</th>
+                                    <th>Итого</th>
+                                    <th>Статус</th>
+                                    <th>Дата</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orders.map(order => (
+                                    <tr key={order.id} data-order-id={order.id}>
+                                        <td>{order.id}</td>
+                                        <td>{order.user?.username || 'Неизвестен'}</td>
+                                        <td>{order.user?.email || 'Неизвестен'}</td>
+                                        <td>
+                                            {(() => {
+                                                try {
+                                                    let items;
+                                                    if (Array.isArray(order.items)) {
+                                                        items = order.items;
+                                                    } else if (typeof order.items === 'string') {
+                                                        items = JSON.parse(order.items);
+                                                    } else {
+                                                        throw new Error('Invalid items format');
+                                                    }
+                                                    return items.map((item, index) => (
+                                                        <div key={index}>
+                                                            {item.name} x{item.quantity}
+                                                        </div>
+                                                    ));
+                                                } catch (error) {
+                                                    console.error('Error parsing order items:', error, order.items);
+                                                    return <div>Ошибка данных</div>;
+                                                }
+                                            })()}
+                                        </td>
+                                        <td>{order.totalPrice} ₽</td>
+                                        <td>
+                                            {editingOrder === order.id ? (
+                                                <select defaultValue={order.status}>
+                                                    <option value="Собираем">Собираем</option>
+                                                    <option value="В пути">В пути</option>
+                                                    <option value="Доставлен">Доставлен</option>
+                                                    <option value="Создаем кастомуную фигурку">Создаем кастомуную фигурку</option>
+                                                </select>
+                                            ) : (
+                                                order.status
+                                            )}
+                                        </td>
+                                        <td>{new Date(order.createdAt).toLocaleDateString('ru-RU')}</td>
+                                        <td>
+                                            {editingOrder === order.id ? (
+                                                <div className={styles.actionButtons}>
+                                                    <button onClick={() => handleSaveOrder(order.id)} className={styles.saveButton}>Сохранить</button>
+                                                    <button onClick={handleCancelOrderEdit} className={styles.cancelButton}>Отмена</button>
+                                                </div>
+                                            ) : (
+                                                <div className={styles.actionButtons}>
+                                                    <button onClick={() => handleEditOrder(order.id)} className={styles.editButton}>Изменить статус</button>
+                                                </div>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div className={styles.section}>
                     <h2>Список API маршрутов</h2>
                     <div className={styles.apiList}>
                         <ul>
@@ -916,6 +1039,9 @@ function AdminPage() {
                             <li><strong>GET /api/auth/user</strong> - Получить данные пользователя</li>
                             <li><strong>GET /api/users</strong> - Получить всех пользователей</li>
                             <li><strong>PUT /api/users/:id</strong> - Обновить пользователя</li>
+                            <li><strong>GET /api/orders</strong> - Получить заказы пользователя</li>
+                            <li><strong>GET /api/orders/all</strong> - Получить все заказы (админ)</li>
+                            <li><strong>PUT /api/orders/:id/status</strong> - Обновить статус заказа</li>
                             <li><strong>GET /debug/users</strong> - Отладка пользователей</li>
                         </ul>
                     </div>

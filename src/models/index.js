@@ -12,12 +12,14 @@ module.exports = sequelize;
 
 const { Product, Drakoni, Kykly } = require('./figurines');
 const Cart = require('./cart');
+const Order = require('./order');
 
 // Экспортируем модели
 module.exports.Cart = Cart;
 module.exports.Product = Product;
 module.exports.Drakoni = Drakoni;
 module.exports.Kykly = Kykly;
+module.exports.Order = Order;
 
 // Установка ассоциаций
 Product.hasMany(Cart, { foreignKey: 'productId', onDelete: 'CASCADE' });

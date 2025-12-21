@@ -23,7 +23,14 @@ function GiveMoneyPage() {
         try {
             // Get customer data from localStorage
             const customerData = localStorage.getItem('customerData');
-            const parsedCustomerData = customerData ? JSON.parse(customerData) : null;
+            let parsedCustomerData = null;
+            if (customerData) {
+                try {
+                    parsedCustomerData = JSON.parse(customerData);
+                } catch (error) {
+                    console.error('Error parsing customer data from localStorage:', error);
+                }
+            }
 
             const response = await fetch('http://localhost:3000/api/receipts', {
                 method: 'POST',

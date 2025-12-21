@@ -14,6 +14,7 @@ export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const lastAddTime = useRef(0);
+    const lastUpdateTime = useRef(0);
 
     // Load cart from API on mount
     const loadCart = async () => {
@@ -47,15 +48,12 @@ export const CartProvider = ({ children }) => {
             return { success: false, error: 'loading' };
         }
 
-        // Throttle add to cart to 0.5 seconds
-        if (Date.now() - lastAddTime.current < 500) {
+        // Throttle add to cart to 0.05 seconds
+        if (Date.now() - lastAddTime.current < 50) {
             return { success: false, error: 'too_fast' };
         }
 
-        // Проверяем локально, достаточно ли товара
-        if (product.inStock < quantity) {
-            return { success: false, error: 'out_of_stock' };
-        }
+
 
         lastAddTime.current = Date.now();
         setIsLoading(true);
@@ -94,6 +92,13 @@ export const CartProvider = ({ children }) => {
     const removeFromCart = async (productId) => {
         if (isLoading) return;
 
+        // Throttle remove to 0.5 seconds
+        if (Date.now() - lastUpdateTime.current < 500) {
+            return;
+        }
+
+        lastUpdateTime.current = Date.now();
+
         setIsLoading(true);
         try {
             const response = await fetch(`http://localhost:3000/api/cart/${productId}`, {
@@ -116,10 +121,17 @@ export const CartProvider = ({ children }) => {
     const updateQuantity = async (productId, newQuantity) => {
         if (isLoading) return;
 
+        // Throttle update to 0.5 seconds
+        if (Date.now() - lastUpdateTime.current < 500) {
+            return;
+        }
+
         if (newQuantity <= 0) {
             await removeFromCart(productId);
             return;
         }
+
+        lastUpdateTime.current = Date.now();
 
         setIsLoading(true);
         try {

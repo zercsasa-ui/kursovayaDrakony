@@ -484,6 +484,143 @@
     }
 }
 
+/* Order Status Block */
+.ordersBlock {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.ordersBlock h2 {
+    text-align: center;
+    color: #000000;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: -0.5px;
+}
+
+.ordersBlock p {
+    text-align: center;
+    color: #666666;
+    font-size: 16px;
+    margin: 20px 0;
+}
+
+.ordersList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.orderItem {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.orderHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.orderInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.orderId {
+    font-size: 18px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.orderDate {
+    font-size: 14px;
+    color: #666666;
+}
+
+.orderStatus {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.orderStatus.собираем {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.orderStatus.впути {
+    background: #cce7ff;
+    color: #004085;
+    border: 1px solid #99d6ff;
+}
+
+.orderStatus.доставлен {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #a3cfbb;
+}
+
+.orderStatus.создаёмкастомнуюфигурку {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f1aeb5;
+}
+
+.orderDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.orderItems h4 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    color: #000000;
+    font-weight: 500;
+}
+
+.orderItems ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.orderItems li {
+    padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+    color: #333333;
+}
+
+.orderItems li:last-child {
+    border-bottom: none;
+}
+
+.orderTotal {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.orderTotal strong {
+    font-size: 18px;
+    color: #000000;
+    font-weight: 600;
+}
+
 /* Responsive design */
 @media (max-width: 480px) {
     .profileContainer {
@@ -510,5 +647,27 @@
 
     .modalButtons {
         flex-direction: column;
+    }
+
+    .ordersBlock h2 {
+        font-size: 24px;
+    }
+
+    .orderItem {
+        padding: 15px;
+    }
+
+    .orderHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .orderStatus {
+        align-self: flex-end;
+    }
+
+    .orderTotal {
+        text-align: left;
     }
 }

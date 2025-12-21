@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { UserModel } = require('../database/database');
+const { Product, Order } = require('../models');
 
 // Создать чек
 const createReceipt = async (req, res) => {
@@ -75,10 +76,39 @@ const createReceipt = async (req, res) => {
         receiptContent += `============================\n`;
         receiptContent += `Спасибо за покупку!\n`;
 
+        // Обновляем популярность товаров вместо возврата на склад
+        for (const item of cartItems) {
+            try {
+                const product = await Product.findByPk(item.id);
+                if (product) {
+                    product.popularity += item.quantity;
+                    await product.save();
+                    console.log(`Обновлена популярность товара ${item.name}: +${item.quantity}`);
+                }
+            } catch (error) {
+                console.error(`Ошибка при обновлении популярности товара ${item.name}:`, error);
+            }
+        }
+
         // Записываем файл
         fs.writeFileSync(filePath, receiptContent, 'utf8');
 
         console.log(`Чек создан: ${filePath}`);
+
+        // Создаем заказ в базе данных
+        try {
+            const order = await Order.create({
+                userId: userId,
+                items: JSON.stringify(cartItems),
+                totalPrice: totalPrice,
+                customerData: customerData ? JSON.stringify(customerData) : null,
+                status: 'Собираем'
+            });
+            console.log(`Заказ создан: ${order.id}`);
+        } catch (orderError) {
+            console.error('Ошибка при создании заказа:', orderError);
+            // Не прерываем процесс, если создание заказа не удалось
+        }
 
         res.json({
             success: true,

@@ -211,21 +211,7 @@ const clearCart = async (req, res) => {
       return res.status(401).json({ error: 'Пользователь не авторизован' });
     }
 
-    // Получаем все товары из корзины
-    const cartItems = await Cart.findAll({
-      where: { userId },
-      include: [{ model: Product, as: 'product', attributes: ['id', 'name', 'price', 'description', 'imageUrl', 'color', 'inStock', 'type', 'popularity', 'specialOffer', 'composition'] }]
-    });
-
-    // Возвращаем товары на склад
-    for (const item of cartItems) {
-      if (item.product) {
-        item.product.inStock += item.quantity;
-        await item.product.save();
-      }
-    }
-
-    // Очищаем корзину
+    // Очищаем корзину (товары не возвращаются на склад после успешной покупки)
     await Cart.destroy({
       where: { userId }
     });

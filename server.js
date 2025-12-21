@@ -246,6 +246,9 @@ console.log('Cart routes registered');
 app.use('/api/receipts', require('./src/routes/receiptRoutes'));
 console.log('Receipt routes registered');
 
+app.use('/api/orders', require('./src/routes/orderRoutes'));
+console.log('Order routes registered');
+
 
 
 
