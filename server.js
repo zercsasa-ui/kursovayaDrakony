@@ -30,8 +30,9 @@ const createDefaultDragons = () => {
                     name: "Дракон на борде",
                     description: "Описание первого дракона",
                     composition: "-Арт Борд;\n- Глина Ладолл;\n- Эпоксидная смола;\n- Краски;\n- Лак.",
-                    imageUrl: "/images/DrakonNaBorde.jpg",
-                    color: "Разноцветный"
+                    imageUrl: "/utImages/DrakonNaBorde.jpg",
+                    color: "Разноцветный",
+                    inStock: 10
                 },
                 {
                     type: 'dragon',
@@ -39,16 +40,17 @@ const createDefaultDragons = () => {
                     name: "Огненный дракон",
                     description: "Описание второго дракона",
                     composition: "-Полимерная глина;\n- Огнеупорные краски;\n- Металлические вставки;\n- Лак.",
-                    imageUrl: "/images/DrakonNaBorde.jpg",
-                    color: "Красный"
+                    imageUrl: "/utImages/DrakonNaBorde.jpg",
+                    color: "Красный",
+                    inStock: 5
                 }
             ];
 
             let inserted = 0;
             dragons.forEach((dragon) => {
                 db.run(
-                    'INSERT INTO Products (type, price, name, description, composition, imageUrl, color) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                    [dragon.type, dragon.price, dragon.name, dragon.description, dragon.composition, dragon.imageUrl, dragon.color],
+                    'INSERT INTO Products (type, price, name, description, composition, imageUrl, color, inStock) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                    [dragon.type, dragon.price, dragon.name, dragon.description, dragon.composition, dragon.imageUrl, dragon.color, dragon.inStock],
                     function (err) {
                         if (err) {
                             console.error('Ошибка при создании дракона:', err);
@@ -91,16 +93,17 @@ const createDefaultDolls = () => {
                     name: "Магическая кукла",
                     description: "Красивая магическая кукла с волшебными свойствами",
                     composition: "-Полимерная глина;\n- Волшебные нити;\n- Магические кристаллы;\n- Лак.",
-                    imageUrl: "/images/woman.png",
-                    color: "Разноцветный"
+                    imageUrl: "/utImages/woman.png",
+                    color: "Разноцветный",
+                    inStock: 3
                 }
             ];
 
             let inserted = 0;
             dolls.forEach((doll) => {
                 db.run(
-                    'INSERT INTO Products (type, price, name, description, composition, imageUrl, color) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                    [doll.type, doll.price, doll.name, doll.description, doll.composition, doll.imageUrl, doll.color],
+                    'INSERT INTO Products (type, price, name, description, composition, imageUrl, color, inStock) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                    [doll.type, doll.price, doll.name, doll.description, doll.composition, doll.imageUrl, doll.color, doll.inStock],
                     function (err) {
                         if (err) {
                             console.error('Ошибка при создании куклы:', err);
@@ -143,16 +146,17 @@ const createDefaultProps = () => {
                     name: "Крыло дракона",
                     description: "Деталь для сборки дракона - крыло",
                     composition: "-Полимерная глина;\n- Армирующие нити;\n- Краска.",
-                    imageUrl: "/images/DrakonNaBorde.jpg",
-                    color: "Черный"
+                    imageUrl: "/utImages/DrakonNaBorde.jpg",
+                    color: "Черный",
+                    inStock: 20
                 }
             ];
 
             let inserted = 0;
             props.forEach((prop) => {
                 db.run(
-                    'INSERT INTO Products (type, price, name, description, composition, imageUrl, color) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                    [prop.type, prop.price, prop.name, prop.description, prop.composition, prop.imageUrl, prop.color],
+                    'INSERT INTO Products (type, price, name, description, composition, imageUrl, color, inStock) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                    [prop.type, prop.price, prop.name, prop.description, prop.composition, prop.imageUrl, prop.color, prop.inStock],
                     function (err) {
                         if (err) {
                             console.error('Ошибка при создании пропа:', err);
@@ -237,23 +241,12 @@ app.use('/api/auth', require('./src/routes/authRoutes'));
 console.log('Auth routes registered');
 app.use('/api/users', require('./src/routes/userRoutes'));
 console.log('User routes registered');
+app.use('/api/cart', require('./src/routes/cartRoutes'));
+console.log('Cart routes registered');
 
-// Временный роут для проверки пользователей
-app.get('/debug/users', (req, res) => {
-    const sqlite3 = require('sqlite3').verbose();
-    const path = require('path');
-    const dbPath = path.join(__dirname, 'database.db');
-    const db = new sqlite3.Database(dbPath);
 
-    db.all('SELECT id, username, email, role, avatar FROM users', [], (err, rows) => {
-        db.close();
-        if (err) {
-            res.status(500).json({ error: err.message });
-        } else {
-            res.json({ users: rows });
-        }
-    });
-});
+
+
 
 
 

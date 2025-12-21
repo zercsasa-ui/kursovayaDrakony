@@ -1,8 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../../../context/CartContext';
 import styles from './ProductCard.module.css';
 
-function ProductCard({ product }) {
-    const { name, price, description, image, id, type, color, inStock, popularity, specialOffer } = product;
+function ProductCard({ product, onShowNotification, onRefreshProducts }) {
+    const navigate = useNavigate();
+    const { addToCart } = useCart();
+    const { name, price, description, image, id, type, color, inStock, popularity, specialOffer, composition } = product;
     const [imageError, setImageError] = useState(false);
 
     // Обрезаем описание до 80 символов и добавляем троеточие
@@ -25,8 +29,26 @@ function ProductCard({ product }) {
         setImageError(true);
     };
 
+    const handleCardClick = () => {
+        navigate('/product', { state: { product } });
+    };
+
+    const handleAddToCart = async (e) => {
+        e.stopPropagation();
+        const success = await addToCart(product);
+        if (success) {
+            onShowNotification && onShowNotification(truncatedName, 'success');
+            // Refresh products to show updated inventory in real-time
+            onRefreshProducts && onRefreshProducts();
+            console.log('Товар добавлен в корзину:', product.name);
+        } else {
+            onShowNotification && onShowNotification('Для начала авторизуйтесь', 'error');
+            console.log('Не удалось добавить товар в корзину:', product.name);
+        }
+    };
+
     return (
-        <div className={styles.productCard}>
+        <div className={styles.productCard} onClick={handleCardClick}>
             <div className={styles.imageContainer}>
                 {!imageError ? (
                     <img
@@ -39,6 +61,11 @@ function ProductCard({ product }) {
                 ) : (
                     <div className={styles.fallbackImage}>
                         🦎
+                    </div>
+                )}
+                {inStock === 0 && (
+                    <div className={styles.outOfStockOverlay}>
+                        <span className={styles.outOfStockText}>Товар отсутствует</span>
                     </div>
                 )}
             </div>
@@ -77,7 +104,10 @@ function ProductCard({ product }) {
 
                 <div className={styles.productFooter}>
                     <span className={styles.productPrice}>{truncatedPrice}</span>
-                    <button className={styles.addToCartBtn}>
+                    <button
+                        className={styles.addToCartBtn}
+                        onClick={handleAddToCart}
+                    >
                         В корзину
                     </button>
                 </div>

@@ -1,0 +1,253 @@
+.latestPublicationBg {
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+    width: 100%;
+    padding: 80px 0;
+}
+
+.latestPublication {
+    width: calc(100% - 200px);
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 40px;
+}
+
+.sectionTitle {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin: 0 0 10px 0;
+    font-weight: 400;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin: 0;
+    font-weight: 400;
+}
+
+.featuredCard {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    border: 1px solid #e0e0e0;
+    border-left: none;
+    border-right: none;
+    background: white;
+}
+
+.imageContainer {
+    position: relative;
+    width: 50%;
+    min-height: 400px;
+    background: #d6d6d673;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #e0e0e0;
+}
+
+.productImage {
+    max-width: 100%;
+    max-height: 600px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.infoContainer {
+    width: 50%;
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: white;
+}
+
+.productInfo {
+    max-width: 100%;
+}
+
+.productName {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin: 0 0 15px 0;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.productDescription {
+    font-size: 1.2rem;
+    color: #34495e;
+    margin: 0 0 25px 0;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.productDetails {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.detailItem {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.detailLabel {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.detailValue {
+    font-size: 1rem;
+    color: #333;
+    font-weight: 400;
+}
+
+.loading {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    padding: 40px;
+}
+
+
+@media (max-width: 1024px) {
+    .latestPublication {
+        width: calc(100% - 100px);
+        padding: 30px;
+        gap: 30px;
+    }
+
+    .featuredCard {
+        flex-direction: column;
+    }
+
+    .imageContainer {
+        width: 100%;
+        min-height: 380px;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .infoContainer {
+        width: 100%;
+        padding: 40px 30px;
+    }
+
+    .title {
+        font-size: 2.2rem;
+    }
+
+    .productName {
+        font-size: 2.2rem;
+    }
+
+    .productDescription {
+        font-size: 1.1rem;
+    }
+
+    .productDetails {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .latestPublicationBg {
+        padding: 60px 0;
+    }
+
+    .latestPublication {
+        width: calc(100% - 40px);
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .imageContainer {
+        min-height: 320px;
+    }
+
+    .infoContainer {
+        padding: 30px 20px;
+    }
+
+    .title {
+        font-size: 1.8rem;
+    }
+
+    .productName {
+        font-size: 1.9rem;
+    }
+
+    .productDescription {
+        font-size: 1rem;
+    }
+
+    .productDetails {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .latestPublication {
+        width: calc(100% - 20px);
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .imageContainer {
+        min-height: 280px;
+    }
+
+    .infoContainer {
+        padding: 25px 15px;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .productName {
+        font-size: 1.5rem;
+    }
+
+    .productDescription {
+        font-size: 0.95rem;
+    }
+
+    .productDetails {
+        gap: 10px;
+    }
+
+    .detailItem {
+        padding: 10px;
+    }
+
+    .detailLabel {
+        font-size: 0.75rem;
+    }
+
+    .detailValue {
+        font-size: 1rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+}

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../context/CartContext';
 import styles from './AuthenticationPage.module.css';
 
 function AuthenticationPage() {
@@ -10,6 +11,7 @@ function AuthenticationPage() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { loadCart } = useCart();
 
     const handleChange = (e) => {
         setFormData({
@@ -39,7 +41,8 @@ function AuthenticationPage() {
             const data = await response.json();
 
             if (response.ok) {
-                // Login successful, redirect to main page or dashboard
+                // Login successful, reload cart and redirect to main page
+                await loadCart();
                 navigate('/');
             } else {
                 setError(data.error || 'Ошибка авторизации');

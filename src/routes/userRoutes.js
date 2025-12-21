@@ -8,7 +8,7 @@ const { requireAuth, requireAdmin } = require('../middleware/auth');
 // Настройка multer для загрузки аватаров
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../../public/images'));
+    cb(null, path.join(__dirname, '../../public/utImages'));
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);

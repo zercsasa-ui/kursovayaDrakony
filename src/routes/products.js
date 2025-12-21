@@ -17,4 +17,20 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Получить последний добавленный товар
+router.get('/latest', async (req, res) => {
+  try {
+    const latestProduct = await Product.findOne({
+      order: [['id', 'DESC']]
+    });
+    if (!latestProduct) {
+      return res.status(404).json({ error: 'No products found' });
+    }
+    res.json(latestProduct);
+  } catch (error) {
+    console.error('Error fetching latest product:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 module.exports = router;

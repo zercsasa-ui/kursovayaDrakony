@@ -11,7 +11,17 @@ const sequelize = new Sequelize({
 module.exports = sequelize;
 
 const { Product, Drakoni, Kykly } = require('./figurines');
+const Cart = require('./cart');
 
+// Экспортируем модели
+module.exports.Cart = Cart;
+module.exports.Product = Product;
+module.exports.Drakoni = Drakoni;
+module.exports.Kykly = Kykly;
+
+// Установка ассоциаций
+Product.hasMany(Cart, { foreignKey: 'productId', onDelete: 'CASCADE' });
+Cart.belongsTo(Product, { foreignKey: 'productId', as: 'product' });
 
 Object.keys(sequelize.models).forEach(modelName => {
   if (sequelize.models[modelName].associate) {

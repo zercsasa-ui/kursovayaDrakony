@@ -26,19 +26,11 @@ function initializeDatabase() {
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
 
-  // Таблица сессий (для express-session)
-  db.run(`CREATE TABLE IF NOT EXISTS sessions (
-    sid TEXT PRIMARY KEY,
-    sess TEXT NOT NULL,
-    expire INTEGER NOT NULL
-  )`);
-
   // Индексы для оптимизации
   db.run(`CREATE INDEX IF NOT EXISTS idx_users_username ON users(username)`);
   db.run(`CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)`);
-  db.run(`CREATE INDEX IF NOT EXISTS idx_sessions_expire ON sessions(expire)`);
 
-  console.log('База данных инициализирована');
+console.log('База данных инициализирована');
 }
 
 // Функции для работы с пользователями
@@ -154,8 +146,15 @@ const UserModel = {
         else resolve({ changes: this.changes });
       });
     });
+  },
+
+  // Удалить пользователя по ID (алиас для delete)
+  deleteById: (id) => {
+    return UserModel.delete(id);
   }
 };
+
+
 
 
 

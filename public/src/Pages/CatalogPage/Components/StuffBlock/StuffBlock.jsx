@@ -5,12 +5,47 @@ import FilterLine from './Components/FilterLine/FilterLine';
 import ProductCard from '../ProductCard/ProductCard';
 import styles from './StuffBlock.module.css';
 
-function StuffBlock({ filters, setFilters }) {
+function StuffBlock({ filters, setFilters, onShowNotification }) {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [sortBy, setSortBy] = useState(null); // 'popularity', 'price', or null
     const [sortOrder, setSortOrder] = useState(null); // 'asc', 'desc', or null
+
+    // Function to refresh products data
+    const refreshProducts = async () => {
+        try {
+            const response = await fetch('/api/products');
+            if (!response.ok) {
+                throw new Error('Failed to fetch products');
+            }
+
+            const allProductsData = await response.json();
+
+            // Преобразование данных в формат ProductCard
+            const formattedProducts = allProductsData.map(product => ({
+                id: product.id, // Числовой ID для API
+                displayId: `${product.type}_${product.id}`, // Для отображения и ключей
+                name: product.name,
+                price: parseFloat(product.price) || 0,
+                description: product.description || '',
+                image: product.imageUrl || '/images/default.png',
+                color: product.color || '',
+                type: product.type,
+                inStock: product.inStock || 0,
+                popularity: product.popularity || 0,
+                specialOffer: product.specialOffer || false,
+                composition: product.composition || ''
+            }));
+
+            // Сортируем по ID для консистентности
+            formattedProducts.sort((a, b) => a.id - b.id);
+
+            setProducts(formattedProducts);
+        } catch (err) {
+            console.error('Error refreshing products:', err);
+        }
+    };
 
     const filteredProducts = products.filter(product => {
         // Category filter
@@ -101,7 +136,8 @@ function StuffBlock({ filters, setFilters }) {
 
                 // Преобразование данных в формат ProductCard
                 const formattedProducts = allProductsData.map(product => ({
-                    id: `${product.type}_${product.id}`,
+                    id: product.id, // Числовой ID для API
+                    displayId: `${product.type}_${product.id}`, // Для ключей
                     name: product.name,
                     price: parseFloat(product.price) || 0,
                     description: product.description || '',
@@ -115,7 +151,7 @@ function StuffBlock({ filters, setFilters }) {
                 }));
 
                 // Сортируем по ID для консистентности
-                formattedProducts.sort((a, b) => a.id.localeCompare(b.id));
+                formattedProducts.sort((a, b) => a.id - b.id);
 
                 setProducts(formattedProducts);
             } catch (err) {
@@ -156,7 +192,7 @@ function StuffBlock({ filters, setFilters }) {
                 <div className={styles.tovarList}>
                     {sortedProducts.length > 0 ? (
                         sortedProducts.map(product => (
-                            <ProductCard key={product.id} product={product} />
+                            <ProductCard key={product.displayId || product.id} product={product} onShowNotification={onShowNotification} onRefreshProducts={refreshProducts} />
                         ))
                     ) : (
                         <div>Игрушки не найдены</div>

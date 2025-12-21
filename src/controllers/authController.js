@@ -110,6 +110,46 @@ class AuthController {
         res.status(500).json({ error: err.message });
       });
   }
+
+  // Удаление аккаунта текущего пользователя
+  static deleteAccount(req, res) {
+    const { password } = req.body;
+
+    if (!req.session.userId) {
+      return res.status(401).json({ error: 'Не авторизован' });
+    }
+
+    if (!password) {
+      return res.status(400).json({ error: 'Пароль обязателен для удаления аккаунта' });
+    }
+
+    // Сначала проверяем пароль
+    UserModel.findById(req.session.userId)
+      .then(user => {
+        if (!user) {
+          return res.status(404).json({ error: 'Пользователь не найден' });
+        }
+
+        if (user.password !== password) {
+          return res.status(401).json({ error: 'Неверный пароль' });
+        }
+
+        // Удаляем пользователя
+        return UserModel.deleteById(req.session.userId)
+          .then(() => {
+            // Очищаем сессию
+            req.session.destroy((err) => {
+              if (err) {
+                console.error('Ошибка при уничтожении сессии:', err);
+              }
+              res.json({ success: true, message: 'Аккаунт успешно удален' });
+            });
+          });
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
+      });
+  }
 }
 
 module.exports = AuthController;

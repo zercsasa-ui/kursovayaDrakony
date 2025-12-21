@@ -100,41 +100,57 @@
     top: 100%;
     right: 0;
     background: #ffffff;
-    border: 1px solid #000000;
-    border-radius: 0px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    min-width: 150px;
+    border: 1px solid #555555;
+    border-radius: 3px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 180px;
     z-index: 2000;
-    margin-top: 8px;
-    animation: slideIn 0.2s ease-out;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    margin-top: 10px;
+    padding: 8px 0;
 }
 
 .dropdownItem {
     width: 100%;
-    padding: 12px 16px;
+    padding: 12px 18px;
     background: none;
     border: none;
+    border-bottom: 1px solid #f0f0f0;
     text-align: left;
     cursor: pointer;
     font-size: 14px;
-    color: #000000;
-    transition: background-color 0.2s ease;
+    font-weight: 500;
+    color: #333333;
+    transition: all 0.15s ease;
+    font-family: inherit;
+}
+
+.dropdownItem:last-child {
+    border-bottom: none;
 }
 
 .dropdownItem:hover {
-    background-color: #f0f0f0;
+    background-color: #f8f9fa;
     color: #000000;
+    border-left: 3px solid #333333;
+    padding-left: 15px;
+}
+
+.dropdownDivider {
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 4px 0;
+    border: none;
+}
+
+.logoutItem {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.logoutItem:hover {
+    background-color: #ffebee;
+    color: #b71c1c;
+    border-left-color: #dc3545;
 }
 
 .usernameDisplay {
@@ -142,4 +158,35 @@
     color: #000000;
     font-weight: 500;
     white-space: nowrap;
+}
+
+.adminUsername {
+    background: linear-gradient(45deg, #000000, #ff0000, #000000);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: adminGlow 3s ease-in-out infinite, adminFlow 4s linear infinite;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+@keyframes adminGlow {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(255, 0, 0, 0.3), 0 0 20px rgba(255, 0, 0, 0.2);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.4);
+    }
+}
+
+@keyframes adminFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }

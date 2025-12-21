@@ -7,7 +7,8 @@ const navigationController = {
             'main': { route: '/', component: 'MainPage', title: 'Главная' },
             'catalog': { route: '/catalog', component: 'CatalogPage', title: 'Каталог' },
             'gallery': { route: '/gallery', component: 'GalleryPage', title: 'Галерея' },
-            'register': { route: '/register', component: 'RegisterPage', title: 'Регистрация' }
+            'register': { route: '/register', component: 'RegisterPage', title: 'Регистрация' },
+            'profile': { route: '/profile', component: 'ProfilePage', title: 'Профиль' }
         };
 
         if (pages[page]) {

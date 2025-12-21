@@ -5,12 +5,13 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const multer = require('multer');
 const { Product } = require('../models/figurines');
+const { deleteImageFile } = require('../utils/fileUtils');
 console.log('Figurine routes dependencies loaded');
 
 // Настройка multer для загрузки изображений драконов
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../../public/images'));
+    cb(null, path.join(__dirname, '../../public/utImages'));
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -76,7 +77,7 @@ router.post('/', upload.any(), async (req, res) => {
       // Найдем файл с именем 'imageUrl' или первый файл
       const imageFile = req.files.find(file => file.fieldname === 'imageUrl') || req.files[0];
       if (imageFile) {
-        imagePath = `/images/${imageFile.filename}`;
+        imagePath = `/utImages/${imageFile.filename}`;
       }
     }
 
@@ -106,13 +107,26 @@ router.put('/:id', upload.any(), async (req, res) => {
     const { id } = req.params;
     const { price, name, description, composition, imageUrl, color, inStock, popularity, specialOffer } = req.body;
 
+    // Получаем текущего дракона, чтобы узнать старый путь к изображению
+    const currentDragon = await Product.findOne({
+      where: { id, type: 'dragon' }
+    });
+
+    if (!currentDragon) {
+      return res.status(404).json({ error: 'Dragon not found' });
+    }
+
     // Если загружен файл, используем его путь, иначе используем imageUrl из тела
     let imagePath = imageUrl;
+    let oldImagePath = null;
+
     if (req.files && req.files.length > 0) {
       // Найдем файл с именем 'imageUrl' или первый файл
       const imageFile = req.files.find(file => file.fieldname === 'imageUrl') || req.files[0];
       if (imageFile) {
-        imagePath = `/images/${imageFile.filename}`;
+        imagePath = `/utImages/${imageFile.filename}`;
+        // Сохраняем старый путь к изображению для удаления
+        oldImagePath = currentDragon.imageUrl;
       }
     }
 
@@ -137,6 +151,11 @@ router.put('/:id', upload.any(), async (req, res) => {
       return res.status(404).json({ error: 'Dragon not found' });
     }
 
+    // Удаляем старое изображение, если было загружено новое
+    if (oldImagePath && imagePath !== oldImagePath) {
+      deleteImageFile(oldImagePath);
+    }
+
     const updatedDragon = await Product.findOne({
       where: { id, type: 'dragon' }
     });
@@ -152,6 +171,20 @@ router.put('/:id', upload.any(), async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Получаем дракона перед удалением, чтобы узнать путь к изображению
+    const dragon = await Product.findOne({
+      where: { id, type: 'dragon' }
+    });
+
+    if (!dragon) {
+      return res.status(404).json({ error: 'Dragon not found' });
+    }
+
+    // Удаляем изображение товара
+    const imageDeletionPromise = deleteImageFile(dragon.imageUrl);
+
+    // Удаляем товар из базы данных
     const deletedRowsCount = await Product.destroy({
       where: { id, type: 'dragon' }
     });
@@ -159,6 +192,9 @@ router.delete('/:id', async (req, res) => {
     if (deletedRowsCount === 0) {
       return res.status(404).json({ error: 'Dragon not found' });
     }
+
+    // Ждем завершения удаления изображения
+    await imageDeletionPromise;
 
     res.json({ message: 'Dragon deleted successfully' });
   } catch (error) {

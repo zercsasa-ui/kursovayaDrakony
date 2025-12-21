@@ -1,0 +1,232 @@
+.giveMoneyPage {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding-top: 120px;
+}
+
+/* Responsive design for header spacing */
+@media (max-width: 768px) {
+    .giveMoneyPage {
+        padding-top: 110px;
+    }
+}
+
+@media (max-width: 480px) {
+    .giveMoneyPage {
+        padding-top: 100px;
+    }
+}
+
+.mainContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.paymentContainer {
+    background: white;
+    border: 1px solid rgba(236, 234, 231, 1);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.pageTitle {
+    background: #292929;
+    color: white;
+    margin: 0;
+    padding: 25px 30px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.paymentBlock {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.qrSection {
+    flex: 1;
+    text-align: center;
+}
+
+.qrSection h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #292929;
+    margin-bottom: 20px;
+}
+
+.qrCode {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 20px;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+}
+
+.qrCode img {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+}
+
+.instructions {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.paymentDetails {
+    flex: 1;
+}
+
+.paymentDetails h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #292929;
+    margin-bottom: 20px;
+}
+
+.details {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.details p {
+    margin: 8px 0;
+    font-size: 14px;
+    color: #292929;
+}
+
+.details strong {
+    color: #292929;
+}
+
+.actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.cancelButton {
+    background: #666;
+    color: white;
+    border: 1px solid rgba(236, 234, 231, 1);
+    padding: 14px 28px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex: 1;
+    max-width: 200px;
+}
+
+.cancelButton:hover {
+    background: #555;
+}
+
+.cancelButton:active {
+    background: #444;
+}
+
+.checkButton {
+    background: #292929;
+    color: white;
+    border: 1px solid rgba(236, 234, 231, 1);
+    padding: 14px 28px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex: 1;
+    max-width: 200px;
+}
+
+.checkButton:hover:not(:disabled) {
+    background: rgba(41, 41, 41, 0.9);
+}
+
+.checkButton:active:not(:disabled) {
+    background: rgba(41, 41, 41, 0.8);
+}
+
+.checkButton:disabled {
+    background: #6c757d;
+    border-color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .mainContent {
+        width: calc(100% - 40px);
+        padding: 20px;
+    }
+
+    .paymentContainer {
+        padding: 20px;
+    }
+
+    .pageTitle {
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+
+    .paymentBlock {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .qrCode {
+        width: 150px;
+        height: 150px;
+    }
+
+    .qrCode img {
+        width: 130px;
+        height: 130px;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .cancelButton,
+    .checkButton {
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .paymentContainer {
+        padding: 15px;
+    }
+
+    .qrCode {
+        width: 120px;
+        height: 120px;
+    }
+
+    .qrCode img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .details {
+        padding: 15px;
+    }
+}

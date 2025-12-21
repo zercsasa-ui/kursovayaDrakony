@@ -1,9 +1,14 @@
 const session = require('express-session');
+const SQLiteStore = require('connect-sqlite3')(session);
 
-// Простая настройка сессий (без кастомного store)
-// В продакшене рекомендуется использовать Redis или подобное
+// Настройка сессий с SQLite хранилищем
 const sessionConfig = {
   secret: process.env.SESSION_SECRET || 'your-secret-key-change-in-production',
+  store: new SQLiteStore({
+    db: 'database.db',
+    dir: __dirname + '/../../',
+    table: 'sessions'
+  }),
   resave: false,
   saveUninitialized: false,
   cookie: {

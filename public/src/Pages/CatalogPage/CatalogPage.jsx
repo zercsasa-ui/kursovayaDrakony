@@ -13,6 +13,24 @@ function CatalogPage() {
         inStock: false,
         specialOffers: false
     });
+    const [notification, setNotification] = useState({ show: false, message: '', type: 'success' });
+
+    const showNotification = (productName, type = 'success') => {
+        let message;
+        if (type === 'success') {
+            message = `Товар "${productName}" добавлен в корзину!`;
+        } else if (type === 'error') {
+            message = productName;
+        }
+        setNotification({
+            show: true,
+            message: message,
+            type: type
+        });
+        setTimeout(() => {
+            setNotification({ show: false, message: '', type: 'success' });
+        }, 3000);
+    };
 
     return (
         <>
@@ -23,10 +41,22 @@ function CatalogPage() {
                         <FiltersBlock setFilters={setFilters} />
                     </div>
                     <div className={styles.stuffRight}>
-                        <StuffBlock filters={filters} setFilters={setFilters} />
+                        <StuffBlock filters={filters} setFilters={setFilters} onShowNotification={showNotification} />
                     </div>
                 </main>
             </div>
+
+            {notification.show && (
+                <div className={`${styles.notification} ${styles[notification.type]}`}>
+                    <span>{notification.message}</span>
+                    <button
+                        onClick={() => setNotification({ show: false, message: '', type: 'success' })}
+                        className={styles.closeButton}
+                    >
+                        ×
+                    </button>
+                </div>
+            )}
         </>
     );
 };

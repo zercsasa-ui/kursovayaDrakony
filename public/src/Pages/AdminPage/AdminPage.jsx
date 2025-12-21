@@ -16,7 +16,66 @@ function AdminPage() {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleteTarget, setDeleteTarget] = useState(null);
     const [deletePassword, setDeletePassword] = useState('');
+    const [notification, setNotification] = useState({ show: false, message: '', type: 'success' });
     const navigate = useNavigate();
+
+    const showNotification = (message, type = 'success') => {
+        setNotification({ show: true, message, type });
+        setTimeout(() => {
+            setNotification({ show: false, message: '', type: 'success' });
+        }, 3000); // Auto-hide after 3 seconds
+    };
+
+    const validateUserData = (userData) => {
+        const errors = [];
+
+        if (!userData.username || userData.username.trim().length < 3) {
+            errors.push('Имя пользователя должно содержать минимум 3 символа');
+        }
+
+        if (!userData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.email)) {
+            errors.push('Введите корректный email адрес');
+        }
+
+        // Password length validation removed
+        // if (userData.password && userData.password.length < 6) {
+        //     errors.push('Пароль должен содержать минимум 6 символов');
+        // }
+
+        const validRoles = ['Покупатель', 'Редактор', 'Админ'];
+        if (!userData.role || !validRoles.includes(userData.role)) {
+            errors.push('Выберите корректную роль');
+        }
+
+        return errors;
+    };
+
+    const validateProductData = (productData) => {
+        const errors = [];
+
+        if (!productData.name || productData.name.trim().length < 2) {
+            errors.push('Название товара должно содержать минимум 2 символа');
+        }
+
+        if (!productData.price || isNaN(productData.price) || productData.price <= 0) {
+            errors.push('Цена должна быть положительным числом');
+        }
+
+        if (productData.inStock !== undefined && (!/^\d+$/.test(String(productData.inStock)) || productData.inStock < 0)) {
+            errors.push('Количество в наличии должно быть неотрицательным целым числом');
+        }
+
+        if (productData.popularity !== undefined && (!/^\d+$/.test(String(productData.popularity)) || productData.popularity < 0)) {
+            errors.push('Популярность должна быть неотрицательным целым числом');
+        }
+
+        const validColors = ['', 'Красный', 'Черный', 'Разноцветный'];
+        if (productData.color && !validColors.includes(productData.color)) {
+            errors.push('Выберите корректный цвет');
+        }
+
+        return errors;
+    };
 
     useEffect(() => {
         checkAuthAndFetchData();
@@ -97,19 +156,32 @@ function AdminPage() {
         const passwordInput = textInputs[1]; // password
         const emailInput = userRow.querySelector('input[type="email"]');
         const roleSelect = userRow.querySelector('select');
-        const fileInput = userRow.querySelector('input[type="file"]');
+
+        const userData = {
+            username: usernameInput.value.trim(),
+            email: emailInput.value.trim(),
+            role: roleSelect.value,
+            password: passwordInput && passwordInput.value.trim() ? passwordInput.value : undefined
+        };
+
+        const validationErrors = validateUserData(userData);
+        if (validationErrors.length > 0) {
+            showNotification(validationErrors.join('\n'), 'error');
+            return;
+        }
 
         const formData = new FormData();
-        formData.append('username', usernameInput.value);
-        formData.append('email', emailInput.value);
-        formData.append('role', roleSelect.value);
+        formData.append('username', userData.username);
+        formData.append('email', userData.email);
+        formData.append('role', userData.role);
 
         // Если пароль введен, добавляем его
-        if (passwordInput && passwordInput.value.trim()) {
-            formData.append('password', passwordInput.value);
+        if (userData.password) {
+            formData.append('password', userData.password);
         }
 
         // Если файл выбран, добавляем его
+        const fileInput = userRow.querySelector('input[type="file"]');
         if (fileInput && fileInput.files[0]) {
             formData.append('avatar', fileInput.files[0]);
         }
@@ -124,13 +196,13 @@ function AdminPage() {
             if (response.ok) {
                 setEditingUser(null);
                 fetchData(); // Refresh data
-                alert('Пользователь обновлен успешно');
+                showNotification('Пользователь обновлен успешно', 'success');
             } else {
-                alert('Ошибка при обновлении пользователя');
+                showNotification('Ошибка при обновлении пользователя', 'error');
             }
         } catch (error) {
             console.error('Error updating user:', error);
-            alert('Ошибка при обновлении пользователя');
+            showNotification('Ошибка при обновлении пользователя', 'error');
         }
     };
 
@@ -150,16 +222,57 @@ function AdminPage() {
         const colorInput = figurineRow.querySelectorAll('input[type="text"]')[1]; // color
         const descriptionTextarea = figurineRow.querySelectorAll('textarea')[0];
         const compositionTextarea = figurineRow.querySelectorAll('textarea')[1];
-        const fileInput = figurineRow.querySelector('input[type="file"]');
 
+        // Collect raw values for validation
+        const inputs = figurineRow.querySelectorAll('input');
+        let inStockValue = '', popularityValue = '';
+
+        if (inputs.length > 2) { // If there are more inputs, check for inStock and popularity
+            const inStockInput = inputs[2];
+            const popularityInput = inputs[3];
+            inStockValue = inStockInput?.value || '';
+            popularityValue = popularityInput?.value || '';
+        }
+
+        const rawProductData = {
+            name: nameInput.value.trim(),
+            price: priceInput.value,
+            color: colorInput.value,
+            inStock: inStockValue,
+            popularity: popularityValue,
+            description: descriptionTextarea.value.trim(),
+            composition: compositionTextarea.value.trim()
+        };
+
+        // Validate with raw data first
+        const validationData = {
+            name: rawProductData.name,
+            price: parseFloat(rawProductData.price),
+            color: rawProductData.color,
+            inStock: rawProductData.inStock,
+            popularity: rawProductData.popularity,
+            description: rawProductData.description,
+            composition: rawProductData.composition
+        };
+
+        const validationErrors = validateProductData(validationData);
+        if (validationErrors.length > 0) {
+            showNotification(validationErrors.join('\n'), 'error');
+            return;
+        }
+
+        // Convert to proper types for API call
         const formData = new FormData();
-        formData.append('name', nameInput.value);
-        formData.append('price', priceInput.value);
-        formData.append('color', colorInput.value);
-        formData.append('description', descriptionTextarea.value);
-        formData.append('composition', compositionTextarea.value);
+        formData.append('name', rawProductData.name);
+        formData.append('price', parseFloat(rawProductData.price).toString());
+        formData.append('color', rawProductData.color);
+        formData.append('inStock', parseInt(rawProductData.inStock).toString());
+        formData.append('popularity', parseInt(rawProductData.popularity).toString());
+        formData.append('description', rawProductData.description);
+        formData.append('composition', rawProductData.composition);
 
         // Если файл выбран, добавляем его
+        const fileInput = figurineRow.querySelector('input[type="file"]');
         if (fileInput && fileInput.files[0]) {
             formData.append('imageUrl', fileInput.files[0]);
         }
@@ -174,13 +287,13 @@ function AdminPage() {
             if (response.ok) {
                 setEditingFigurine(null);
                 fetchData(); // Refresh data
-                alert('Товар обновлен успешно');
+                showNotification('Товар обновлен успешно', 'success');
             } else {
-                alert('Ошибка при обновлении товара');
+                showNotification('Ошибка при обновлении товара', 'error');
             }
         } catch (error) {
             console.error('Error updating figurine:', error);
-            alert('Ошибка при обновлении товара');
+            showNotification('Ошибка при обновлении товара', 'error');
         }
     };
 
@@ -208,15 +321,46 @@ function AdminPage() {
         const descriptionTextarea = textareas[0];
         const compositionTextarea = textareas[1];
 
+        // Collect raw values for validation
+        const rawProductData = {
+            name: nameInput.value.trim(),
+            price: priceInput.value,
+            color: colorSelect.value,
+            inStock: inStockInput.value,
+            popularity: popularityInput.value,
+            specialOffer: specialOfferInput.checked,
+            description: descriptionTextarea.value.trim(),
+            composition: compositionTextarea.value.trim()
+        };
+
+        // Validate with raw data first
+        const validationData = {
+            name: rawProductData.name,
+            price: parseFloat(rawProductData.price),
+            color: rawProductData.color,
+            inStock: rawProductData.inStock,
+            popularity: rawProductData.popularity,
+            specialOffer: rawProductData.specialOffer,
+            description: rawProductData.description,
+            composition: rawProductData.composition
+        };
+
+        const validationErrors = validateProductData(validationData);
+        if (validationErrors.length > 0) {
+            showNotification(validationErrors.join('\n'), 'error');
+            return;
+        }
+
+        // Convert to proper types for API call
         const formData = new FormData();
-        formData.append('name', nameInput.value);
-        formData.append('price', priceInput.value);
-        formData.append('color', colorSelect.value);
-        formData.append('inStock', inStockInput.value);
-        formData.append('popularity', popularityInput.value);
-        formData.append('specialOffer', specialOfferInput.checked);
-        formData.append('description', descriptionTextarea.value);
-        formData.append('composition', compositionTextarea.value);
+        formData.append('name', rawProductData.name);
+        formData.append('price', parseFloat(rawProductData.price).toString());
+        formData.append('color', rawProductData.color);
+        formData.append('inStock', parseInt(rawProductData.inStock).toString());
+        formData.append('popularity', parseInt(rawProductData.popularity).toString());
+        formData.append('specialOffer', rawProductData.specialOffer.toString());
+        formData.append('description', rawProductData.description);
+        formData.append('composition', rawProductData.composition);
 
         // Если файл выбран, добавляем его
         if (fileInput && fileInput.files[0]) {
@@ -235,13 +379,13 @@ function AdminPage() {
             if (response.ok) {
                 setEditingProduct(null);
                 fetchData(); // Refresh data
-                alert('Товар обновлен успешно');
+                showNotification('Товар обновлен успешно', 'success');
             } else {
-                alert('Ошибка при обновлении товара');
+                showNotification('Ошибка при обновлении товара', 'error');
             }
         } catch (error) {
             console.error('Error updating product:', error);
-            alert('Ошибка при обновлении товара');
+            showNotification('Ошибка при обновлении товара', 'error');
         }
     };
 
@@ -272,7 +416,7 @@ function AdminPage() {
             });
 
             if (!verifyResponse.ok) {
-                alert('Неверный пароль администратора');
+                showNotification('Неверный пароль администратора', 'error');
                 return;
             }
 
@@ -295,13 +439,13 @@ function AdminPage() {
                 setDeleteTarget(null);
                 setDeletePassword('');
                 fetchData(); // Refresh data
-                alert(deleteTarget.type === 'user' ? 'Пользователь удален успешно' : 'Товар удален успешно');
+                showNotification(deleteTarget.type === 'user' ? 'Пользователь удален успешно' : 'Товар удален успешно', 'success');
             } else {
-                alert('Ошибка при удалении');
+                showNotification('Ошибка при удалении', 'error');
             }
         } catch (error) {
             console.error('Error deleting:', error);
-            alert('Ошибка при удалении');
+            showNotification('Ошибка при удалении', 'error');
         }
     };
 
@@ -315,7 +459,7 @@ function AdminPage() {
         productType: 'dragon',
         name: '',
         price: '',
-        color: '',
+        color: 'Разноцветный',
         description: '',
         composition: '',
         inStock: '',
@@ -334,17 +478,35 @@ function AdminPage() {
 
     const handleCreateProduct = async (e) => {
         e.preventDefault();
+
+        const productData = {
+            name: newFigurine.name.trim(),
+            price: parseFloat(newFigurine.price),
+            color: newFigurine.color,
+            inStock: parseInt(newFigurine.inStock) || 0,
+            popularity: parseInt(newFigurine.popularity) || 0,
+            specialOffer: newFigurine.specialOffer,
+            description: newFigurine.description.trim(),
+            composition: newFigurine.composition.trim()
+        };
+
+        const validationErrors = validateProductData(productData);
+        if (validationErrors.length > 0) {
+            showNotification(validationErrors.join('\n'), 'error');
+            return;
+        }
+
         setCreatingFigurine(true);
 
         const formData = new FormData();
-        formData.append('name', newFigurine.name);
-        formData.append('price', newFigurine.price);
-        formData.append('color', newFigurine.color);
-        formData.append('description', newFigurine.description);
-        formData.append('composition', newFigurine.composition);
-        formData.append('inStock', newFigurine.inStock);
-        formData.append('popularity', newFigurine.popularity);
-        formData.append('specialOffer', newFigurine.specialOffer);
+        formData.append('name', productData.name);
+        formData.append('price', productData.price.toString());
+        formData.append('color', productData.color);
+        formData.append('description', productData.description);
+        formData.append('composition', productData.composition);
+        formData.append('inStock', productData.inStock.toString());
+        formData.append('popularity', productData.popularity.toString());
+        formData.append('specialOffer', productData.specialOffer.toString());
 
         // Handle image file
         const imageInput = document.querySelector('input[name="imageUrl"]');
@@ -366,7 +528,7 @@ function AdminPage() {
                     productType: 'dragon',
                     name: '',
                     price: '',
-                    color: '',
+                    color: 'Разноцветный',
                     description: '',
                     composition: '',
                     inStock: '',
@@ -376,13 +538,13 @@ function AdminPage() {
                 // Clear file input
                 if (imageInput) imageInput.value = '';
                 fetchData(); // Refresh data
-                alert('Товар создан успешно');
+                showNotification('Товар создан успешно', 'success');
             } else {
-                alert('Ошибка при создании товара');
+                showNotification('Ошибка при создании товара', 'error');
             }
         } catch (error) {
             console.error('Error creating product:', error);
-            alert('Ошибка при создании товара');
+            showNotification('Ошибка при создании товара', 'error');
         } finally {
             setCreatingFigurine(false);
         }
@@ -540,7 +702,7 @@ function AdminPage() {
                                     <option value="">Выберите цвет</option>
                                     <option value="Красный">Красный</option>
                                     <option value="Черный">Черный</option>
-                                    <option value="Цветной">Цветной</option>
+                                    <option value="Разноцветный">Разноцветный</option>
                                 </select>
                             </div>
 
@@ -662,7 +824,7 @@ function AdminPage() {
                                                     <option value="">Не указан</option>
                                                     <option value="Красный">Красный</option>
                                                     <option value="Черный">Черный</option>
-                                                    <option value="Цветной">Цветной</option>
+                                                    <option value="Разноцветный">Разноцветный</option>
                                                 </select>
                                             ) : (
                                                 product.color || 'Не указан'
@@ -777,6 +939,18 @@ function AdminPage() {
                                 <button onClick={cancelDelete} className={styles.cancelButton}>Отмена</button>
                             </div>
                         </div>
+                    </div>
+                )}
+
+                {notification.show && (
+                    <div className={`${styles.notification} ${styles[notification.type]}`}>
+                        <span>{notification.message}</span>
+                        <button
+                            onClick={() => setNotification({ show: false, message: '', type: 'success' })}
+                            className={styles.closeButton}
+                        >
+                            ×
+                        </button>
                     </div>
                 )}
             </div>

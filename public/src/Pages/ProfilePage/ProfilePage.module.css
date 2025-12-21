@@ -1,0 +1,514 @@
+.profilePage {
+    min-height: 100vh;
+    background: #ffffff;
+    padding: 20px;
+}
+
+.profileContainer {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 50px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    margin-top: 100px;
+    box-shadow: none;
+}
+
+.profileContainer h1 {
+    text-align: center;
+    color: #000000;
+    margin-bottom: 40px;
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: -0.5px;
+}
+
+.profileInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.avatarSection {
+    display: flex;
+    justify-content: center;
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e0e0e0;
+}
+
+.avatarEdit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.fileInputContainer {
+    position: relative;
+}
+
+.fileInputHidden {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.fileInputLabel {
+    display: inline-block;
+    background: transparent;
+    color: #000000;
+    border: 1px solid #000000;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.fileInputLabel:hover {
+    background: #000000;
+    color: white;
+}
+
+.infoSection {
+    width: 100%;
+    max-width: 400px;
+}
+
+.infoGroup {
+    margin-bottom: 20px;
+}
+
+.infoGroup label {
+    display: block;
+    font-size: 14px;
+    color: #666666;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.infoValue {
+    font-size: 16px;
+    color: #000000;
+    padding: 12px 0;
+    border-bottom: 1px solid #cccccc;
+    font-weight: 400;
+}
+
+.adminRole {
+    background: linear-gradient(45deg, #000000, #ff0000, #000000);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: adminGlow 2s ease-in-out infinite, adminFlow 2s linear infinite;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+@keyframes adminGlow {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(255, 0, 0, 0.3), 0 0 20px rgba(255, 0, 0, 0.2);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.4);
+    }
+}
+
+@keyframes adminFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.passwordContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.passwordContainer .editInput {
+    flex: 1;
+    padding-right: 40px; /* Make room for the toggle button */
+}
+
+.passwordToggle {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+.passwordToggle:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.eyeIcon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.eyeFlipped .eyeIcon {
+    transform: rotate(180deg);
+}
+
+.editInput {
+    width: 100%;
+    padding: 12px 0 8px 0;
+    border: none;
+    border-bottom: 1px solid #cccccc;
+    background: transparent;
+    font-size: 16px;
+    font-family: inherit;
+    color: #000000;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.editInput:focus {
+    outline: none;
+    border-bottom-color: #000000;
+}
+
+.editInput:hover {
+    border-bottom-color: #999999;
+}
+
+.buttonSection {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 20px;
+}
+
+.actionButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.editButton {
+    background: #000000;
+    color: white;
+    border: 1px solid #000000;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.editButton:hover {
+    background: transparent;
+    color: #000000;
+}
+
+.deleteButton {
+    background: #000000;
+    color: white;
+    border: 1px solid #000000;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.deleteButton:hover {
+    background: transparent;
+    color: #000000;
+}
+
+.editButtons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.saveButton {
+    background: #000000;
+    color: white;
+    border: 1px solid #000000;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.saveButton:hover {
+    background: transparent;
+    color: #000000;
+}
+
+.saveButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.cancelButton {
+    background: transparent;
+    color: #000000;
+    border: 1px solid #000000;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancelButton:hover {
+    background: #000000;
+    color: white;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    font-size: 18px;
+    color: #666666;
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+.modalPasswordContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modalPasswordInput {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 16px;
+    padding-right: 40px; /* Make room for the toggle button */
+    box-sizing: border-box;
+}
+
+.modalPasswordToggle {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+.modalPasswordToggle:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.modal h3 {
+    color: #000000;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 300;
+}
+
+.modal p {
+    color: #666666;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.passwordInput {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.modalButtons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.confirmDeleteButton {
+    background: #000000;
+    color: white;
+    border: 1px solid #000000;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.confirmDeleteButton:hover {
+    background: transparent;
+    color: #000000;
+}
+
+.confirmDeleteButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.cancelDeleteButton {
+    background: transparent;
+    color: #000000;
+    border: 1px solid #000000;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancelDeleteButton:hover {
+    background: #000000;
+    color: white;
+}
+
+.successNotification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: #000000;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 0;
+    border: 1px solid #333333;
+    border-top: 3px solid #000000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    animation: slideIn 0.2s ease-out;
+    transition: opacity 0.3s ease-out;
+}
+
+.successNotification.fading {
+    opacity: 0;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .profileContainer {
+        padding: 40px 30px;
+        margin: 20px;
+    }
+
+    .profileContainer h1 {
+        font-size: 28px;
+    }
+
+    .avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .editButtons {
+        flex-direction: column;
+    }
+
+    .modal {
+        padding: 20px;
+    }
+
+    .modalButtons {
+        flex-direction: column;
+    }
+}

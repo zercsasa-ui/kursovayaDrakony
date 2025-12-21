@@ -1,6 +1,7 @@
 import styles from './RightHeaderBlock.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useTransition, animated, useTrail } from '@react-spring/web';
 
 function RightHeaderBlock() {
     const navigate = useNavigate();
@@ -68,7 +69,10 @@ function RightHeaderBlock() {
             });
 
             if (response.ok) {
-                window.location.reload();
+                setIsAuthenticated(false);
+                setUser(null);
+                setIsDropdownOpen(false);
+                navigate('/');
             }
         } catch (error) {
             console.error('Logout failed:', error);
@@ -79,7 +83,52 @@ function RightHeaderBlock() {
         navigate('/admin');
     };
 
+    const handleProfilePage = () => {
+        navigate('/profile');
+    };
 
+    const handleCart = () => {
+        navigate('/cart');
+    };
+
+    // Create menu items array based on user role
+    const menuItems = user ? [
+        { label: 'Профиль', action: handleProfilePage, isLogout: false },
+        { label: 'Корзина', action: handleCart, isLogout: false },
+        ...(user.role === 'Админ' ? [{ label: 'Консоль', action: handleConsole, isLogout: false }] : []),
+        { label: 'divider', action: null, isLogout: false },
+        { label: 'Выйти', action: handleLogout, isLogout: true }
+    ] : [];
+
+    const transitions = useTransition(isDropdownOpen, {
+        from: {
+            opacity: 0,
+            transform: 'translateY(-15px) scale(0.9)',
+            transformOrigin: 'top right'
+        },
+        enter: {
+            opacity: 1,
+            transform: 'translateY(0px) scale(1)',
+            transformOrigin: 'top right'
+        },
+        leave: {
+            opacity: 0,
+            transform: 'translateY(-15px) scale(0.9)',
+            transformOrigin: 'top right'
+        },
+        config: {
+            tension: 300,
+            friction: 25,
+            mass: 0.8
+        }
+    });
+
+    const trail = useTrail(menuItems.length, {
+        from: { opacity: 0, transform: 'translateX(-20px)' },
+        to: { opacity: 1, transform: 'translateX(0px)' },
+        config: { tension: 280, friction: 20 },
+        delay: 100
+    });
 
     return (
         <div className={styles.rightHeaderBlock}>
@@ -96,23 +145,39 @@ function RightHeaderBlock() {
             ) : (
                 user && (
                     <div className={styles.profileWrapper}>
-                        <span className={styles.usernameDisplay}>
+                        <span className={`${styles.usernameDisplay} ${user.role === 'Админ' ? styles.adminUsername : ''}`}>
                             {user.username}
                         </span>
                         <div className={`${styles.profileContainer} ${isDropdownOpen ? styles.profileActive : ''}`} onClick={handleProfile}>
-                            <img src={user.avatar || "/images/default-avatar.png"} alt="профиль" />
+                            <img src={user.avatar || "/images/woman.png"} alt="профиль" />
                         </div>
-                        {isDropdownOpen && (
-                            <div className={styles.dropdownMenu}>
-                                {user.role === 'Админ' && (
-                                    <button className={styles.dropdownItem} onClick={handleConsole}>
-                                        Консоль
-                                    </button>
-                                )}
-                                <button className={styles.dropdownItem} onClick={handleLogout}>
-                                    Выйти
-                                </button>
-                            </div>
+                        {transitions((style, item) =>
+                            item && (
+                                <animated.div className={styles.dropdownMenu} style={style}>
+                                    {trail.map((itemStyle, index) => {
+                                        const menuItem = menuItems[index];
+                                        if (menuItem.label === 'divider') {
+                                            return (
+                                                <animated.div
+                                                    key={`divider-${index}`}
+                                                    style={itemStyle}
+                                                    className={styles.dropdownDivider}
+                                                />
+                                            );
+                                        }
+                                        return (
+                                            <animated.button
+                                                key={`${menuItem.label}-${index}`}
+                                                style={itemStyle}
+                                                className={`${styles.dropdownItem} ${menuItem.isLogout ? styles.logoutItem : ''}`}
+                                                onClick={menuItem.action}
+                                            >
+                                                {menuItem.label}
+                                            </animated.button>
+                                        );
+                                    })}
+                                </animated.div>
+                            )
                         )}
                     </div>
                 )

@@ -1,4 +1,5 @@
 const { UserModel } = require('../database/database');
+const { deleteAvatarFile } = require('../utils/fileUtils');
 
 class UserController {
   // Получить всех пользователей
@@ -107,11 +108,15 @@ class UserController {
 
         // Если загружен файл, используем его путь, иначе используем avatar из тела
         let avatarPath = avatar;
+        let oldAvatarPath = null;
+
         if (req.files && req.files.length > 0) {
           // Найдем файл с именем 'avatar'
           const avatarFile = req.files.find(file => file.fieldname === 'avatar');
           if (avatarFile) {
-            avatarPath = `/images/${avatarFile.filename}`;
+            avatarPath = `/utImages/${avatarFile.filename}`;
+            // Сохраняем старый путь аватара для удаления
+            oldAvatarPath = user.avatar;
             console.log('Avatar file saved:', avatarPath);
           }
         }
@@ -129,10 +134,36 @@ class UserController {
         UserModel.update(id, updateData)
           .then(result => {
             if (result.changes === 0) {
-              res.status(404).json({ error: 'Пользователь не найден' });
-            } else {
-              res.json({ message: 'Пользователь обновлен' });
+              return res.status(404).json({ error: 'Пользователь не найден' });
             }
+
+            // Удаляем старый аватар, если был загружен новый файл
+            if (oldAvatarPath && avatarPath !== oldAvatarPath) {
+              deleteAvatarFile(oldAvatarPath);
+            }
+
+            // Получить обновленные данные пользователя
+            UserModel.findById(id)
+              .then(updatedUser => {
+                if (!updatedUser) {
+                  return res.status(404).json({ error: 'Пользователь не найден после обновления' });
+                }
+
+                res.json({
+                  message: 'Пользователь обновлен',
+                  user: {
+                    id: updatedUser.id,
+                    username: updatedUser.username,
+                    email: updatedUser.email,
+                    role: updatedUser.role,
+                    avatar: updatedUser.avatar
+                  }
+                });
+              })
+              .catch(err => {
+                console.error('Find updated user error:', err);
+                res.status(500).json({ error: err.message });
+              });
           })
           .catch(err => {
             console.error('Update error:', err);
@@ -154,15 +185,36 @@ class UserController {
       return res.status(400).json({ error: 'Неверный ID пользователя' });
     }
 
-    UserModel.delete(userId)
-      .then(result => {
-        if (result.changes === 0) {
-          res.status(404).json({ error: 'Пользователь не найден' });
-        } else {
-          res.json({ message: 'Пользователь удален' });
+    // Сначала получаем данные пользователя, чтобы узнать путь к аватару
+    UserModel.findById(userId)
+      .then(user => {
+        if (!user) {
+          return res.status(404).json({ error: 'Пользователь не найден' });
         }
+
+        // Удаляем аватар пользователя (если он не по умолчанию)
+        const avatarDeletionPromise = deleteAvatarFile(user.avatar);
+
+        // Удаляем пользователя из базы данных
+        const userDeletionPromise = UserModel.delete(userId);
+
+        // Ждем завершения обеих операций
+        Promise.all([avatarDeletionPromise, userDeletionPromise])
+          .then(([avatarDeleted, result]) => {
+            if (result.changes === 0) {
+              return res.status(404).json({ error: 'Пользователь не найден' });
+            }
+
+            console.log('User deleted, avatar deletion result:', avatarDeleted);
+            res.json({ message: 'Пользователь удален' });
+          })
+          .catch(err => {
+            console.error('Error during user deletion:', err);
+            res.status(500).json({ error: err.message });
+          });
       })
       .catch(err => {
+        console.error('Error finding user for deletion:', err);
         res.status(500).json({ error: err.message });
       });
   }
