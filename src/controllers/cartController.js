@@ -10,7 +10,7 @@ const getCart = async (req, res) => {
 
     const cartItems = await Cart.findAll({
       where: { userId },
-      include: [{ model: Product, as: 'product' }]
+      include: [{ model: Product, as: 'product', attributes: ['id', 'name', 'price', 'description', 'imageUrl', 'color', 'inStock', 'type', 'popularity', 'specialOffer', 'composition'] }]
     });
 
     // console.log(`getCart: User ${userId} has ${cartItems.length} items in cart`);
@@ -214,7 +214,7 @@ const clearCart = async (req, res) => {
     // Получаем все товары из корзины
     const cartItems = await Cart.findAll({
       where: { userId },
-      include: [{ model: Product, as: 'product' }]
+      include: [{ model: Product, as: 'product', attributes: ['id', 'name', 'price', 'description', 'imageUrl', 'color', 'inStock', 'type', 'popularity', 'specialOffer', 'composition'] }]
     });
 
     // Возвращаем товары на склад

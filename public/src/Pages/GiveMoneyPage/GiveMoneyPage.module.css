@@ -230,3 +230,76 @@
         padding: 15px;
     }
 }
+
+/* Modal styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+}
+
+.successModal {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+    overflow: hidden;
+}
+
+.modalHeader {
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.modalHeader h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.modalBody {
+    padding: 20px 24px;
+}
+
+.modalBody p {
+    margin: 0;
+    font-size: 16px;
+    color: #495057;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.modalFooter {
+    padding: 16px 24px 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.confirmBtn {
+    padding: 10px 20px;
+    border: 2px solid #000000;
+    background: #000000;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.confirmBtn:hover {
+    background: #ffffff;
+    color: #000000;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}

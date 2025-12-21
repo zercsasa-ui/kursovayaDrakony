@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useRef } from 'react';
 
 const CartContext = createContext();
 
@@ -13,6 +13,7 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const lastAddTime = useRef(0);
 
     // Load cart from API on mount
     const loadCart = async () => {
@@ -43,14 +44,20 @@ export const CartProvider = ({ children }) => {
 
     const addToCart = async (product, quantity = 1) => {
         if (isLoading) {
-            return false;
+            return { success: false, error: 'loading' };
+        }
+
+        // Throttle add to cart to 0.5 seconds
+        if (Date.now() - lastAddTime.current < 500) {
+            return { success: false, error: 'too_fast' };
         }
 
         // Проверяем локально, достаточно ли товара
         if (product.inStock < quantity) {
-            return false;
+            return { success: false, error: 'out_of_stock' };
         }
 
+        lastAddTime.current = Date.now();
         setIsLoading(true);
         try {
             const response = await fetch('http://localhost:3000/api/cart', {
@@ -64,15 +71,21 @@ export const CartProvider = ({ children }) => {
 
             if (response.ok) {
                 const result = await response.json();
-                return true;
+                return { success: true };
             } else {
                 const error = await response.json();
                 console.error('Failed to add to cart:', error.error);
-                return false;
+                if (response.status === 401) {
+                    return { success: false, error: 'not_authenticated' };
+                } else if (response.status === 400 && error.error === 'Недостаточно товара на складе') {
+                    return { success: false, error: 'out_of_stock' };
+                } else {
+                    return { success: false, error: 'unknown' };
+                }
             }
         } catch (error) {
             console.error('Error adding to cart:', error);
-            return false;
+            return { success: false, error: 'network' };
         } finally {
             setIsLoading(false);
         }

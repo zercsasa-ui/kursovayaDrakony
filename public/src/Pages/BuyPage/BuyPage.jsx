@@ -86,6 +86,18 @@ function BuyPage() {
             return;
         }
 
+        // Save customer data to localStorage for receipt generation
+        const customerInfo = {
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            phone: userData.phone,
+            email: finalEmail,
+            address: userData.address,
+            city: userData.city,
+            postalCode: userData.postalCode
+        };
+        localStorage.setItem('customerData', JSON.stringify(customerInfo));
+
         // Navigate to payment page
         navigate('/payment');
     };

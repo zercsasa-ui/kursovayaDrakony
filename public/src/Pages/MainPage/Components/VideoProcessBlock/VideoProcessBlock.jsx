@@ -1,12 +1,6 @@
 import styles from './VideoProcessBlock.module.css';
-import { useSpring, animated } from '@react-spring/web';
 
 function VideoProcessBlock({ onToggleInstructions, showInstructions }) {
-    const [springProps, api] = useSpring(() => ({ scale: 1 }));
-    const rotationProps = useSpring({ rotation: showInstructions ? 180 : 0 });
-
-    const handleMouseEnter = () => api.start({ scale: 1.05 });
-    const handleMouseLeave = () => api.start({ scale: 1 });
     return (
         <div id="videoProcessBlock" className={styles.videoProcessBlockBg}>
             <div className={styles.videoProcessBlock}>
@@ -30,20 +24,16 @@ function VideoProcessBlock({ onToggleInstructions, showInstructions }) {
                 </div>
             </div>
             <div className={styles.buttonContainer}>
-                <animated.button
+                <button
                     className={styles.customButton}
-                    style={springProps}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
                     onClick={onToggleInstructions}
                 >
-                    <animated.img
+                    <img
                         src="/images/howCreateArrow.png"
                         alt="Показать пошаговую инструкцию"
-                        className={styles.buttonImage}
-                        style={{ transform: rotationProps.rotation.to(r => `rotate(${r}deg)`) }}
+                        className={`${styles.buttonImage} ${showInstructions ? styles.rotated : ''}`}
                     />
-                </animated.button>
+                </button>
             </div>
         </div>
     );

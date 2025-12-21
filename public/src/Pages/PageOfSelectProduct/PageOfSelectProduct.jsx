@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import HeaderBlock from '../../Components/Header/HeaderBlock';
 import ProductCard from '../CatalogPage/Components/ProductCard/ProductCard';
@@ -13,6 +13,7 @@ function PageOfSelectProduct() {
     const [loadingSimilar, setLoadingSimilar] = useState(true);
     const [notification, setNotification] = useState({ show: false, message: '', type: 'success' });
     const [currentProduct, setCurrentProduct] = useState(product);
+    const lastRefresh = useRef(0);
 
     const showNotification = (message, type = 'success') => {
         let fullMessage;
@@ -34,10 +35,14 @@ function PageOfSelectProduct() {
     // Function to refresh product data
     const refreshProductData = async () => {
         if (!product) return;
+        if (Date.now() - lastRefresh.current < 3000) {
+            return;
+        }
+        lastRefresh.current = Date.now();
 
         try {
             // Refresh main product data
-            const apiInfo = getProductApiInfo(product.id);
+            const apiInfo = getProductApiInfo(product.displayId);
             if (apiInfo) {
                 const response = await fetch(`http://localhost:3000/api/${apiInfo.apiEndpoint}/${apiInfo.id}`);
                 if (response.ok) {
@@ -93,6 +98,7 @@ function PageOfSelectProduct() {
 
     // Helper function to parse product ID and get API endpoint
     const getProductApiInfo = (productId) => {
+        if (typeof productId !== 'string' || !productId.includes('_')) return null;
         const parts = productId.split('_');
         if (parts.length !== 2) return null;
 
@@ -165,8 +171,8 @@ function PageOfSelectProduct() {
     const { name, price, description, image, id, type, color, inStock, popularity, specialOffer, composition } = displayProduct;
 
     const handleAddToCart = async () => {
-        const success = await addToCart(displayProduct);
-        if (success) {
+        const result = await addToCart(displayProduct);
+        if (result.success) {
             // Instantly update local state to show reduced inventory
             setCurrentProduct(prev => prev ? { ...prev, inStock: Math.max(0, prev.inStock - 1) } : prev);
             showNotification(displayProduct.name, 'success');
@@ -174,8 +180,18 @@ function PageOfSelectProduct() {
             await refreshProductData();
             console.log('Товар добавлен в корзину:', displayProduct.name);
         } else {
-            showNotification('Необходимо авторизоваться', 'error');
-            console.log('Не удалось добавить товар в корзину:', displayProduct.name);
+            let message = 'Необходимо авторизоваться';
+            if (result.error === 'out_of_stock') {
+                message = 'Товара нет в наличии';
+            } else if (result.error === 'loading') {
+                message = 'Подождите, выполняется другая операция';
+            } else if (result.error === 'too_fast') {
+                message = 'Подождите перед повторным добавлением';
+            } else if (result.error === 'network') {
+                message = 'Ошибка сети, попробуйте еще раз';
+            }
+            showNotification(message, 'error');
+            console.log('Не удалось добавить товар в корзину:', displayProduct.name, 'Ошибка:', result.error);
         }
     };
 

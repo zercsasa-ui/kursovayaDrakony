@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useTransition, animated } from '@react-spring/web';
 import styles from './OtziviMainBlock.module.css';
 
 const reviews = [
@@ -84,13 +83,6 @@ function OtziviMainBlock() {
         return () => clearInterval(interval);
     }, []);
 
-    const transitions = useTransition(currentIndex, {
-        from: { opacity: 0, transform: 'scale(0.8)', position: 'absolute' },
-        enter: { opacity: 1, transform: 'scale(1)', position: 'relative' },
-        leave: { opacity: 0, transform: 'scale(0.8)', position: 'absolute' },
-        config: { tension: 300, friction: 30 },
-    });
-
     const goToPrevious = () => {
         setCurrentIndex(currentIndex === 0 ? reviews.length - 1 : currentIndex - 1);
     };
@@ -122,14 +114,12 @@ function OtziviMainBlock() {
                     </button>
 
                     <div className={styles.sliderWrapper}>
-                        {transitions((style, index) => (
-                            <animated.div
-                                style={style}
-                                className={styles.slide}
-                            >
-                                <ReviewCard review={reviews[index]} />
-                            </animated.div>
-                        ))}
+                        <div
+                            key={currentIndex}
+                            className={styles.slide}
+                        >
+                            <ReviewCard review={reviews[currentIndex]} />
+                        </div>
                     </div>
 
                     <button

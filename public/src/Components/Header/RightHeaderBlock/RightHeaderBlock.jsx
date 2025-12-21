@@ -1,7 +1,6 @@
 import styles from './RightHeaderBlock.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useTransition, animated, useTrail } from '@react-spring/web';
 
 function RightHeaderBlock() {
     const navigate = useNavigate();
@@ -100,36 +99,6 @@ function RightHeaderBlock() {
         { label: 'Выйти', action: handleLogout, isLogout: true }
     ] : [];
 
-    const transitions = useTransition(isDropdownOpen, {
-        from: {
-            opacity: 0,
-            transform: 'translateY(-15px) scale(0.9)',
-            transformOrigin: 'top right'
-        },
-        enter: {
-            opacity: 1,
-            transform: 'translateY(0px) scale(1)',
-            transformOrigin: 'top right'
-        },
-        leave: {
-            opacity: 0,
-            transform: 'translateY(-15px) scale(0.9)',
-            transformOrigin: 'top right'
-        },
-        config: {
-            tension: 300,
-            friction: 25,
-            mass: 0.8
-        }
-    });
-
-    const trail = useTrail(menuItems.length, {
-        from: { opacity: 0, transform: 'translateX(-20px)' },
-        to: { opacity: 1, transform: 'translateX(0px)' },
-        config: { tension: 280, friction: 20 },
-        delay: 100
-    });
-
     return (
         <div className={styles.rightHeaderBlock}>
             <button
@@ -151,33 +120,28 @@ function RightHeaderBlock() {
                         <div className={`${styles.profileContainer} ${isDropdownOpen ? styles.profileActive : ''}`} onClick={handleProfile}>
                             <img src={user.avatar || "/images/woman.png"} alt="профиль" />
                         </div>
-                        {transitions((style, item) =>
-                            item && (
-                                <animated.div className={styles.dropdownMenu} style={style}>
-                                    {trail.map((itemStyle, index) => {
-                                        const menuItem = menuItems[index];
-                                        if (menuItem.label === 'divider') {
-                                            return (
-                                                <animated.div
-                                                    key={`divider-${index}`}
-                                                    style={itemStyle}
-                                                    className={styles.dropdownDivider}
-                                                />
-                                            );
-                                        }
+                        {isDropdownOpen && (
+                            <div className={styles.dropdownMenu}>
+                                {menuItems.map((menuItem, index) => {
+                                    if (menuItem.label === 'divider') {
                                         return (
-                                            <animated.button
-                                                key={`${menuItem.label}-${index}`}
-                                                style={itemStyle}
-                                                className={`${styles.dropdownItem} ${menuItem.isLogout ? styles.logoutItem : ''}`}
-                                                onClick={menuItem.action}
-                                            >
-                                                {menuItem.label}
-                                            </animated.button>
+                                            <div
+                                                key={`divider-${index}`}
+                                                className={styles.dropdownDivider}
+                                            />
                                         );
-                                    })}
-                                </animated.div>
-                            )
+                                    }
+                                    return (
+                                        <button
+                                            key={`${menuItem.label}-${index}`}
+                                            className={`${styles.dropdownItem} ${menuItem.isLogout ? styles.logoutItem : ''}`}
+                                            onClick={menuItem.action}
+                                        >
+                                            {menuItem.label}
+                                        </button>
+                                    );
+                                })}
+                            </div>
                         )}
                     </div>
                 )

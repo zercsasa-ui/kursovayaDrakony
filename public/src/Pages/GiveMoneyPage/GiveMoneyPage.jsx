@@ -1,15 +1,60 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../context/CartContext';
 import HeaderBlock from '../../Components/Header/HeaderBlock';
 import Breadcrumbs from '../../Components/Breadcrumbs/Breadcrumbs';
 import styles from './GiveMoneyPage.module.css';
 
 function GiveMoneyPage() {
     const navigate = useNavigate();
+    const { cartItems, getTotalPrice, clearCart, loadCart } = useCart();
     const [checking, setChecking] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+    useEffect(() => {
+        loadCart();
+    }, [loadCart]);
 
     const handleCancel = () => {
         navigate('/cart');
+    };
+
+    const generateReceipt = async () => {
+        try {
+            // Get customer data from localStorage
+            const customerData = localStorage.getItem('customerData');
+            const parsedCustomerData = customerData ? JSON.parse(customerData) : null;
+
+            const response = await fetch('http://localhost:3000/api/receipts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    cartItems: cartItems,
+                    totalPrice: getTotalPrice(),
+                    customerData: parsedCustomerData
+                }),
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Чек создан:', result.receiptPath);
+
+                // Очищаем корзину после создания чека
+                clearCart();
+            } else {
+                const error = await response.json();
+                console.error('Ошибка при создании чека:', error.error);
+                alert('Ошибка при создании чека. Попробуйте еще раз.');
+                return;
+            }
+        } catch (error) {
+            console.error('Ошибка при отправке запроса на создание чека:', error);
+            alert('Ошибка при создании чека. Попробуйте еще раз.');
+            return;
+        }
     };
 
     const handleCheckPayment = async () => {
@@ -17,8 +62,14 @@ function GiveMoneyPage() {
         // Simulate payment check
         setTimeout(() => {
             setChecking(false);
-            alert('Оплата не найдена. Попробуйте еще раз или свяжитесь с поддержкой.');
+            setShowSuccessModal(true);
         }, 2000);
+    };
+
+    const handleConfirmSuccess = () => {
+        setShowSuccessModal(false);
+        generateReceipt();
+        navigate('/');
     };
 
     return (
@@ -49,7 +100,7 @@ function GiveMoneyPage() {
                         <div className={styles.paymentDetails}>
                             <h3>Реквизиты для оплаты:</h3>
                             <div className={styles.details}>
-                                <p><strong>Сумма:</strong> 1500 ₽</p>
+                                <p><strong>Сумма:</strong> {getTotalPrice()} ₽</p>
                                 <p><strong>Получатель:</strong> ***</p>
                                 <p><strong>ИНН:</strong> ***</p>
                                 <p><strong>Номер карты:</strong> ***</p>
@@ -73,6 +124,27 @@ function GiveMoneyPage() {
                         </button>
                     </div>
                 </div>
+
+                {showSuccessModal && (
+                    <div className={styles.modalOverlay}>
+                        <div className={styles.successModal}>
+                            <div className={styles.modalHeader}>
+                                <h3>Оплата успешна</h3>
+                            </div>
+                            <div className={styles.modalBody}>
+                                <p>Ваш заказ успешно оплачен!</p>
+                            </div>
+                            <div className={styles.modalFooter}>
+                                <button
+                                    className={styles.confirmBtn}
+                                    onClick={handleConfirmSuccess}
+                                >
+                                    Ок
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </main>
         </div>
     );

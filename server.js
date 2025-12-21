@@ -243,6 +243,8 @@ app.use('/api/users', require('./src/routes/userRoutes'));
 console.log('User routes registered');
 app.use('/api/cart', require('./src/routes/cartRoutes'));
 console.log('Cart routes registered');
+app.use('/api/receipts', require('./src/routes/receiptRoutes'));
+console.log('Receipt routes registered');
 
 
 

@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Category from './Components/Category/Category';
 import FilterLine from './Components/FilterLine/FilterLine';
 import ProductCard from '../ProductCard/ProductCard';
@@ -11,9 +11,14 @@ function StuffBlock({ filters, setFilters, onShowNotification }) {
     const [error, setError] = useState(null);
     const [sortBy, setSortBy] = useState(null); // 'popularity', 'price', or null
     const [sortOrder, setSortOrder] = useState(null); // 'asc', 'desc', or null
+    const lastRefresh = useRef(0);
 
     // Function to refresh products data
     const refreshProducts = async () => {
+        if (Date.now() - lastRefresh.current < 3000) {
+            return;
+        }
+        lastRefresh.current = Date.now();
         try {
             const response = await fetch('/api/products');
             if (!response.ok) {

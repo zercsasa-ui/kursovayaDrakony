@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useTrail, useSpring, animated } from '@react-spring/web';
 import styles from './Breadcrumbs.module.css';
 
 function Breadcrumbs() {
@@ -83,17 +82,7 @@ function Breadcrumbs() {
         setCrumbs(crumbs);
     }, [location.pathname, location.state]);
 
-    const trail = useTrail(crumbs.length, {
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0px)' : 'translateY(-10px)',
-        from: { opacity: 0, transform: 'translateY(-10px)' },
-        config: { mass: 1, tension: 280, friction: 60 },
-    });
 
-    const containerStyle = useSpring({
-        opacity: isVisible ? 1 : 0,
-        config: { tension: 200, friction: 20 }
-    });
 
     const handleBackClick = () => {
         if (crumbs.length > 1) {
@@ -112,16 +101,16 @@ function Breadcrumbs() {
                     <img src="/images/howCreateArrow.png" alt="Назад" />
                 </button>
             )}
-            <animated.div className={styles.breadcrumbs} style={containerStyle}>
+            <div className={`${styles.breadcrumbs} ${isVisible ? '' : styles.hidden}`}>
                 <div className={styles.container}>
-                    {trail.map((style, index) => (
-                        <animated.span key={crumbs[index].path} style={style}>
-                            <Link to={crumbs[index].path}>{crumbs[index].label}</Link>
+                    {crumbs.map((crumb, index) => (
+                        <span key={crumb.path} className={styles.crumb}>
+                            <Link to={crumb.path}>{crumb.label}</Link>
                             {index < crumbs.length - 1 && <span className={styles.separator}> {'>'} </span>}
-                        </animated.span>
+                        </span>
                     ))}
                 </div>
-            </animated.div>
+            </div>
         </div>
     );
 }

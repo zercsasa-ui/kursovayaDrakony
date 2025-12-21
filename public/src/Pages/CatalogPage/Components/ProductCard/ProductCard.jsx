@@ -35,15 +35,27 @@ function ProductCard({ product, onShowNotification, onRefreshProducts }) {
 
     const handleAddToCart = async (e) => {
         e.stopPropagation();
-        const success = await addToCart(product);
-        if (success) {
+        const result = await addToCart(product);
+        if (result.success) {
             onShowNotification && onShowNotification(truncatedName, 'success');
             // Refresh products to show updated inventory in real-time
             onRefreshProducts && onRefreshProducts();
             console.log('Товар добавлен в корзину:', product.name);
         } else {
-            onShowNotification && onShowNotification('Для начала авторизуйтесь', 'error');
-            console.log('Не удалось добавить товар в корзину:', product.name);
+            let message = 'Произошла ошибка';
+            if (result.error === 'not_authenticated') {
+                message = 'Для начала авторизуйтесь';
+            } else if (result.error === 'out_of_stock') {
+                message = 'Товара нет в наличии';
+            } else if (result.error === 'loading') {
+                message = 'Подождите, выполняется другая операция';
+            } else if (result.error === 'too_fast') {
+                message = 'Подождите перед повторным добавлением';
+            } else if (result.error === 'network') {
+                message = 'Ошибка сети, попробуйте еще раз';
+            }
+            onShowNotification && onShowNotification(message, 'error');
+            console.log('Не удалось добавить товар в корзину:', product.name, 'Ошибка:', result.error);
         }
     };
 
