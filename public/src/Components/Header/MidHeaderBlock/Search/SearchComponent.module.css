@@ -1,13 +1,118 @@
+.searchContainer {
+    position: relative;
+    cursor: pointer;
+}
+
+.searchContainer.active {
+    cursor: default;
+}
+
 .search {
     display: flex;
     align-items: center;
     gap: 12px;
+    position: relative;
+}
 
-    img{
-        height: 20px;
-    }
+.search img {
+    height: 20px;
+    flex-shrink: 0;
+}
 
-    p {
-        color: rgba(114, 113, 110, 1);
-    }
+.search p {
+    color: rgba(114, 113, 110, 1);
+    margin: 0;
+}
+
+.searchInput {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: rgba(114, 113, 110, 1);
+    font-size: 14px;
+    width: 120px;
+    transition: width 0.3s ease;
+}
+
+.searchInput::placeholder {
+    color: rgba(114, 113, 110, 1);
+}
+
+.searchInput:focus {
+    width: 150px;
+}
+
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+    margin-top: 5px;
+}
+
+.searchResult {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
+}
+
+.searchResult:hover {
+    background-color: #f8f8f8;
+}
+
+.searchResult:last-child {
+    border-bottom: none;
+}
+
+.resultImage {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.resultInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.resultName {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.resultPrice {
+    font-size: 13px;
+    color: #666;
+}
+
+.loading {
+    padding: 15px;
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+}
+
+.noResults {
+    padding: 15px;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
 }
