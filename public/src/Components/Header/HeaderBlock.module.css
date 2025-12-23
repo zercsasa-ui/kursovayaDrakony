@@ -12,14 +12,40 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+:global(html.dark) .headerBlockBg {
+    border-bottom: 2px solid rgba(138, 43, 226, 0.3);
+    background: linear-gradient(135deg, rgba(20, 20, 30, 0.98) 0%, rgba(10, 10, 20, 0.98) 100%);
+    backdrop-filter: blur(20px);
+    box-shadow:
+      0 4px 20px rgba(138, 43, 226, 0.1),
+      0 2px 10px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
 .headerBlockBg.scrolled {
     background: rgba(255, 255, 255, 0.98);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
+:global(html.dark) .headerBlockBg.scrolled {
+    background: linear-gradient(135deg, rgba(15, 15, 25, 0.99) 0%, rgba(5, 5, 15, 0.99) 100%);
+    box-shadow:
+      0 8px 30px rgba(138, 43, 226, 0.15),
+      0 4px 20px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
 .headerBlockBg.scrolled:hover {
     background: rgba(255, 255, 255, 1);
     backdrop-filter: blur(15px);
+}
+
+:global(html.dark) .headerBlockBg.scrolled:hover {
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.99) 0%, rgba(15, 15, 25, 0.99) 100%);
+    box-shadow:
+      0 12px 40px rgba(138, 43, 226, 0.2),
+      0 6px 25px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .headerBlock{

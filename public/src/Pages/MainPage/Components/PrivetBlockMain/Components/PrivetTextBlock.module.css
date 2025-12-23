@@ -16,6 +16,11 @@
     position: relative;
 }
 
+:global(html.dark) .title {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
 .title::after {
     content: '';
     position: absolute;
@@ -31,6 +36,10 @@
     color: #5a6c7d;
     line-height: 1.6;
     margin: 0;
+}
+
+:global(html.dark) .description {
+    color: #e0e0e0;
 }
 
 /* Responsive design */

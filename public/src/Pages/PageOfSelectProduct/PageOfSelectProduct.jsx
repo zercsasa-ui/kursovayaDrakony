@@ -9,6 +9,7 @@ function PageOfSelectProduct() {
     const location = useLocation();
     const { addToCart } = useCart();
     const product = location.state?.product;
+
     const [similarProducts, setSimilarProducts] = useState([]);
     const [loadingSimilar, setLoadingSimilar] = useState(true);
     const [notification, setNotification] = useState({ show: false, message: '', type: 'success' });
@@ -91,6 +92,8 @@ function PageOfSelectProduct() {
                     .slice(0, 3);
                 setSimilarProducts(similar);
             }
+
+
         } catch (err) {
             console.error('Error refreshing product data:', err);
         }

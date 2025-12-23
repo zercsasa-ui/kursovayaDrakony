@@ -3,9 +3,11 @@ import styles from './HeaderBlock.module.css'
 import LeftHeaderBlock from './LeftHeaderBlock/LeftHeaderBlock';
 import MidHeaderBlock from './MidHeaderBlock/MidHeaderBlock';
 import RightHeaderBlock from './RightHeaderBlock/RightHeaderBlock';
+import ThemeSwitcher from './ThemeSwitcher';
 
 function HeaderBlock() {
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -19,7 +21,12 @@ function HeaderBlock() {
 
     return (
         <>
-            <div className={`${styles.headerBlockBg} ${isScrolled ? styles.scrolled : ''}`}>
+            <div
+                className={`${styles.headerBlockBg} ${isScrolled ? styles.scrolled : ''}`}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+            >
+                <ThemeSwitcher isScrolled={isScrolled} isHovered={isHovered} />
                 <div className={`${styles.headerBlock} ${isScrolled ? styles.scrolled : ''}`}>
                     <LeftHeaderBlock />
                     <MidHeaderBlock />

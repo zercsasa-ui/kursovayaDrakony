@@ -1,53 +1,76 @@
+import { useState, useEffect } from 'react';
 import styles from './StepByStepInstructions.module.css';
 
 function StepByStepInstructions() {
+    const [isDarkMode, setIsDarkMode] = useState(() => document.documentElement.classList.contains('dark'));
+
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            setIsDarkMode(document.documentElement.classList.contains('dark'));
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+
+        return () => observer.disconnect();
+    }, []);
+
+    const getVideoPath = (stepId) => {
+        if (isDarkMode && stepId <= 5) {
+            return `/videos/step${stepId}Black.mp4`;
+        }
+        return `/videos/step${stepId}.mp4`;
+    };
+
     const steps = [
         {
             id: 1,
             title: "Шаг 1: Подготовка материалов",
-            image: "/videos/step1.mp4",
+            image: getVideoPath(1),
             text: "Подготовьте все необходимые материалы: глину, инструменты, краски и основу для скульптуры."
         },
         {
             id: 2,
             title: "Шаг 2: Создание эскиза",
-            image: "/videos/step2.mp4",
+            image: getVideoPath(2),
             text: "Нарисуйте эскиз будущей скульптуры, определите пропорции и композицию."
         },
         {
             id: 3,
             title: "Шаг 3: Лепка основы",
-            image: "/videos/step3.mp4",
+            image: getVideoPath(3),
             text: "Создайте базовую форму скульптуры из глины, используя основные пропорции."
         },
         {
             id: 4,
             title: "Шаг 4: Детализация",
-            image: "/videos/step4.mp4",
+            image: getVideoPath(4),
             text: "Проработайте детали скульптуры, добавьте текстуру и мелкие элементы."
         },
         {
             id: 5,
             title: "Шаг 5: Сушка и обработка",
-            image: "/videos/step5.mp4",
+            image: getVideoPath(5),
             text: "Дайте скульптуре высохнуть, затем обработайте поверхность специальными составами."
         },
         {
             id: 6,
             title: "Шаг 6: Покраска",
-            image: "/videos/step6.mp4",
+            image: getVideoPath(6),
             text: "Нанесите краски, создавая реалистичную цветовую гамму и эффекты."
         },
         {
             id: 7,
             title: "Шаг 7: Финальная отделка",
-            image: "/videos/step7.mp4",
+            image: getVideoPath(7),
             text: "Завершите работу лаком и финальными штрихами для идеального результата."
         },
         {
             id: 8,
             title: "Шаг 8: Презентация работы",
-            image: "/videos/step8.mp4",
+            image: getVideoPath(8),
             text: "Подготовьте скульптуру к презентации, выберите подходящее освещение и фон."
         }
     ];

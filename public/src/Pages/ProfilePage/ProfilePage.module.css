@@ -2,6 +2,12 @@
     min-height: 100vh;
     background: #ffffff;
     padding: 20px;
+    transition: background 0.3s ease;
+}
+
+:global(html.dark) .profilePage {
+    background: linear-gradient(135deg, rgba(10, 10, 20, 0.98) 0%, rgba(5, 5, 15, 0.98) 100%);
+    color: rgba(220, 220, 230, 1);
 }
 
 .profileContainer {
@@ -12,6 +18,13 @@
     border: 1px solid #e0e0e0;
     margin-top: 100px;
     box-shadow: none;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .profileContainer {
+    background: rgba(15, 15, 25, 0.9);
+    border: 1px solid rgba(60, 60, 80, 0.5);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .profileContainer h1 {
@@ -21,6 +34,11 @@
     font-size: 32px;
     font-weight: 300;
     letter-spacing: -0.5px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .profileContainer h1 {
+    color: rgba(220, 220, 230, 1);
 }
 
 .profileInfo {
@@ -41,6 +59,11 @@
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #e0e0e0;
+    transition: border-color 0.3s ease;
+}
+
+:global(html.dark) .avatar {
+    border: 2px solid rgba(60, 60, 80, 0.5);
 }
 
 .avatarEdit {
@@ -83,6 +106,16 @@
     color: white;
 }
 
+:global(html.dark) .fileInputLabel {
+    color: rgba(220, 220, 230, 1);
+    border: 1px solid rgba(220, 220, 230, 1);
+}
+
+:global(html.dark) .fileInputLabel:hover {
+    background: rgba(220, 220, 230, 1);
+    color: rgba(10, 10, 20, 1);
+}
+
 .infoSection {
     width: 100%;
     max-width: 400px;
@@ -100,6 +133,11 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 8px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .infoGroup label {
+    color: rgba(180, 180, 200, 1);
 }
 
 .infoValue {
@@ -108,6 +146,12 @@
     padding: 12px 0;
     border-bottom: 1px solid #cccccc;
     font-weight: 400;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .infoValue {
+    color: rgba(220, 220, 230, 1);
+    border-bottom: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .adminRole {
@@ -239,6 +283,17 @@
     color: #000000;
 }
 
+:global(html.dark) .editButton {
+    background: rgba(220, 220, 230, 1);
+    color: rgba(10, 10, 20, 1);
+    border: 1px solid rgba(220, 220, 230, 1);
+}
+
+:global(html.dark) .editButton:hover {
+    background: transparent;
+    color: rgba(220, 220, 230, 1);
+}
+
 .deleteButton {
     background: #000000;
     color: white;
@@ -256,6 +311,17 @@
 .deleteButton:hover {
     background: transparent;
     color: #000000;
+}
+
+:global(html.dark) .deleteButton {
+    background: rgba(220, 220, 230, 1);
+    color: rgba(10, 10, 20, 1);
+    border: 1px solid rgba(220, 220, 230, 1);
+}
+
+:global(html.dark) .deleteButton:hover {
+    background: transparent;
+    color: rgba(220, 220, 230, 1);
 }
 
 .editButtons {
@@ -283,6 +349,17 @@
     color: #000000;
 }
 
+:global(html.dark) .saveButton {
+    background: rgba(220, 220, 230, 1);
+    color: rgba(10, 10, 20, 1);
+    border: 1px solid rgba(220, 220, 230, 1);
+}
+
+:global(html.dark) .saveButton:hover {
+    background: transparent;
+    color: rgba(220, 220, 230, 1);
+}
+
 .saveButton:disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -305,6 +382,17 @@
 .cancelButton:hover {
     background: #000000;
     color: white;
+}
+
+:global(html.dark) .cancelButton {
+    background: transparent;
+    color: rgba(220, 220, 230, 1);
+    border: 1px solid rgba(220, 220, 230, 1);
+}
+
+:global(html.dark) .cancelButton:hover {
+    background: rgba(220, 220, 230, 1);
+    color: rgba(10, 10, 20, 1);
 }
 
 .loading {
@@ -489,6 +577,11 @@
     margin-top: 40px;
     padding-top: 40px;
     border-top: 1px solid #e0e0e0;
+    transition: border-color 0.3s ease;
+}
+
+:global(html.dark) .ordersBlock {
+    border-top: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .ordersBlock h2 {
@@ -498,6 +591,11 @@
     font-size: 28px;
     font-weight: 300;
     letter-spacing: -0.5px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .ordersBlock h2 {
+    color: rgba(220, 220, 230, 1);
 }
 
 .ordersBlock p {
@@ -505,6 +603,11 @@
     color: #666666;
     font-size: 16px;
     margin: 20px 0;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .ordersBlock p {
+    color: rgba(180, 180, 200, 1);
 }
 
 .ordersList {
@@ -519,6 +622,13 @@
     padding: 20px;
     background: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(html.dark) .orderItem {
+    background: rgba(15, 15, 25, 0.9);
+    border: 1px solid rgba(60, 60, 80, 0.5);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .orderHeader {
@@ -540,11 +650,21 @@
     font-size: 18px;
     font-weight: 600;
     color: #000000;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .orderId {
+    color: rgba(220, 220, 230, 1);
 }
 
 .orderDate {
     font-size: 14px;
     color: #666666;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .orderDate {
+    color: rgba(180, 180, 200, 1);
 }
 
 .orderStatus {
@@ -597,6 +717,11 @@
     font-size: 16px;
     color: #000000;
     font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .orderItems h4 {
+    color: rgba(220, 220, 230, 1);
 }
 
 .orderItems ul {
@@ -610,6 +735,12 @@
     border-bottom: 1px solid #f0f0f0;
     font-size: 14px;
     color: #333333;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .orderItems li {
+    color: rgba(200, 200, 210, 1);
+    border-bottom: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .orderItems li:last-child {
@@ -622,6 +753,11 @@
     font-size: 16px;
     color: #000000;
     font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .customOrderDetails h4 {
+    color: rgba(220, 220, 230, 1);
 }
 
 .customOrderInfo {
@@ -635,6 +771,11 @@
     font-size: 14px;
     color: #333333;
     line-height: 1.4;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .customOrderInfo p {
+    color: rgba(200, 200, 210, 1);
 }
 
 .customOrderDescription {
@@ -647,12 +788,24 @@
     line-height: 1.5;
     white-space: pre-wrap;
     border: 1px solid #e9ecef;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .customOrderDescription {
+    background: rgba(20, 20, 30, 0.8);
+    color: rgba(200, 200, 210, 1);
+    border: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .adminResponse {
     margin-top: 15px;
     padding-top: 15px;
     border-top: 1px solid #e0e0e0;
+    transition: border-color 0.3s ease;
+}
+
+:global(html.dark) .adminResponse {
+    border-top: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .adminResponse p {
@@ -660,6 +813,11 @@
     font-size: 14px;
     color: #000000;
     font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .adminResponse p {
+    color: rgba(220, 220, 230, 1);
 }
 
 .adminResponseText {
@@ -671,6 +829,13 @@
     line-height: 1.5;
     white-space: pre-wrap;
     border: 1px solid #c3e6c3;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .adminResponseText {
+    background: rgba(20, 30, 20, 0.8);
+    color: rgba(180, 220, 180, 1);
+    border: 1px solid rgba(80, 120, 80, 0.5);
 }
 
 .orderTotal {
@@ -686,6 +851,11 @@
     font-size: 18px;
     color: #000000;
     font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .orderTotal strong {
+    color: rgba(220, 220, 230, 1);
 }
 
 .sendButton {
@@ -705,6 +875,17 @@
 .sendButton:hover {
     background: transparent;
     color: #000000;
+}
+
+:global(html.dark) .sendButton {
+    background: rgba(220, 220, 230, 1);
+    color: rgba(10, 10, 20, 1);
+    border: 1px solid rgba(220, 220, 230, 1);
+}
+
+:global(html.dark) .sendButton:hover {
+    background: transparent;
+    color: rgba(220, 220, 230, 1);
 }
 
 /* Responsive design */

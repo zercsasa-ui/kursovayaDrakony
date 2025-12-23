@@ -24,6 +24,9 @@ function BuyPage() {
     });
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+    const [modalType, setModalType] = useState('success'); // 'success' or 'error'
 
     useEffect(() => {
         // Get current user data first
@@ -98,16 +101,28 @@ function BuyPage() {
         }));
     };
 
+    const openModal = (message, type = 'success') => {
+        setModalMessage(message);
+        setModalType(type);
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+        setModalMessage('');
+        setModalType('success');
+    };
+
     const handleProceedToPayment = () => {
         // Basic validation
         if (!userData.firstName.trim() || !userData.lastName.trim()) {
-            alert('Пожалуйста, заполните имя и фамилию');
+            openModal('Пожалуйста, заполните имя и фамилию', 'error');
             return;
         }
 
         const finalEmail = userData.emailOption === 'registered' ? userData.email : userData.customEmail;
         if (!finalEmail || !finalEmail.includes('@')) {
-            alert('Пожалуйста, укажите корректный email');
+            openModal('Пожалуйста, укажите корректный email', 'error');
             return;
         }
 
@@ -228,6 +243,7 @@ function BuyPage() {
                                             name="firstName"
                                             value={userData.firstName}
                                             onChange={handleInputChange}
+                                            placeholder="Введите ваше имя"
                                             required
                                         />
                                     </div>
@@ -239,6 +255,7 @@ function BuyPage() {
                                             name="lastName"
                                             value={userData.lastName}
                                             onChange={handleInputChange}
+                                            placeholder="Введите вашу фамилию"
                                             required
                                         />
                                     </div>
@@ -355,6 +372,20 @@ function BuyPage() {
                     </div>
                 </div>
             </main>
+
+            {showModal && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modal}>
+                        <h3>{modalType === 'success' ? 'Успех' : 'Ошибка'}</h3>
+                        <p>{modalMessage}</p>
+                        <div className={styles.modalButtons}>
+                            <button onClick={closeModal} className={styles.confirmButton}>
+                                OK
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -2,6 +2,13 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background: #fff;
+    transition: background 0.3s ease;
+}
+
+:global(html.dark) .galleryPage {
+    background: linear-gradient(135deg, rgba(10, 10, 20, 0.98) 0%, rgba(5, 5, 15, 0.98) 100%);
+    color: rgba(220, 220, 230, 1);
 }
 
 main {
@@ -24,6 +31,11 @@ main {
     color: #333;
     margin: 0;
     white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .titleContainer h1 {
+    color: rgba(220, 220, 230, 1);
 }
 
 .titleContainerRight {
@@ -41,6 +53,11 @@ main {
     color: #333;
     margin: 0;
     white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .titleContainerRight h1 {
+    color: rgba(220, 220, 230, 1);
 }
 
 .content {
@@ -52,6 +69,11 @@ main {
 .content p {
     color: #666;
     font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .content p {
+    color: rgba(200, 200, 210, 1);
 }
 
 .loading {
@@ -62,6 +84,11 @@ main {
 .loading p {
     color: #666;
     font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .loading p {
+    color: rgba(200, 200, 210, 1);
 }
 
 .error {

@@ -5,6 +5,11 @@
     padding: 80px 0;
 }
 
+:global(html.dark) .latestPublicationBg {
+    background: linear-gradient(135deg, rgba(10, 10, 20, 0.95) 0%, rgba(5, 5, 15, 0.98) 100%);
+    border-bottom: 2px solid rgba(138, 43, 226, 0.3);
+}
+
 .latestPublication {
     width: calc(100% - 200px);
     margin: 0 auto;
@@ -27,11 +32,19 @@
     font-weight: bold;
 }
 
+:global(html.dark) .title {
+    color: #e0e0e0;
+}
+
 .subtitle {
     font-size: 1.1rem;
     color: #666;
     margin: 0;
     font-weight: 400;
+}
+
+:global(html.dark) .subtitle {
+    color: #b0b0b0;
 }
 
 .featuredCard {
@@ -46,6 +59,13 @@
     background: white;
 }
 
+:global(html.dark) .featuredCard {
+    border: 1px solid rgba(138, 43, 226, 0.2);
+    border-left: none;
+    border-right: none;
+    background: linear-gradient(135deg, rgba(20, 20, 30, 0.95) 0%, rgba(10, 10, 20, 0.98) 100%);
+}
+
 .imageContainer {
     position: relative;
     width: 50%;
@@ -57,6 +77,11 @@
     border-right: 1px solid #e0e0e0;
 }
 
+:global(html.dark) .imageContainer {
+    background: rgba(15, 15, 25, 0.8);
+    border-right: 1px solid rgba(138, 43, 226, 0.2);
+}
+
 .productImage {
     max-width: 100%;
     max-height: 600px;
@@ -66,6 +91,10 @@
     border-radius: 8px;
 }
 
+:global(html.dark) .productImage {
+    box-shadow: 0 0 25px rgba(138, 43, 226, 0.25);
+}
+
 .infoContainer {
     width: 50%;
     padding: 60px 50px;
@@ -73,6 +102,10 @@
     flex-direction: column;
     justify-content: center;
     background: white;
+}
+
+:global(html.dark) .infoContainer {
+    background: rgba(15, 15, 25, 0.95);
 }
 
 .productInfo {
@@ -87,12 +120,20 @@
     line-height: 1.2;
 }
 
+:global(html.dark) .productName {
+    color: #e0e0e0;
+}
+
 .productDescription {
     font-size: 1.2rem;
     color: #34495e;
     margin: 0 0 25px 0;
     line-height: 1.6;
     font-weight: 400;
+}
+
+:global(html.dark) .productDescription {
+    color: #c0c0c0;
 }
 
 .productDetails {
@@ -113,10 +154,18 @@
     font-weight: 500;
 }
 
+:global(html.dark) .detailLabel {
+    color: #a0a0a0;
+}
+
 .detailValue {
     font-size: 1rem;
     color: #333;
     font-weight: 400;
+}
+
+:global(html.dark) .detailValue {
+    color: #d0d0d0;
 }
 
 .loading {
@@ -124,6 +173,10 @@
     font-size: 1.2rem;
     color: #7f8c8d;
     padding: 40px;
+}
+
+:global(html.dark) .loading {
+    color: #a0a0a0;
 }
 
 

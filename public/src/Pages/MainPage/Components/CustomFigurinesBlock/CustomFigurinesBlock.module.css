@@ -4,7 +4,12 @@
     width: 100%;
     padding: 80px 0;
     position: relative;
-    
+
+}
+
+:global(html.dark) .customFigurinesBg {
+    background: linear-gradient(135deg, rgba(15, 15, 25, 0.95) 0%, rgba(5, 5, 15, 0.98) 100%);
+    border-bottom: 2px solid rgba(138, 43, 226, 0.3);
 }
 
 .customFigurinesBg::before {
@@ -17,6 +22,10 @@
     background: linear-gradient(to bottom, transparent, rgba(44, 62, 80, 0.2), transparent);
 }
 
+:global(html.dark) .customFigurinesBg::before {
+    background: linear-gradient(to bottom, transparent, rgba(138, 43, 226, 0.3), transparent);
+}
+
 .customFigurinesBg::after {
     content: '';
     position: absolute;
@@ -25,6 +34,10 @@
     width: 2px;
     height: 80%;
     background: linear-gradient(to bottom, transparent, rgba(44, 62, 80, 0.2), transparent);
+}
+
+:global(html.dark) .customFigurinesBg::after {
+    background: linear-gradient(to bottom, transparent, rgba(138, 43, 226, 0.3), transparent);
 }
 
 .customFigurinesBg .decorativeLeft {
@@ -96,7 +109,11 @@
     margin: 0 0 10px 0;
     font-weight: bold;
     line-height: 1.2;
-    
+
+}
+
+:global(html.dark) .title {
+    color: #e0e0e0;
 }
 
 .featuredCard {
@@ -111,6 +128,13 @@
     background: white;
 }
 
+:global(html.dark) .featuredCard {
+    border: 1px solid rgba(138, 43, 226, 0.2);
+    border-left: none;
+    border-right: none;
+    background: linear-gradient(135deg, rgba(20, 20, 30, 0.95) 0%, rgba(10, 10, 20, 0.98) 100%);
+}
+
 .imageContainer {
     position: relative;
     width: 50%;
@@ -122,6 +146,11 @@
     border-right: 1px solid #e0e0e0;
 }
 
+:global(html.dark) .imageContainer {
+    background: rgba(10, 10, 20, 0.8);
+    border-right: 1px solid rgba(138, 43, 226, 0.2);
+}
+
 .customImage {
     max-width: 100%;
     max-height: 600px;
@@ -129,6 +158,10 @@
     height: auto;
     object-fit: contain;
     border-radius: 8px;
+}
+
+:global(html.dark) .customImage {
+    box-shadow: 0 0 25px rgba(138, 43, 226, 0.25);
 }
 
 .infoContainer {
@@ -141,6 +174,10 @@
     font-family: inherit;
 }
 
+:global(html.dark) .infoContainer {
+    background: rgba(15, 15, 25, 0.95);
+}
+
 .productInfo {
     max-width: 100%;
 }
@@ -151,6 +188,10 @@
     margin: 0 0 25px 0;
     line-height: 1.6;
     font-weight: 400;
+}
+
+:global(html.dark) .text {
+    color: #e0e0e0;
 }
 
 .orderButton {
@@ -172,6 +213,19 @@
     color: #2c3e50;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+:global(html.dark) .orderButton {
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.6) 0%, rgba(138, 43, 226, 0.4) 100%);
+    color: #ffffff;
+    border: 2px solid rgba(138, 43, 226, 0.8);
+}
+
+:global(html.dark) .orderButton:hover {
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.7) 0%, rgba(138, 43, 226, 0.5) 100%);
+    border-color: rgba(138, 43, 226, 1);
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+    color: #ffffff;
 }
 
 .orderButton:active {

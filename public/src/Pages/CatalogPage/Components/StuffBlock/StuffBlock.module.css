@@ -4,6 +4,11 @@
     border-left: 1px solid rgba(236, 234, 231, 1);
     height: 100vh;
     padding-top: 5px;
+    transition: border-left-color 0.3s ease;
+}
+
+:global(html.dark) .stuffBlock {
+    border-left: 1px solid rgba(80, 80, 90, 1);
 }
 
 h1 {
@@ -15,6 +20,12 @@ h1 {
     line-height: 1.2;
     position: relative;
     -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) h1 {
+    color: rgba(240, 240, 250, 1);
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.2);
 }
 
 h1::after {
@@ -25,6 +36,11 @@ h1::after {
     width: 50px;
     height: 2px;
     background: linear-gradient(to right, rgba(44, 62, 80, 0.6), transparent);
+    transition: background 0.3s ease;
+}
+
+:global(html.dark) h1::after {
+    background: linear-gradient(to right, rgba(138, 178, 238, 0.6), transparent);
 }
 
 .tovarList {
@@ -36,4 +52,32 @@ h1::after {
     flex: 1;
     padding-bottom: 40px;
     justify-content: flex-start;
+}
+
+.noProducts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+    font-size: 18px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .noProducts {
+    color: rgba(180, 180, 200, 1);
+}
+
+.noProductsIcon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+:global(html.dark) .noProductsIcon {
+    opacity: 0.7;
 }

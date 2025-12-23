@@ -17,6 +17,10 @@
         position: static;
     }
 
+    :global(html.dark) h1 {
+        color: rgba(220, 220, 230, 1);
+    }
+
     h1::after {
         display: none;
     }

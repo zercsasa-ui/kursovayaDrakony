@@ -78,6 +78,8 @@ function Breadcrumbs() {
         } else if (location.pathname.includes('/buy')) {
             crumbs.push({ label: 'Корзина', path: '/cart' });
             crumbs.push({ label: 'Оформление заказа', path: '/buy' });
+        } else if (location.pathname.includes('/custom-order')) {
+            crumbs.push({ label: 'Заказ кастомной фигурки', path: '/custom-order' });
         }
         setCrumbs(crumbs);
     }, [location.pathname, location.state]);

@@ -24,8 +24,20 @@
     text-decoration: none;
 }
 
+:global(html.dark) .textHome {
+    color: rgba(240, 240, 250, 1);
+    text-shadow: 0 0 8px rgba(138, 43, 226, 0.2);
+    font-weight: 500;
+}
+
 .textHome:hover:not(:disabled) {
     color: rgba(0, 123, 255, 1);
+}
+
+:global(html.dark) .textHome:hover:not(:disabled) {
+    color: rgba(138, 43, 226, 1);
+    text-shadow: 0 0 12px rgba(138, 43, 226, 0.4);
+    transform: translateY(-1px);
 }
 
 .textHome:disabled {

@@ -6,6 +6,11 @@
     padding: 140px 0 50px 0;
 }
 
+:global(html.dark) .videoProcessBlockBg {
+    background: linear-gradient(135deg, rgba(15, 15, 25, 0.95) 0%, rgba(5, 5, 15, 0.98) 100%);
+    border-bottom: 2px solid rgba(138, 43, 226, 0.3);
+}
+
 .videoProcessBlock {
     width: calc(100% - 200px);
     margin: 0 auto;
@@ -51,11 +56,19 @@
     line-height: 1.2;
 }
 
+:global(html.dark) .title {
+    color: #e0e0e0;
+}
+
 .description {
     font-size: 16px;
     color: #5a6c7d;
     line-height: 1.6;
     margin: 0;
+}
+
+:global(html.dark) .description {
+    color: #b0b0b0;
 }
 
 .buttonContainer {
@@ -77,9 +90,21 @@
     transition: transform 0.2s ease;
 }
 
+:global(html.dark) .customButton {
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.6) 0%, rgba(138, 43, 226, 0.4) 100%);
+    color: #ffffff;
+    border: 2px solid rgba(138, 43, 226, 0.8);
+}
+
 .customButton:hover {
     border-color: #9ea4aa;
     transform: scale(1.05);
+}
+
+:global(html.dark) .customButton:hover {
+    border-color: rgba(138, 43, 226, 1);
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.7) 0%, rgba(138, 43, 226, 0.5) 100%);
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
 }
 
 .buttonImage {
@@ -87,6 +112,10 @@
     height: 100%;
     object-fit: contain;
     transition: transform 0.3s ease;
+}
+
+:global(html.dark) .buttonImage {
+    filter: brightness(0) invert(1);
 }
 
 .buttonImage.rotated {

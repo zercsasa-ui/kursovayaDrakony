@@ -1,35 +1,44 @@
 .midHeaderBlock {
     display: flex;
     gap: 36px;
+}
 
-    .link {
-        color: rgba(114, 113, 110, 1);
-        font-size: 14px;
-        font-family: inherit;
-        background: none;
-        border: none;
-        cursor: pointer;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
+.navButton {
+    color: rgba(114, 113, 110, 1);
+    font-size: 14px;
+    font-family: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
 
-    .link:hover:not(:disabled) {
-        color: rgba(0, 123, 255, 1);
-    }
+:global(html.dark) .navButton {
+    color: rgba(240, 240, 250, 1) !important;
+    text-shadow: 0 0 8px rgba(138, 43, 226, 0.2) !important;
+    font-weight: 500 !important;
+}
 
-    .link:disabled {
-        color: rgba(200, 200, 200, 1);
-        cursor: not-allowed;
-    }
+.navButton:hover:not(:disabled) {
+    color: rgba(0, 123, 255, 1);
+}
 
-    .link img{
-        height: 16px;
-    }
+:global(html.dark) .navButton:hover:not(:disabled) {
+    color: rgba(138, 43, 226, 1) !important;
+    text-shadow: 0 0 12px rgba(138, 43, 226, 0.4) !important;
+    transform: translateY(-1px);
+}
 
-    .link p {
-        margin: 0;
-        color: inherit;
-    }
+.navButton:disabled {
+    color: rgba(200, 200, 200, 1);
+    cursor: not-allowed;
+}
+
+:global(html.dark) .navButton:disabled {
+    color: rgba(120, 120, 140, 1) !important;
+    text-shadow: none !important;
+}
+
+.navButton img{
+    height: 16px;
 }

@@ -1,6 +1,13 @@
 .catalogPage {
     min-height: 100vh;
     padding-top: 80px;
+    background: #fff;
+    transition: background 0.3s ease;
+}
+
+:global(html.dark) .catalogPage {
+    background: linear-gradient(135deg, rgba(10, 10, 20, 0.98) 0%, rgba(5, 5, 15, 0.98) 100%);
+    color: rgba(220, 220, 230, 1);
 }
 
 /* Responsive design for header spacing */

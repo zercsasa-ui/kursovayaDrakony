@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import styles from './AuthenticationPage.module.css';
@@ -12,6 +12,16 @@ function AuthenticationPage() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { loadCart } = useCart();
+
+    // Initialize theme on page load
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, []);
 
     const handleChange = (e) => {
         setFormData({

@@ -2,6 +2,12 @@
     min-height: 100vh;
     background-color: #f8f9fa;
     padding-top: 120px;
+    transition: background-color 0.3s ease;
+}
+
+:global(html.dark) .giveMoneyPage {
+    background: linear-gradient(135deg, rgba(10, 10, 20, 0.98) 0%, rgba(5, 5, 15, 0.98) 100%);
+    color: rgba(220, 220, 230, 1);
 }
 
 /* Responsive design for header spacing */
@@ -29,6 +35,13 @@
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     overflow: hidden;
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(html.dark) .paymentContainer {
+    background: rgba(15, 15, 25, 0.95);
+    border: 1px solid rgba(60, 60, 80, 0.5);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .pageTitle {
@@ -39,6 +52,12 @@
     text-align: center;
     font-size: 24px;
     font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+:global(html.dark) .pageTitle {
+    background: rgba(220, 220, 230, 1);
+    color: rgba(10, 10, 20, 1);
 }
 
 .paymentBlock {
@@ -58,6 +77,11 @@
     font-weight: 600;
     color: #292929;
     margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .qrSection h2 {
+    color: rgba(220, 220, 230, 1);
 }
 
 .qrCode {
@@ -70,6 +94,12 @@
     align-items: center;
     justify-content: center;
     background: #f8f9fa;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .qrCode {
+    background: rgba(20, 20, 30, 0.8);
+    border: 2px solid rgba(60, 60, 80, 0.5);
 }
 
 .qrCode img {
@@ -83,10 +113,11 @@
     color: #666;
     line-height: 1.5;
     margin-bottom: 20px;
+    transition: color 0.3s ease;
 }
 
-.paymentDetails {
-    flex: 1;
+:global(html.dark) .instructions {
+    color: rgba(180, 180, 200, 1);
 }
 
 .paymentDetails h3 {
@@ -94,6 +125,11 @@
     font-weight: 600;
     color: #292929;
     margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .paymentDetails h3 {
+    color: rgba(220, 220, 230, 1);
 }
 
 .details {
@@ -101,12 +137,32 @@
     padding: 20px;
     border-radius: 8px;
     border: 1px solid #dee2e6;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .details {
+    background: rgba(20, 20, 30, 0.8);
+    border: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .details p {
     margin: 8px 0;
     font-size: 14px;
     color: #292929;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .details p {
+    color: rgba(220, 220, 230, 1);
+}
+
+.details strong {
+    color: #292929;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .details strong {
+    color: rgba(220, 220, 230, 1);
 }
 
 .details strong {
@@ -142,6 +198,15 @@
     background: #444;
 }
 
+:global(html.dark) .cancelButton {
+    background: rgba(100, 100, 100, 1);
+    border: 1px solid rgba(60, 60, 80, 0.5);
+}
+
+:global(html.dark) .cancelButton:hover {
+    background: rgba(120, 120, 120, 1);
+}
+
 .checkButton {
     background: #292929;
     color: white;
@@ -168,6 +233,25 @@
     background: #6c757d;
     border-color: #6c757d;
     cursor: not-allowed;
+}
+
+:global(html.dark) .checkButton:not(:disabled) {
+    background: rgba(220, 220, 230, 1);
+    color: rgba(10, 10, 20, 1);
+    border: 1px solid rgba(220, 220, 230, 1);
+}
+
+:global(html.dark) .checkButton:hover:not(:disabled) {
+    background: rgba(200, 200, 210, 1);
+}
+
+:global(html.dark) .checkButton:active:not(:disabled) {
+    background: rgba(180, 180, 190, 1);
+}
+
+:global(html.dark) .checkButton:disabled {
+    background: rgba(100, 100, 100, 1);
+    border-color: rgba(60, 60, 80, 0.5);
 }
 
 /* Responsive design */
@@ -253,11 +337,22 @@
     max-width: 400px;
     width: 90%;
     overflow: hidden;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(html.dark) .successModal {
+    background: rgba(15, 15, 25, 0.95);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 .modalHeader {
     padding: 24px 24px 16px;
     border-bottom: 1px solid #e9ecef;
+    transition: border-color 0.3s ease;
+}
+
+:global(html.dark) .modalHeader {
+    border-bottom: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .modalHeader h3 {
@@ -265,6 +360,11 @@
     font-size: 20px;
     font-weight: 600;
     color: #1a1a1a;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .modalHeader h3 {
+    color: rgba(220, 220, 230, 1);
 }
 
 .modalBody {
@@ -277,6 +377,11 @@
     color: #495057;
     line-height: 1.5;
     text-align: center;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .modalBody p {
+    color: rgba(200, 200, 210, 1);
 }
 
 .modalFooter {
@@ -300,6 +405,19 @@
 .confirmBtn:hover {
     background: #ffffff;
     color: #000000;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+:global(html.dark) .confirmBtn {
+    border: 2px solid rgba(220, 220, 230, 1);
+    background: rgba(220, 220, 230, 1);
+    color: rgba(10, 10, 20, 1);
+}
+
+:global(html.dark) .confirmBtn:hover {
+    background: transparent;
+    color: rgba(220, 220, 230, 1);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }

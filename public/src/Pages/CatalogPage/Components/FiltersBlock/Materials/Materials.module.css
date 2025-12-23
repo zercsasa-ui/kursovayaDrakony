@@ -17,6 +17,10 @@
         position: static;
     }
 
+    :global(html.dark) h1 {
+        color: rgba(220, 220, 230, 1);
+    }
+
     h1::after {
         display: none;
     }
@@ -59,4 +63,26 @@
 .materialButton.selected:hover {
     background: rgba(50, 50, 50, 1);
     border-color: rgba(50, 50, 50, 1);
+}
+
+:global(html.dark) .materialButton {
+    color: rgba(220, 220, 230, 1);
+    border: 2px solid rgba(80, 80, 90, 1);
+    background: rgba(40, 40, 50, 1);
+}
+
+:global(html.dark) .materialButton:hover {
+    border-color: rgba(100, 100, 110, 1);
+    background: rgba(50, 50, 60, 1);
+}
+
+:global(html.dark) .materialButton.selected {
+    background: rgba(80, 80, 90, 1);
+    color: rgba(240, 240, 250, 1);
+    border-color: rgba(120, 120, 130, 1);
+}
+
+:global(html.dark) .materialButton.selected:hover {
+    background: rgba(100, 100, 110, 1);
+    border-color: rgba(140, 140, 150, 1);
 }

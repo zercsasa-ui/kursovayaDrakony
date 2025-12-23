@@ -12,3 +12,16 @@ body {
 html {
   width: 100%;
 }
+
+html.dark {
+  background-color: #000;
+  color: #fff;
+}
+
+html.dark .switchRoot {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+html.dark .switchRoot:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}

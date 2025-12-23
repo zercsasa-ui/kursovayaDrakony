@@ -8,19 +8,49 @@
     color: rgba(114, 113, 110, 1);
     font-size: 14px;
     font-family: inherit;
-    background: none;
-    border: none;
+    background: rgb(255, 255, 255);
+    border: 1px solid rgba(114, 113, 110, 1);
+    border-radius: 20px;
+    padding: 8px 16px;
+    backdrop-filter: blur(10px);
     cursor: pointer;
     text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:global(html.dark) .registrationButton {
+    color: rgba(220, 220, 235, 1);
+    background: rgba(138, 43, 226, 0.08);
+    border: 1px solid rgba(220, 220, 235, 1);
+    border-radius: 20px;
+    padding: 8px 16px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(138, 43, 226, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .registrationButton:hover:not(:disabled) {
     color: rgba(0, 123, 255, 1);
 }
 
+:global(html.dark) .registrationButton:hover:not(:disabled) {
+    color: rgba(255, 255, 255, 1);
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.8) 0%, rgba(30, 144, 255, 0.8) 100%);
+    border-color: rgba(138, 43, 226, 0.8);
+    box-shadow: 0 4px 20px rgba(138, 43, 226, 0.4);
+    transform: translateY(-1px);
+}
+
 .registrationButton:disabled {
     color: rgba(200, 200, 200, 1);
     cursor: not-allowed;
+}
+
+:global(html.dark) .registrationButton:disabled {
+    color: rgba(150, 150, 170, 1);
+    background: rgba(50, 50, 60, 0.5);
+    border-color: rgba(100, 100, 120, 0.5);
+    box-shadow: none;
 }
 
 .loginContainer {
@@ -36,8 +66,27 @@
     transition: border-color 0.3s ease;
 }
 
+:global(html.dark) .loginContainer {
+    border: 2px solid rgba(138, 43, 226, 0.4);
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(30, 144, 255, 0.1) 100%);
+    backdrop-filter: blur(10px);
+    box-shadow:
+      0 2px 10px rgba(138, 43, 226, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .loginContainer:hover {
     border-color: #666666;
+}
+
+:global(html.dark) .loginContainer:hover {
+    border-color: rgba(138, 43, 226, 0.8);
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(30, 144, 255, 0.2) 100%);
+    box-shadow:
+      0 4px 20px rgba(138, 43, 226, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
 }
 
 .loginContainer img {
@@ -73,8 +122,27 @@
     overflow: hidden;
 }
 
+:global(html.dark) .profileContainer {
+    border: 2px solid rgba(138, 43, 226, 0.4);
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(30, 144, 255, 0.1) 100%);
+    backdrop-filter: blur(10px);
+    box-shadow:
+      0 2px 10px rgba(138, 43, 226, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .profileContainer:hover {
     border-color: #666666;
+}
+
+:global(html.dark) .profileContainer:hover {
+    border-color: rgba(138, 43, 226, 0.8);
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(30, 144, 255, 0.2) 100%);
+    box-shadow:
+      0 4px 20px rgba(138, 43, 226, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
 }
 
 .profileActive {
@@ -110,6 +178,16 @@
     animation: dropdownFade 0.3s ease-out;
 }
 
+:global(html.dark) .dropdownMenu {
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.98) 0%, rgba(15, 15, 25, 0.98) 100%);
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    backdrop-filter: blur(20px);
+    box-shadow:
+      0 8px 30px rgba(0, 0, 0, 0.4),
+      0 4px 20px rgba(138, 43, 226, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
 @keyframes dropdownFade {
     from {
         opacity: 0;
@@ -136,6 +214,11 @@
     font-family: inherit;
 }
 
+:global(html.dark) .dropdownItem {
+    color: rgba(230, 230, 240, 1);
+    border-bottom-color: rgba(138, 43, 226, 0.2);
+}
+
 .dropdownItem:last-child {
     border-bottom: none;
 }
@@ -147,11 +230,22 @@
     padding-left: 15px;
 }
 
+:global(html.dark) .dropdownItem:hover {
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(30, 144, 255, 0.2) 100%);
+    color: rgba(255, 255, 255, 1);
+    border-left: 3px solid rgba(138, 43, 226, 1);
+    box-shadow: 0 2px 8px rgba(138, 43, 226, 0.2);
+}
+
 .dropdownDivider {
     height: 1px;
     background-color: #e0e0e0;
     margin: 4px 0;
     border: none;
+}
+
+:global(html.dark) .dropdownDivider {
+    background-color: rgba(138, 43, 226, 0.3);
 }
 
 .logoutItem {
@@ -170,6 +264,11 @@
     color: #000000;
     font-weight: 500;
     white-space: nowrap;
+}
+
+:global(html.dark) .usernameDisplay {
+    color: rgba(220, 220, 235, 1);
+    text-shadow: 0 0 8px rgba(138, 43, 226, 0.2);
 }
 
 .adminUsername {

@@ -1,6 +1,12 @@
 .adminPage {
     min-height: 100vh;
     background-color: #f5f5f5;
+    transition: background-color 0.3s ease;
+}
+
+:global(html.dark) .adminPage {
+    background: linear-gradient(135deg, rgba(10, 10, 20, 0.98) 0%, rgba(5, 5, 15, 0.98) 100%);
+    color: rgba(220, 220, 230, 1);
 }
 
 .loading {
@@ -10,6 +16,11 @@
     height: 50vh;
     font-size: 1.2rem;
     color: #666;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .loading {
+    color: rgba(180, 180, 200, 1);
 }
 
 .content {
@@ -22,6 +33,11 @@
     color: #333;
     margin-bottom: 30px;
     text-align: center;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .content h1 {
+    color: rgba(220, 220, 230, 1);
 }
 
 .section {
@@ -30,6 +46,12 @@
     padding: 20px;
     margin-bottom: 30px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(html.dark) .section {
+    background: rgba(15, 15, 25, 0.95);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .section h2 {
@@ -37,6 +59,12 @@
     margin-bottom: 20px;
     border-bottom: 3px solid #333;
     padding-bottom: 10px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .section h2 {
+    color: rgba(220, 220, 230, 1);
+    border-bottom: 3px solid rgba(220, 220, 230, 1);
 }
 
 .tableContainer {
@@ -54,6 +82,12 @@
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+:global(html.dark) .table th,
+:global(html.dark) .table td {
+    border-bottom: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .table td img {
@@ -65,10 +99,25 @@
     background-color: #f8f9fa;
     font-weight: 600;
     color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+:global(html.dark) .table th {
+    background-color: rgba(20, 20, 30, 0.8);
+    color: rgba(220, 220, 230, 1);
 }
 
 .table tr:hover {
     background-color: #f8f9fa;
+}
+
+:global(html.dark) .table tr:hover {
+    background-color: rgba(20, 20, 30, 0.6);
+}
+
+:global(html.dark) .table th,
+:global(html.dark) .table td {
+    color: rgba(220, 220, 230, 1);
 }
 
 .avatar,
@@ -199,6 +248,12 @@ select option {
     border-radius: 8px;
     margin-bottom: 20px;
     border: 1px solid #e9ecef;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .createForm {
+    background: rgba(20, 20, 30, 0.8);
+    border: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .createForm h3 {
@@ -207,6 +262,12 @@ select option {
     font-size: 18px;
     border-bottom: 3px solid #333;
     padding-bottom: 8px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .createForm h3 {
+    color: rgba(220, 220, 230, 1);
+    border-bottom: 3px solid rgba(220, 220, 230, 1);
 }
 
 .form {
@@ -355,18 +416,34 @@ select option {
     max-width: 400px;
     width: 90%;
     text-align: center;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(html.dark) .modal {
+    background: rgba(15, 15, 25, 0.95);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }
 
 .modal h3 {
     margin: 0 0 15px 0;
     color: #333;
     font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .modal h3 {
+    color: rgba(220, 220, 230, 1);
 }
 
 .modal p {
     margin: 10px 0;
     color: #666;
     font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .modal p {
+    color: rgba(180, 180, 200, 1);
 }
 
 .passwordInput {
@@ -377,11 +454,22 @@ select option {
     font-size: 16px;
     margin: 15px 0;
     box-sizing: border-box;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .passwordInput:focus {
     outline: none;
     border-color: #000;
+}
+
+:global(html.dark) .passwordInput {
+    background-color: rgba(20, 20, 30, 0.8);
+    border-color: rgba(60, 60, 80, 0.5);
+    color: rgba(220, 220, 230, 1);
+}
+
+:global(html.dark) .passwordInput:focus {
+    border-color: rgba(255, 100, 100, 1);
 }
 
 .modalButtons {
@@ -408,6 +496,15 @@ select option {
     background: #c82333;
 }
 
+:global(html.dark) .confirmButton {
+    background: rgba(255, 100, 100, 1);
+    border: 1px solid rgba(255, 100, 100, 1);
+}
+
+:global(html.dark) .confirmButton:hover {
+    background: rgba(220, 80, 80, 1);
+}
+
 /* Notification styles */
 .notification {
     position: fixed;
@@ -432,6 +529,12 @@ select option {
     background-color: #000000;
     border: 1px solid #333333;
     border-top: 3px solid #000000;
+}
+
+:global(html.dark) .notification.success {
+    background-color: #28a745;
+    border: 1px solid #1e7e34;
+    border-top: 3px solid #1e7e34;
 }
 
 .notification.error {

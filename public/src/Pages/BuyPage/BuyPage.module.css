@@ -2,6 +2,12 @@
     min-height: 100vh;
     background-color: #f8f9fa;
     padding-top: 120px;
+    transition: background-color 0.3s ease;
+}
+
+:global(html.dark) .buyPage {
+    background: linear-gradient(135deg, rgba(10, 10, 20, 0.98) 0%, rgba(5, 5, 15, 0.98) 100%);
+    color: rgba(220, 220, 230, 1);
 }
 
 .mainContent {
@@ -16,6 +22,13 @@
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     overflow: hidden;
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(html.dark) .checkoutContainer {
+    background: rgba(15, 15, 25, 0.95);
+    border: 1px solid rgba(60, 60, 80, 0.5);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .pageTitle {
@@ -26,6 +39,12 @@
     text-align: center;
     font-size: 24px;
     font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+:global(html.dark) .pageTitle {
+    background: rgba(220, 220, 230, 1);
+    color: rgba(10, 10, 20, 1);
 }
 
 .checkoutGrid {
@@ -38,6 +57,11 @@
 .orderSummary {
     border-right: 1px solid rgba(236, 234, 231, 1);
     padding-right: 20px;
+    transition: border-color 0.3s ease;
+}
+
+:global(html.dark) .orderSummary {
+    border-right: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .customerInfo {
@@ -51,6 +75,12 @@
     margin-bottom: 20px;
     padding-bottom: 8px;
     border-bottom: 1px solid rgba(236, 234, 231, 1);
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .sectionTitle {
+    color: rgba(220, 220, 230, 1);
+    border-bottom: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 /* Order Summary Styles */
@@ -64,15 +94,23 @@
     gap: 15px;
     padding: 15px 0;
     border-bottom: 1px solid #e9ecef;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, border-color 0.3s ease;
 }
 
 .orderItem:hover {
     background-color: #f8f9fa;
 }
 
+:global(html.dark) .orderItem:hover {
+    background-color: rgba(20, 20, 30, 0.8);
+}
+
 .orderItem:last-child {
     border-bottom: none;
+}
+
+:global(html.dark) .orderItem {
+    border-bottom: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .itemImage {
@@ -98,24 +136,44 @@
     font-weight: 600;
     color: #292929;
     margin: 0 0 5px 0;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .itemName {
+    color: rgba(220, 220, 230, 1);
 }
 
 .itemQuantity {
     font-size: 14px;
     color: #666;
     margin: 0 0 5px 0;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .itemQuantity {
+    color: rgba(180, 180, 200, 1);
 }
 
 .itemPrice {
     font-size: 14px;
     color: #666;
     margin: 0;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .itemPrice {
+    color: rgba(180, 180, 200, 1);
 }
 
 .itemTotal {
     font-size: 16px;
     font-weight: 600;
     color: #292929;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .itemTotal {
+    color: rgba(220, 220, 230, 1);
 }
 
 .orderTotal {
@@ -123,6 +181,11 @@
     padding: 20px;
     border-radius: 6px;
     margin-top: 20px;
+    transition: background 0.3s ease;
+}
+
+:global(html.dark) .orderTotal {
+    background: rgba(20, 20, 30, 0.8);
 }
 
 .totalRow {
@@ -135,12 +198,22 @@
     font-size: 18px;
     font-weight: 600;
     color: #292929;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .totalLabel {
+    color: rgba(220, 220, 230, 1);
 }
 
 .totalPrice {
     font-size: 24px;
     font-weight: 700;
     color: #dc3545;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .totalPrice {
+    color: rgba(255, 100, 100, 1);
 }
 
 /* Customer Information Form Styles */
@@ -166,6 +239,11 @@
     font-size: 14px;
     font-weight: 600;
     color: #292929;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .formGroup label {
+    color: rgba(220, 220, 230, 1);
 }
 
 .formGroup input,
@@ -188,12 +266,34 @@
     background-color: #fafafa;
 }
 
+:global(html.dark) .formGroup input:hover,
+:global(html.dark) .formGroup textarea:hover,
+:global(html.dark) .formGroup select:hover {
+    border-color: rgba(100, 100, 120, 0.7);
+    background-color: rgba(20, 20, 30, 0.8);
+}
+
 .formGroup input:focus,
 .formGroup textarea:focus,
 .formGroup select:focus {
     outline: none;
     border-color: #dc3545;
     box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+:global(html.dark) .formGroup input:focus,
+:global(html.dark) .formGroup textarea:focus,
+:global(html.dark) .formGroup select:focus {
+    border-color: rgba(255, 100, 100, 1);
+    box-shadow: 0 0 0 3px rgba(255, 100, 100, 0.2);
+}
+
+:global(html.dark) .formGroup input,
+:global(html.dark) .formGroup textarea,
+:global(html.dark) .formGroup select {
+    background-color: rgba(15, 15, 25, 0.9);
+    border-color: rgba(60, 60, 80, 0.5);
+    color: rgba(220, 220, 230, 1);
 }
 
 .formGroup textarea {
@@ -218,7 +318,7 @@
     border-radius: 6px;
     transition: background-color 0.2s ease;
     text-align: left;
-    
+
 }
 .radioOption input{
     width: 10%;
@@ -229,10 +329,18 @@
     background-color: #f8f9fa;
 }
 
+:global(html.dark) .radioOption:hover {
+    background-color: rgba(20, 20, 30, 0.8);
+}
+
 .radioOption input[type="radio"] {
     margin-top: 3px;
     accent-color: #dc3545;
-   
+
+}
+
+:global(html.dark) .radioOption input[type="radio"] {
+    accent-color: rgba(255, 100, 100, 1);
 }
 
 .radioLabel {
@@ -242,6 +350,11 @@
     margin: 0;
     text-align: left;
     flex: 1;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .radioLabel {
+    color: rgba(220, 220, 230, 1);
 }
 
 /* Custom Email Input */
@@ -266,10 +379,26 @@
     background-color: #fafafa;
 }
 
+:global(html.dark) .customEmailInput:hover {
+    border-color: rgba(100, 100, 120, 0.7);
+    background-color: rgba(20, 20, 30, 0.8);
+}
+
 .customEmailInput:focus {
     outline: none;
     border-color: #dc3545;
     box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+:global(html.dark) .customEmailInput:focus {
+    border-color: rgba(255, 100, 100, 1);
+    box-shadow: 0 0 0 3px rgba(255, 100, 100, 0.2);
+}
+
+:global(html.dark) .customEmailInput {
+    background-color: rgba(15, 15, 25, 0.9);
+    border-color: rgba(60, 60, 80, 0.5);
+    color: rgba(220, 220, 230, 1);
 }
 
 /* Form Actions */
@@ -280,6 +409,11 @@
     margin-top: 30px;
     padding-top: 30px;
     border-top: 1px solid #e9ecef;
+    transition: border-color 0.3s ease;
+}
+
+:global(html.dark) .formActions {
+    border-top: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .backButton {
@@ -296,6 +430,15 @@
 
 .backButton:hover {
     background: #555;
+}
+
+:global(html.dark) .backButton {
+    background: rgba(100, 100, 100, 1);
+    border: 1px solid rgba(60, 60, 80, 0.5);
+}
+
+:global(html.dark) .backButton:hover {
+    background: rgba(120, 120, 120, 1);
 }
 
 .paymentButton {
@@ -318,6 +461,20 @@
     background: rgba(41, 41, 41, 0.8);
 }
 
+:global(html.dark) .paymentButton {
+    background: rgba(220, 220, 230, 1);
+    color: rgba(10, 10, 20, 1);
+    border: 1px solid rgba(220, 220, 230, 1);
+}
+
+:global(html.dark) .paymentButton:hover {
+    background: rgba(200, 200, 210, 1);
+}
+
+:global(html.dark) .paymentButton:active {
+    background: rgba(180, 180, 190, 1);
+}
+
 /* Loading State */
 .loading {
     display: flex;
@@ -326,6 +483,225 @@
     height: 200px;
     font-size: 18px;
     color: #666;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .loading {
+    color: rgba(180, 180, 200, 1);
+}
+
+/* Custom Notifications */
+.customNotification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 300px;
+    max-width: 400px;
+    animation: slideIn 0.3s ease-out;
+    transition: all 0.3s ease;
+}
+
+.customNotification.success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: 1px solid #1e7e34;
+    border-left: 4px solid #28a745;
+}
+
+.customNotification.error {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border: 1px solid #bd2130;
+    border-left: 4px solid #dc3545;
+}
+
+.customNotification.warning {
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    border: 1px solid #d39e00;
+    border-left: 4px solid #ffc107;
+    color: #212529;
+}
+
+.customNotification.info {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    border: 1px solid #117a8b;
+    border-left: 4px solid #17a2b8;
+}
+
+.customNotification .closeButton {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 15px;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.customNotification.warning .closeButton {
+    color: #212529;
+}
+
+.customNotification .closeButton:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.customNotification .icon {
+    margin-right: 12px;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.customNotification .content {
+    flex: 1;
+    line-height: 1.4;
+}
+
+.customNotification .title {
+    font-weight: 600;
+    margin-bottom: 4px;
+    font-size: 15px;
+}
+
+.customNotification .message {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Dark theme adjustments for notifications */
+:global(html.dark) .customNotification.success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+:global(html.dark) .customNotification.error {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+:global(html.dark) .customNotification.warning {
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+:global(html.dark) .customNotification.info {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
+}
+
+/* Modal styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+}
+
+.modal {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(html.dark) .modal {
+    background: rgba(15, 15, 25, 0.95);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.modal h3 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .modal h3 {
+    color: rgba(220, 220, 230, 1);
+}
+
+.modal p {
+    margin: 10px 0;
+    color: #666;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .modal p {
+    color: rgba(180, 180, 200, 1);
+}
+
+.modalButtons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.confirmButton {
+    background: #dc3545;
+    color: white;
+    border: 1px solid #dc3545;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.confirmButton:hover {
+    background: #c82333;
+    border-color: #bd2130;
+}
+
+:global(html.dark) .confirmButton {
+    background: rgba(255, 100, 100, 1);
+    border: 1px solid rgba(255, 100, 100, 1);
+}
+
+:global(html.dark) .confirmButton:hover {
+    background: rgba(220, 80, 80, 1);
 }
 
 /* Responsive Design */

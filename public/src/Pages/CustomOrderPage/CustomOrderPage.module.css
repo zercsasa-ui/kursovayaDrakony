@@ -2,6 +2,12 @@
     min-height: 100vh;
     background-color: #f8f9fa;
     padding-top: 120px;
+    transition: background 0.3s ease;
+}
+
+:global(html.dark) .customOrderPage {
+    background: linear-gradient(135deg, rgba(10, 10, 20, 0.98) 0%, rgba(5, 5, 15, 0.98) 100%);
+    color: rgba(220, 220, 230, 1);
 }
 
 .mainContent {
@@ -16,6 +22,13 @@
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     overflow: hidden;
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(html.dark) .formContainer {
+    background: rgba(30, 30, 40, 1);
+    border: 1px solid rgba(80, 80, 90, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .pageTitle {
@@ -45,6 +58,11 @@
     font-size: 16px;
     font-weight: 600;
     color: #292929;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .formGroup label {
+    color: rgba(240, 240, 250, 1);
 }
 
 .formGroup input,
@@ -54,15 +72,29 @@
     border-radius: 4px;
     font-size: 14px;
     background-color: #fff;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
     width: 100%;
     box-sizing: border-box;
+    color: #292929;
+}
+
+:global(html.dark) .formGroup input,
+:global(html.dark) .formGroup textarea {
+    background-color: rgba(50, 50, 60, 1);
+    border: 1px solid rgba(100, 100, 110, 1);
+    color: rgba(220, 220, 230, 1);
 }
 
 .formGroup input:hover,
 .formGroup textarea:hover {
     border-color: #bbb;
     background-color: #fafafa;
+}
+
+:global(html.dark) .formGroup input:hover,
+:global(html.dark) .formGroup textarea:hover {
+    border-color: rgba(120, 120, 130, 1);
+    background-color: rgba(60, 60, 70, 1);
 }
 
 .formGroup input:focus,
@@ -72,10 +104,28 @@
     box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
 }
 
+:global(html.dark) .formGroup input:focus,
+:global(html.dark) .formGroup textarea:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+}
+
 .formGroup textarea {
     resize: vertical;
     min-height: 120px;
     font-family: inherit;
+}
+
+/* Hide number input spinners */
+.formGroup input[type="number"] {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+}
+
+.formGroup input[type="number"]::-webkit-outer-spin-button,
+.formGroup input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .formActions {
@@ -85,6 +135,11 @@
     margin-top: 30px;
     padding-top: 30px;
     border-top: 1px solid #e9ecef;
+    transition: border-color 0.3s ease;
+}
+
+:global(html.dark) .formActions {
+    border-top: 1px solid rgba(80, 80, 90, 1);
 }
 
 .cancelButton {
@@ -96,11 +151,22 @@
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .cancelButton {
+    background: rgba(80, 80, 90, 1);
+    border: 1px solid rgba(100, 100, 110, 1);
+    color: rgba(220, 220, 230, 1);
 }
 
 .cancelButton:hover {
     background: #555;
+}
+
+:global(html.dark) .cancelButton:hover {
+    background: rgba(100, 100, 110, 1);
+    border-color: rgba(120, 120, 130, 1);
 }
 
 .submitButton {
@@ -112,15 +178,30 @@
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .submitButton {
+    background: rgba(60, 60, 70, 1);
+    border: 1px solid rgba(100, 100, 110, 1);
+    color: rgba(220, 220, 230, 1);
 }
 
 .submitButton:hover {
     background: rgba(41, 41, 41, 0.9);
 }
 
+:global(html.dark) .submitButton:hover {
+    background: rgba(80, 80, 90, 1);
+    border-color: rgba(120, 120, 130, 1);
+}
+
 .submitButton:active {
     background: rgba(41, 41, 41, 0.8);
+}
+
+:global(html.dark) .submitButton:active {
+    background: rgba(50, 50, 60, 1);
 }
 
 /* Responsive Design */
@@ -190,18 +271,34 @@
     max-width: 400px;
     width: 90%;
     text-align: center;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(html.dark) .modal {
+    background: rgba(30, 30, 40, 1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .modal h3 {
     margin: 0 0 15px 0;
     color: #333;
     font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .modal h3 {
+    color: rgba(240, 240, 250, 1);
 }
 
 .modal p {
     margin: 10px 0;
     color: #666;
     font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .modal p {
+    color: rgba(200, 200, 210, 1);
 }
 
 .modalButtons {
@@ -221,11 +318,22 @@
     text-transform: uppercase;
     cursor: pointer;
     border-radius: 4px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .confirmButton {
+    background: rgba(60, 60, 70, 1);
+    border: 1px solid rgba(100, 100, 110, 1);
+    color: rgba(220, 220, 230, 1);
 }
 
 .confirmButton:hover {
     background: rgba(41, 41, 41, 0.9);
+}
+
+:global(html.dark) .confirmButton:hover {
+    background: rgba(80, 80, 90, 1);
+    border-color: rgba(120, 120, 130, 1);
 }
 
 /* Responsive modal */

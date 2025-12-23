@@ -4,13 +4,19 @@
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     overflow: hidden;
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
     cursor: pointer;
     width: 280px;
     min-height: 400px;
     height: fit-content;
     flex-shrink: 0;
     margin-right: calc((100% - 80px - 280px * 4) / 3);
+}
+
+:global(html.dark) .productCard {
+    background: rgba(30, 30, 40, 1);
+    border: 1px solid rgba(80, 80, 90, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .productCard:nth-child(4n) {
@@ -31,6 +37,10 @@
     justify-content: center;
     position: relative;
     transition: transform 0.3s ease;
+}
+
+:global(html.dark) .imageContainer {
+    background: linear-gradient(135deg, rgba(50, 50, 60, 1) 0%, rgba(30, 30, 40, 1) 100%);
 }
 
 .productCard:hover .imageContainer {
@@ -84,6 +94,11 @@
     color: #292929;
     margin: 0;
     line-height: 1.3;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .productName {
+    color: rgba(240, 240, 250, 1);
 }
 
 .productDescription {
@@ -92,9 +107,14 @@
     margin: 0;
     line-height: 1.4;
     display: -webkit-box;
+    transition: color 0.3s ease;
 
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+:global(html.dark) .productDescription {
+    color: rgba(200, 200, 210, 1);
 }
 
 .productFooter {
@@ -108,6 +128,11 @@
     font-size: 20px;
     font-weight: 700;
     color: #292929;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .productPrice {
+    color: rgba(240, 240, 250, 1);
 }
 
 .addToCartBtn {
@@ -118,15 +143,36 @@
     border-radius: 4px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .addToCartBtn:hover {
     background: rgba(41, 41, 41, 0.9);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .addToCartBtn:active {
     background: rgba(41, 41, 41, 0.8);
+    transform: translateY(1px);
+}
+
+/* Dark theme styles for add to cart button */
+:global(html.dark) .addToCartBtn {
+    background: rgba(60, 60, 70, 1);
+    border: 1px solid rgba(100, 100, 110, 1);
+    color: rgba(220, 220, 230, 1);
+}
+
+:global(html.dark) .addToCartBtn:hover {
+    background: rgba(80, 80, 90, 1);
+    border-color: rgba(120, 120, 130, 1);
+    box-shadow: 0 2px 8px rgba(60, 60, 70, 0.4);
+}
+
+:global(html.dark) .addToCartBtn:active {
+    background: rgba(50, 50, 60, 1);
+    transform: translateY(1px);
+    box-shadow: 0 1px 4px rgba(60, 60, 70, 0.5);
 }
 
 /* Product details section */
@@ -148,11 +194,21 @@
 .detailLabel {
     color: #666;
     font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .detailLabel {
+    color: rgba(180, 180, 190, 1);
 }
 
 .detailValue {
     color: #292929;
     font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .detailValue {
+    color: rgba(220, 220, 230, 1);
 }
 
 /* Special offer styling */
@@ -170,6 +226,11 @@
     font-weight: 500;
     letter-spacing: 0.5px;
     text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .specialOfferText {
+    color: rgba(200, 200, 210, 1);
 }
 
 /* Out of stock overlay styling */

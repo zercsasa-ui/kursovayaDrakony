@@ -1,7 +1,12 @@
 .cartPage {
     min-height: 100vh;
     background-color: #f8f9fa;
-    
+    transition: background-color 0.3s ease;
+}
+
+:global(html.dark) .cartPage {
+    background: linear-gradient(135deg, rgba(10, 10, 20, 0.98) 0%, rgba(5, 5, 15, 0.98) 100%);
+    color: rgba(220, 220, 230, 1);
 }
 
 .mainContent {
@@ -26,6 +31,13 @@
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .cartList {
+    background: rgba(15, 15, 25, 0.95);
+    border: 1px solid rgba(60, 60, 80, 0.5);
+    border-right: none;
 }
 
 .cartTitle {
@@ -35,6 +47,12 @@
     color: #1a1a1a;
     border-bottom: 2px solid #e1e5e9;
     padding-bottom: 12px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .cartTitle {
+    color: rgba(220, 220, 230, 1);
+    border-bottom: 2px solid rgba(60, 60, 80, 0.5);
 }
 
 .emptyCart {
@@ -45,6 +63,11 @@
     color: #6c757d;
     font-size: 18px;
     font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .emptyCart {
+    color: rgba(180, 180, 200, 1);
 }
 
 .itemsList {
@@ -78,6 +101,22 @@
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
 }
 
+:global(html.dark) .cartItem {
+    background: rgba(20, 20, 30, 0.8);
+    border: 1px solid rgba(60, 60, 80, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+:global(html.dark) .cartItem:hover {
+    background: rgba(30, 30, 40, 0.9);
+    border-color: rgba(80, 80, 100, 0.7);
+}
+
+:global(html.dark) .cartItem.selected {
+    background: rgba(30, 30, 40, 0.9);
+    border-color: rgba(100, 100, 120, 0.8);
+}
+
 .itemImage {
     width: 48px;
     height: 48px;
@@ -102,6 +141,11 @@
     margin: 0 0 8px 0;
     color: #1a1a1a;
     line-height: 1.3;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .itemName {
+    color: rgba(220, 220, 230, 1);
 }
 
 .itemPrice {
@@ -109,6 +153,11 @@
     color: #495057;
     font-weight: 600;
     margin: 0 0 12px 0;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .itemPrice {
+    color: rgba(180, 180, 200, 1);
 }
 
 .quantityControls {
@@ -147,6 +196,11 @@
     font-weight: 600;
     font-size: 14px;
     color: #495057;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .quantity {
+    color: rgba(180, 180, 200, 1);
 }
 
 .removeBtn {
@@ -180,12 +234,22 @@
     justify-content: space-between;
     align-items: center;
     margin-top: 24px;
+    transition: border-color 0.3s ease;
+}
+
+:global(html.dark) .cartFooter {
+    border-top: 2px solid rgba(60, 60, 80, 0.5);
 }
 
 .total {
     font-size: 22px;
     font-weight: 600;
     color: #1a1a1a;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .total {
+    color: rgba(220, 220, 230, 1);
 }
 
 .buyBtn {
@@ -209,6 +273,19 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+:global(html.dark) .buyBtn {
+    background: rgba(220, 220, 230, 1);
+    color: rgba(10, 10, 20, 1);
+    border: 2px solid rgba(220, 220, 230, 1);
+}
+
+:global(html.dark) .buyBtn:hover {
+    background: transparent;
+    color: rgba(220, 220, 230, 1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
 .productDetails {
     flex: 1;
     background: white;
@@ -217,6 +294,12 @@
     display: flex;
     flex-direction: column;
     width: 1000px;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .productDetails {
+    background: rgba(15, 15, 25, 0.95);
+    border: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .noSelection {
@@ -243,6 +326,11 @@
     flex-shrink: 0;
     overflow: hidden;
     border: 1px solid #e1e5e9;
+    transition: border-color 0.3s ease;
+}
+
+:global(html.dark) .detailsImage {
+    border: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .detailsImage img {
@@ -264,6 +352,11 @@
     margin: 0 0 12px 0;
     color: #1a1a1a;
     line-height: 1.2;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .detailsInfo h3 {
+    color: rgba(220, 220, 230, 1);
 }
 
 .detailsPrice {
@@ -271,6 +364,11 @@
     color: #495057;
     font-weight: 600;
     margin: 0 0 24px 0;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .detailsPrice {
+    color: rgba(180, 180, 200, 1);
 }
 
 .detailsSection {
@@ -284,6 +382,11 @@
     color: #1a1a1a;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .detailsSection h4 {
+    color: rgba(220, 220, 230, 1);
 }
 
 .detailsSection p {
@@ -291,6 +394,11 @@
     line-height: 1.6;
     margin: 0;
     font-size: 15px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .detailsSection p {
+    color: rgba(200, 200, 210, 1);
 }
 
 .characteristics {
@@ -304,6 +412,11 @@
     justify-content: space-between;
     padding: 12px 0;
     border-bottom: 1px solid #e9ecef;
+    transition: border-color 0.3s ease;
+}
+
+:global(html.dark) .characteristic {
+    border-bottom: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .characteristic:last-child {
@@ -316,11 +429,21 @@
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.3px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .label {
+    color: rgba(180, 180, 200, 1);
 }
 
 .value {
     color: #1a1a1a;
     font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .value {
+    color: rgba(220, 220, 230, 1);
 }
 
 /* Modal styles */
@@ -345,11 +468,22 @@
     max-width: 400px;
     width: 90%;
     overflow: hidden;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(html.dark) .confirmModal {
+    background: rgba(15, 15, 25, 0.95);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 .modalHeader {
     padding: 24px 24px 16px;
     border-bottom: 1px solid #e9ecef;
+    transition: border-color 0.3s ease;
+}
+
+:global(html.dark) .modalHeader {
+    border-bottom: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .modalHeader h3 {
@@ -357,6 +491,11 @@
     font-size: 20px;
     font-weight: 600;
     color: #1a1a1a;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .modalHeader h3 {
+    color: rgba(220, 220, 230, 1);
 }
 
 .modalBody {
@@ -368,6 +507,11 @@
     font-size: 16px;
     color: #495057;
     line-height: 1.5;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .modalBody p {
+    color: rgba(200, 200, 210, 1);
 }
 
 .modalFooter {
@@ -376,6 +520,11 @@
     justify-content: flex-end;
     gap: 12px;
     border-top: 1px solid #e9ecef;
+    transition: border-color 0.3s ease;
+}
+
+:global(html.dark) .modalFooter {
+    border-top: 1px solid rgba(60, 60, 80, 0.5);
 }
 
 .cancelBtn {
@@ -396,6 +545,18 @@
     color: #495057;
 }
 
+:global(html.dark) .cancelBtn {
+    border: 2px solid rgba(60, 60, 80, 0.5);
+    background: rgba(20, 20, 30, 0.8);
+    color: rgba(180, 180, 200, 1);
+}
+
+:global(html.dark) .cancelBtn:hover {
+    background: rgba(30, 30, 40, 0.9);
+    border-color: rgba(80, 80, 100, 0.7);
+    color: rgba(220, 220, 230, 1);
+}
+
 .confirmBtn {
     padding: 10px 20px;
     border: 2px solid #000000;
@@ -411,6 +572,19 @@
 .confirmBtn:hover {
     background: #ffffff;
     color: #000000;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+:global(html.dark) .confirmBtn {
+    border: 2px solid rgba(220, 220, 230, 1);
+    background: rgba(220, 220, 230, 1);
+    color: rgba(10, 10, 20, 1);
+}
+
+:global(html.dark) .confirmBtn:hover {
+    background: transparent;
+    color: rgba(220, 220, 230, 1);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }

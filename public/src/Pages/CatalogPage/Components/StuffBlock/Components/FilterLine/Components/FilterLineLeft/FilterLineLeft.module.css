@@ -25,6 +25,10 @@
     }
 }
 
+:global(html.dark) .filterElement.active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
 .filterElement p {
     margin: 0;
     white-space: nowrap;

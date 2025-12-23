@@ -2,20 +2,15 @@
     min-height: 100vh;
     padding-top: 80px;
     background-color: #ffffff;
+    transition: background 0.3s ease;
 }
 
-/* Responsive design for header spacing */
-@media (max-width: 768px) {
-    .pageContainer {
-        padding-top: 70px;
-    }
+:global(html.dark) .pageContainer {
+    background: linear-gradient(135deg, rgba(10, 10, 20, 0.98) 0%, rgba(5, 5, 15, 0.98) 100%);
+    color: rgba(220, 220, 230, 1);
 }
 
-@media (max-width: 480px) {
-    .pageContainer {
-        padding-top: 65px;
-    }
-}
+
 
 .mainContent {
     width: calc(100% - 80px);
@@ -33,6 +28,12 @@
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(html.dark) .productContainer {
+    background: rgba(30, 30, 40, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .imageSection {
@@ -45,6 +46,12 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .imageSection {
+    background: linear-gradient(135deg, rgba(50, 50, 60, 1) 0%, rgba(30, 30, 40, 1) 100%);
+    border-right: 1px solid rgba(80, 80, 90, 1);
 }
 
 .productImage {
@@ -67,6 +74,11 @@
     color: #292929;
     margin: 0;
     line-height: 1.2;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .productName {
+    color: rgba(240, 240, 250, 1);
 }
 
 .priceSection {
@@ -79,6 +91,11 @@
     font-size: 28px;
     font-weight: 700;
     color: #292929;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .price {
+    color: rgba(240, 240, 250, 1);
 }
 
 .specialOfferBadge {
@@ -103,6 +120,11 @@
     font-weight: 600;
     color: #292929;
     margin: 0;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .description h3 {
+    color: rgba(240, 240, 250, 1);
 }
 
 .description p {
@@ -110,6 +132,11 @@
     color: #666;
     line-height: 1.5;
     margin: 0;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .description p {
+    color: rgba(200, 200, 210, 1);
 }
 
 .characteristics {
@@ -123,6 +150,11 @@
     font-weight: 600;
     color: #292929;
     margin: 0;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .characteristics h3 {
+    color: rgba(240, 240, 250, 1);
 }
 
 .characteristicsGrid {
@@ -139,6 +171,12 @@
     background: #ffffff;
     border: 1px solid #dee2e6;
     border-radius: 4px;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .characteristic {
+    background: rgba(40, 40, 50, 1);
+    border: 1px solid rgba(80, 80, 90, 1);
 }
 
 .label {
@@ -147,12 +185,22 @@
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .label {
+    color: rgba(180, 180, 190, 1);
 }
 
 .value {
     font-size: 14px;
     color: #292929;
     font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .value {
+    color: rgba(220, 220, 230, 1);
 }
 
 .actions {
@@ -215,6 +263,11 @@
     font-size: 24px;
     color: #666;
     padding: 100px 0;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .errorMessage {
+    color: rgba(200, 200, 210, 1);
 }
 
 /* Similar Products Section */
@@ -225,6 +278,12 @@
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(html.dark) .similarSection {
+    background: rgba(30, 30, 40, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .similarTitle {
@@ -233,13 +292,26 @@
     color: #292929;
     margin-bottom: 40px;
     text-align: center;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .similarTitle {
+    color: rgba(240, 240, 250, 1);
 }
 
 .similarProducts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 40px;
-    justify-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Override ProductCard margins in similar section */
+.similarProducts :global(.productCard) {
+    margin-right: 0 !important;
+    margin-bottom: 0 !important;
+    flex-shrink: 0;
 }
 
 .loadingSimilar {
@@ -247,6 +319,11 @@
     font-size: 18px;
     color: #666;
     padding: 50px 0;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .loadingSimilar {
+    color: rgba(200, 200, 210, 1);
 }
 
 .noSimilar {
@@ -254,95 +331,14 @@
     font-size: 18px;
     color: #666;
     padding: 50px 0;
+    transition: color 0.3s ease;
 }
 
-/* Responsive design for similar section */
-@media (max-width: 1024px) {
-    .similarProducts {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 30px;
-    }
-
-    .similarSection {
-        padding: 30px;
-    }
+:global(html.dark) .noSimilar {
+    color: rgba(200, 200, 210, 1);
 }
 
-@media (max-width: 768px) {
-    .similarSection {
-        padding: 20px;
-        margin-top: 30px;
-    }
 
-    .similarTitle {
-        font-size: 24px;
-        margin-bottom: 30px;
-    }
-
-    .similarProducts {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .similarProducts {
-        grid-template-columns: 1fr;
-    }
-
-    .similarSection {
-        padding: 15px;
-    }
-}
-
-/* Responsive design */
-@media (max-width: 1024px) {
-    .productContainer {
-        flex-direction: column;
-    }
-
-    .imageSection,
-    .infoSection {
-        width: 100%;
-    }
-
-    .imageSection {
-        min-height: 400px;
-    }
-
-    .infoSection {
-        padding: 24px;
-    }
-
-    .characteristicsGrid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 768px) {
-    .mainContent {
-        width: calc(100% - 40px);
-        padding: 20px;
-    }
-
-    .productName {
-        font-size: 24px;
-    }
-
-    .price {
-        font-size: 24px;
-    }
-
-    .actions {
-        flex-direction: column;
-    }
-
-    .addToCartBtn,
-    .orderBtn {
-        padding: 14px 24px;
-        font-size: 14px;
-    }
-}
 
 /* Notification styles */
 .notification {
@@ -368,6 +364,12 @@
     background-color: #000000;
     border: 1px solid #333333;
     border-top: 3px solid #000000;
+}
+
+:global(html.dark) .notification.success {
+    background-color: #28a745;
+    border: 1px solid #1e7e34;
+    border-top: 3px solid #1e7e34;
 }
 
 .notification.error {
@@ -404,15 +406,5 @@
     to {
         transform: translateX(0);
         opacity: 1;
-    }
-}
-
-@media (max-width: 768px) {
-    .notification {
-        top: 10px;
-        right: 10px;
-        left: 10px;
-        padding: 10px 14px;
-        font-size: 12px;
     }
 }

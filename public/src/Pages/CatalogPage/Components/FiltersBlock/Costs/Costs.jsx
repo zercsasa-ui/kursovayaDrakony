@@ -35,7 +35,7 @@ function Costs({ setFilters }) {
 
     const saveInputValue = () => {
         const numValue = parseInt(inputValue, 10);
-        if (!isNaN(numValue) && numValue >= 0 && numValue <= 200000) {
+        if (!isNaN(numValue) && numValue >= 0 && numValue <= 500000) {
             setValue(numValue);
         } else {
             setInputValue(value); // Reset to current value if invalid
@@ -60,7 +60,7 @@ function Costs({ setFilters }) {
                     <input
                         type="range"
                         min="0"
-                        max="200000"
+                        max="500000"
                         value={value}
                         onChange={handleSliderChange}
                         className={styles.slider}
@@ -69,7 +69,7 @@ function Costs({ setFilters }) {
                         <input
                             type="number"
                             min="0"
-                            max="200000"
+                            max="500000"
                             value={inputValue}
                             onChange={handleInputChange}
                             onBlur={handleInputBlur}

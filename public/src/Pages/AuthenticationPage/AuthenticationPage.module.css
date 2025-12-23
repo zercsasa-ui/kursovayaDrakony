@@ -5,6 +5,11 @@
     align-items: center;
     background: #ffffff;
     padding: 20px;
+    transition: background 0.3s ease;
+}
+
+:global(html.dark) .authenticationPage {
+    background: linear-gradient(135deg, rgba(10, 10, 20, 0.98) 0%, rgba(5, 5, 15, 0.98) 100%);
 }
 
 .authenticationContainer {
@@ -15,6 +20,12 @@
     max-width: 400px;
     box-shadow: none;
     margin-top: 40px;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+:global(html.dark) .authenticationContainer {
+    background: rgba(30, 30, 40, 1);
+    border: 1px solid rgba(80, 80, 90, 1);
 }
 
 .authenticationContainer h1 {
@@ -24,6 +35,11 @@
     font-size: 32px;
     font-weight: 300;
     letter-spacing: -0.5px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .authenticationContainer h1 {
+    color: rgba(240, 240, 250, 1);
 }
 
 .authenticationForm {
@@ -44,6 +60,11 @@
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .inputGroup label {
+    color: rgba(180, 180, 190, 1);
 }
 
 .inputGroup input {
@@ -55,8 +76,13 @@
     font-size: 16px;
     font-family: inherit;
     color: #000000;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, color 0.3s ease;
     box-sizing: border-box;
+}
+
+:global(html.dark) .inputGroup input {
+    color: rgba(220, 220, 230, 1);
+    border-bottom-color: rgba(100, 100, 110, 1);
 }
 
 .inputGroup input:focus {
@@ -64,8 +90,16 @@
     border-bottom-color: #000000;
 }
 
+:global(html.dark) .inputGroup input:focus {
+    border-bottom-color: rgba(200, 200, 210, 1);
+}
+
 .inputGroup input:hover {
     border-bottom-color: #999999;
+}
+
+:global(html.dark) .inputGroup input:hover {
+    border-bottom-color: rgba(120, 120, 130, 1);
 }
 
 .authenticationButton {
@@ -103,12 +137,22 @@
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .registerLink p {
+    color: rgba(180, 180, 190, 1);
 }
 
 .registerLink a {
     color: #000000;
     text-decoration: none;
     font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+:global(html.dark) .registerLink a {
+    color: rgba(220, 220, 230, 1);
 }
 
 .registerLink a:hover {

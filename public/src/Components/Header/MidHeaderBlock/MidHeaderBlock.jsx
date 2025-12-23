@@ -26,16 +26,16 @@ function MidHeaderBlock() {
             <div className={ styles.midHeaderBlock }>
                 <SearchComponent/>
                 <button
-                    className={styles.link}
+                    className={styles.navButton}
                     onClick={() => handleNavigation('catalog')}
                 >
-                    <p>КАТАЛОГ</p>
+                    КАТАЛОГ
                 </button>
                 <button
-                    className={styles.link}
+                    className={styles.navButton}
                     onClick={() => handleNavigation('gallery')}
                 >
-                    <p>ГАЛЕРЕЯ</p>
+                    ГАЛЕРЕЯ
                 </button>
             </div>
         </>
