@@ -25,3 +25,30 @@ html.dark .switchRoot {
 html.dark .switchRoot:hover {
   background-color: rgba(255, 255, 255, 0.3);
 }
+
+/* Hide scrollbar while keeping scroll functionality */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+}
+
+@media (max-width: 1600px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 960px) {
+  body {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 375px) {
+  body {
+    font-size: 12px;
+  }
+}

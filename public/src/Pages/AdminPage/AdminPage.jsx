@@ -410,7 +410,7 @@ function AdminPage() {
         // Find the order to check if it's a custom order
         const order = orders.find(o => o.id === orderId);
 
-        const validStatuses = ['Собираем', 'В пути', 'Доставлен', 'Создаем кастомуную фигурку', 'Оценка работы', 'Согласование'];
+        const validStatuses = ['Жду когда вернется', 'Ожидается', 'В наличии', 'Собираем', 'В пути', 'Доставлен', 'Создаем кастомуную фигурку', 'Оценка работы', 'Согласование'];
         if (!validStatuses.includes(status)) {
             showNotification('Неверный статус заказа', 'error');
             return;
@@ -1028,6 +1028,9 @@ function AdminPage() {
                                         <td>
                                             {editingOrder === order.id ? (
                                                 <select defaultValue={order.status}>
+                                                    <option value="Жду когда вернется">Жду когда вернется</option>
+                                                    <option value="Ожидается">Ожидается</option>
+                                                    <option value="В наличии">В наличии</option>
                                                     <option value="Собираем">Собираем</option>
                                                     <option value="В пути">В пути</option>
                                                     <option value="Доставлен">Доставлен</option>

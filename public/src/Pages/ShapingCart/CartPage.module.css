@@ -590,49 +590,265 @@
 }
 
 /* Responsive design */
-@media (max-width: 768px) {
+@media (max-width: 1600px) {
+    .mainContent {
+        padding: 100px 15px 30px;
+    }
+
+    .cartContainer {
+        height: calc(100vh - 100px);
+    }
+
+    .cartList {
+        width: 350px;
+        padding: 20px;
+    }
+
+    .productDetails {
+        width: 800px;
+        padding: 20px;
+    }
+
+    .cartTitle {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .detailsInfo h3 {
+        font-size: 24px;
+    }
+
+    .detailsPrice {
+        font-size: 20px;
+    }
+
+    .total {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 960px) {
+    .cartPage {
+        padding-top: 70px;
+    }
+
+    .mainContent {
+        padding: 80px 10px 20px;
+    }
+
     .cartContainer {
         flex-direction: column;
         height: auto;
+        gap: 20px;
     }
 
     .cartList {
         width: 100%;
-        border-right: 1px solid #e1e5e9;
-        border-bottom: none;
+        border-right: none;
+        border-bottom: 1px solid #e1e5e9;
         height: auto;
+        max-height: 400px;
+        padding: 16px;
+    }
+
+    :global(html.dark) .cartList {
+        border-bottom: 1px solid rgba(60, 60, 80, 0.5);
     }
 
     .productDetails {
         flex: none;
         height: auto;
+        width: 100%;
+        padding: 16px;
     }
 
-    .mainContent {
-        padding: 80px 10px 40px;
+    .detailsContent {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .detailsImage {
+        order: 1;
+        width: 100%;
+        height: 300px;
+        margin-bottom: 20px;
+    }
+
+    .detailsInfo {
+        order: 2;
+        padding-right: 0;
+    }
+
+    .cartTitle {
+        font-size: 22px;
+        margin-bottom: 16px;
+    }
+
+    .detailsInfo h3 {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+
+    .detailsPrice {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .characteristics {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
     }
 
     .cartFooter {
-        flex-direction: column;
-        gap: 15px;
-        align-items: stretch;
+        padding-top: 16px;
+        margin-top: 16px;
+    }
+
+    .total {
+        font-size: 18px;
     }
 
     .buyBtn {
-        align-self: stretch;
+        padding: 12px 24px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 375px) {
+    .cartPage {
+        padding-top: 60px;
+    }
+
+    .mainContent {
+        padding: 70px 8px 15px;
+    }
+
+    .cartList {
+        padding: 12px;
+        max-height: 300px;
+    }
+
+    .productDetails {
+        padding: 12px;
+    }
+
+    .cartTitle {
+        font-size: 20px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+    }
+
+    .cartItem {
+        padding: 8px;
+        margin-bottom: 4px;
+    }
+
+    .itemImage {
+        width: 40px;
+        height: 40px;
+        margin-right: 8px;
+    }
+
+    .itemName {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .itemPrice {
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    .quantityControls {
+        gap: 6px;
+    }
+
+    .quantityBtn, .removeBtn {
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+    }
+
+    .quantity {
+        min-width: 28px;
+        font-size: 13px;
+    }
+
+    .detailsImage {
+        height: 250px;
+        margin-bottom: 15px;
+    }
+
+    .detailsInfo h3 {
+        font-size: 18px;
+    }
+
+    .detailsPrice {
+        font-size: 16px;
+    }
+
+    .detailsSection {
+        margin-bottom: 16px;
+    }
+
+    .detailsSection h4 {
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    .detailsSection p {
+        font-size: 14px;
+    }
+
+    .characteristics {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .characteristic {
+        padding: 8px 0;
+    }
+
+    .label {
+        font-size: 13px;
+    }
+
+    .value {
+        font-size: 14px;
+    }
+
+    .cartFooter {
+        padding-top: 12px;
+        margin-top: 12px;
+    }
+
+    .total {
+        font-size: 16px;
+    }
+
+    .buyBtn {
+        padding: 10px 20px;
+        font-size: 14px;
     }
 
     .confirmModal {
-        margin: 20px;
-        width: calc(100% - 40px);
+        margin: 15px;
+        width: calc(100% - 30px);
+    }
+
+    .modalHeader {
+        padding: 16px 16px 12px;
+    }
+
+    .modalHeader h3 {
+        font-size: 18px;
+    }
+
+    .modalBody {
+        padding: 12px 16px;
     }
 
     .modalFooter {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .cancelBtn, .confirmBtn {
-        width: 100%;
+        padding: 12px 16px 16px;
     }
 }

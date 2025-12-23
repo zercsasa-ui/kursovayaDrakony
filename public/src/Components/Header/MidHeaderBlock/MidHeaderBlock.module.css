@@ -42,3 +42,35 @@
 .navButton img{
     height: 16px;
 }
+
+.burgerNav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.burgerNavButton {
+    color: rgba(114, 113, 110, 1);
+    font-size: 16px;
+    font-family: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 10px;
+    text-align: left;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.burgerNavButton:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+:global(html.dark) .burgerNavButton {
+    color: rgba(240, 240, 250, 1);
+}
+
+:global(html.dark) .burgerNavButton:hover {
+    background-color: rgba(138, 43, 226, 0.1);
+}

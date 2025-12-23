@@ -2,7 +2,7 @@ import styles from './RightHeaderBlock.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-function RightHeaderBlock() {
+function RightHeaderBlock({ isBurger, closeBurger }) {
     const navigate = useNavigate();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState(null);
@@ -44,6 +44,7 @@ function RightHeaderBlock() {
             if (data.success) {
                 console.log('Navigating to registration via server:', data);
                 navigate(data.route);
+                if (closeBurger) closeBurger();
             } else {
                 console.error('Navigation error:', data.error);
             }
@@ -54,6 +55,7 @@ function RightHeaderBlock() {
 
     const handleLogin = () => {
         navigate('/login');
+        if (closeBurger) closeBurger();
     };
 
     const handleProfile = () => {
@@ -80,14 +82,17 @@ function RightHeaderBlock() {
 
     const handleConsole = () => {
         navigate('/admin');
+        if (closeBurger) closeBurger();
     };
 
     const handleProfilePage = () => {
         navigate('/profile');
+        if (closeBurger) closeBurger();
     };
 
     const handleCart = () => {
         navigate('/cart');
+        if (closeBurger) closeBurger();
     };
 
     // Create menu items array based on user role
@@ -98,6 +103,43 @@ function RightHeaderBlock() {
         { label: 'divider', action: null, isLogout: false },
         { label: 'Выйти', action: handleLogout, isLogout: true }
     ] : [];
+
+    if (isBurger) {
+        return (
+            <div className={styles.burgerRight}>
+                {!isAuthenticated ? (
+                    <button className={styles.burgerNavButton} onClick={handleLogin}>
+                        Войти
+                    </button>
+                ) : (
+                    user && (
+                        <div className={styles.burgerUser}>
+                            <div className={styles.burgerProfile}>
+                                <img src={user.avatar || "/images/woman.png"} alt="профиль" className={styles.burgerAvatar} />
+                                <span>{user.username}</span>
+                            </div>
+                            <div className={styles.burgerMenuItems}>
+                                <button className={styles.burgerNavButton} onClick={handleProfilePage}>
+                                    Профиль
+                                </button>
+                                <button className={styles.burgerNavButton} onClick={handleCart}>
+                                    Корзина
+                                </button>
+                                {user.role === 'Админ' || user.role === 'Редактор' ? (
+                                    <button className={styles.burgerNavButton} onClick={handleConsole}>
+                                        Консоль
+                                    </button>
+                                ) : null}
+                                <button className={`${styles.burgerNavButton} ${styles.logoutButton}`} onClick={handleLogout}>
+                                    Выйти
+                                </button>
+                            </div>
+                        </div>
+                    )
+                )}
+            </div>
+        );
+    }
 
     return (
         <div className={styles.rightHeaderBlock}>

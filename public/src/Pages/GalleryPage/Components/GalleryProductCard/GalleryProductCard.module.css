@@ -70,3 +70,45 @@
 :global(html.dark) .productName {
     color: rgba(240, 240, 250, 1);
 }
+
+@media (max-width: 1600px) {
+    .productCard {
+        width: 260px;
+    }
+
+    .productName {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 960px) {
+    .productCard {
+        width: 240px;
+    }
+
+    .productName {
+        font-size: 16px;
+    }
+
+    .productInfo {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 375px) {
+    .productCard {
+        width: 200px;
+    }
+
+    .productName {
+        font-size: 14px;
+    }
+
+    .productInfo {
+        padding: 8px;
+    }
+
+    .fallbackImage {
+        font-size: 36px;
+    }
+}

@@ -89,3 +89,53 @@
     color: rgba(200, 200, 210, 1);
     background: rgba(50, 50, 60, 1);
 }
+
+@media (max-width: 1600px) {
+    .userCard {
+        width: 260px;
+    }
+
+    .username {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 960px) {
+    .userCard {
+        width: 240px;
+    }
+
+    .username {
+        font-size: 16px;
+    }
+
+    .userRole {
+        font-size: 13px;
+    }
+
+    .userInfo {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 375px) {
+    .userCard {
+        width: 200px;
+    }
+
+    .username {
+        font-size: 14px;
+    }
+
+    .userRole {
+        font-size: 12px;
+    }
+
+    .userInfo {
+        padding: 8px;
+    }
+
+    .fallbackImage {
+        font-size: 28px;
+    }
+}

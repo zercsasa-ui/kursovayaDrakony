@@ -159,3 +159,59 @@ a:hover::after {
 :global(html.dark) .separator {
     color: #999999;
 }
+
+@media (max-width: 1600px) {
+    .breadcrumbsWrapper {
+        top: 75px;
+    }
+}
+
+@media (max-width: 960px) {
+    .breadcrumbsWrapper {
+        top: 70px;
+        left: calc(50% + 20px);
+    }
+
+    .backArrow {
+        left: -40px;
+        width: 28px;
+        height: 28px;
+    }
+
+    .backArrow img {
+        width: 10px;
+        height: 10px;
+    }
+
+    .container {
+        padding: 6px 15px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 375px) {
+    .breadcrumbsWrapper {
+        top: 65px;
+        left: calc(50% + 15px);
+    }
+
+    .backArrow {
+        left: -35px;
+        width: 24px;
+        height: 24px;
+    }
+
+    .backArrow img {
+        width: 8px;
+        height: 8px;
+    }
+
+    .container {
+        padding: 4px 10px;
+        font-size: 10px;
+    }
+
+    .separator {
+        margin: 0 8px;
+    }
+}

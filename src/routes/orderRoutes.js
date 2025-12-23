@@ -3,6 +3,46 @@ const router = express.Router();
 const { Order } = require('../models');
 const { requireAuth } = require('../middleware/auth');
 
+// Создать заказ на конкретный товар
+router.post('/product', requireAuth, async (req, res) => {
+    try {
+        const userId = req.session.userId;
+        if (!userId) {
+            return res.status(401).json({ error: 'Пользователь не авторизован' });
+        }
+
+        const { productId, productName, productType, price } = req.body;
+
+        // Basic validation
+        if (!productId || !productName || !productType || !price) {
+            return res.status(400).json({ error: 'Все поля обязательны' });
+        }
+
+        // Create product order
+        const order = await Order.create({
+            userId: userId,
+            items: JSON.stringify([{
+                id: productId,
+                name: productName,
+                type: productType,
+                price: parseFloat(price),
+                quantity: 1
+            }]),
+            totalPrice: parseFloat(price),
+            status: 'Жду когда вернется'
+        });
+
+        res.json({
+            success: true,
+            message: 'Заказ создан успешно',
+            orderId: order.id
+        });
+    } catch (error) {
+        console.error('Ошибка при создании заказа:', error);
+        res.status(500).json({ error: 'Ошибка при создании заказа' });
+    }
+});
+
 // Создать кастомный заказ
 router.post('/custom', requireAuth, async (req, res) => {
     try {
@@ -179,7 +219,7 @@ router.put('/:id/status', requireAuth, async (req, res) => {
         const { status, response } = req.body;
         const orderId = req.params.id;
 
-        const validStatuses = ['Собираем', 'В пути', 'Доставлен', 'Создаем кастомуную фигурку', 'Оценка работы', 'Согласование'];
+        const validStatuses = ['Жду когда вернется', 'Ожидается', 'В наличии', 'Собираем', 'В пути', 'Доставлен', 'Создаем кастомуную фигурку', 'Оценка работы', 'Согласование'];
         if (!validStatuses.includes(status)) {
             return res.status(400).json({ error: 'Неверный статус заказа' });
         }

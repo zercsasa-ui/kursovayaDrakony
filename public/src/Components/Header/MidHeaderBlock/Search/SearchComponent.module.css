@@ -161,3 +161,83 @@
 :global(html.dark) .noResults {
     color: rgba(150, 150, 170, 0.7);
 }
+
+@media (max-width: 1600px) {
+    .searchInput {
+        width: 100px;
+    }
+
+    .searchInput:focus {
+        width: 130px;
+    }
+}
+
+@media (max-width: 960px) {
+    .searchInput {
+        width: 80px;
+        font-size: 13px;
+    }
+
+    .searchInput:focus {
+        width: 110px;
+    }
+
+    .dropdown {
+        max-height: 250px;
+    }
+
+    .searchResult {
+        padding: 8px;
+    }
+
+    .resultImage {
+        width: 35px;
+        height: 35px;
+    }
+
+    .resultName {
+        font-size: 13px;
+    }
+
+    .resultPrice {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 375px) {
+    .searchInput {
+        width: 60px;
+        font-size: 12px;
+    }
+
+    .searchInput:focus {
+        width: 90px;
+    }
+
+    .dropdown {
+        max-height: 200px;
+    }
+
+    .searchResult {
+        padding: 6px;
+    }
+
+    .resultImage {
+        width: 30px;
+        height: 30px;
+        margin-right: 8px;
+    }
+
+    .resultName {
+        font-size: 12px;
+    }
+
+    .resultPrice {
+        font-size: 11px;
+    }
+
+    .loading, .noResults {
+        padding: 10px;
+        font-size: 12px;
+    }
+}

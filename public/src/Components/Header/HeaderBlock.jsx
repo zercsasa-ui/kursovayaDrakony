@@ -8,6 +8,7 @@ import ThemeSwitcher from './ThemeSwitcher';
 function HeaderBlock() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
+    const [isBurgerOpen, setIsBurgerOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -18,6 +19,10 @@ function HeaderBlock() {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    const toggleBurger = () => {
+        setIsBurgerOpen(!isBurgerOpen);
+    };
 
     return (
         <>
@@ -31,7 +36,18 @@ function HeaderBlock() {
                     <LeftHeaderBlock />
                     <MidHeaderBlock />
                     <RightHeaderBlock />
+                    <button className={styles.burgerButton} onClick={toggleBurger}>
+                        <span className={styles.burgerLine}></span>
+                        <span className={styles.burgerLine}></span>
+                        <span className={styles.burgerLine}></span>
+                    </button>
                 </div>
+                {isBurgerOpen && (
+                    <div className={styles.burgerMenu}>
+                        <MidHeaderBlock isBurger={true} closeBurger={() => setIsBurgerOpen(false)} />
+                        <RightHeaderBlock isBurger={true} closeBurger={() => setIsBurgerOpen(false)} />
+                    </div>
+                )}
             </div>
         </>
     );

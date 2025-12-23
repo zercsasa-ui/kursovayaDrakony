@@ -6,16 +6,21 @@
     width: 100%;
 }
 
-/* Responsive design for header spacing */
-@media (max-width: 768px) {
+@media (max-width: 1600px) {
+    main {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 960px) {
     .mainPage {
         padding-top: 55px;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 375px) {
     .mainPage {
-        padding-top: 50px;
+        padding-top: 45px;
     }
 }
 

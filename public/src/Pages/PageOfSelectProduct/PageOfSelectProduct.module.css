@@ -60,6 +60,22 @@
     object-fit: contain;
 }
 
+@media (max-width: 960px) {
+    .productImage {
+        width: 70%;
+        height: 70%;
+        max-width: 400px;
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 375px) {
+    .productImage {
+        width: 95%;
+        height: 95%;
+    }
+}
+
 .infoSection {
     width: 50%;
     padding: 40px;
@@ -406,5 +422,237 @@
     to {
         transform: translateX(0);
         opacity: 1;
+    }
+}
+
+@media (max-width: 1600px) {
+    .mainContent {
+        width: calc(100% - 60px);
+        padding: 30px;
+        max-width: 1200px;
+    }
+
+    .productContainer {
+        gap: 30px;
+    }
+
+    .imageSection {
+        min-height: 500px;
+        max-height: 600px;
+    }
+
+    .infoSection {
+        padding: 30px;
+    }
+
+    .productName {
+        font-size: 28px;
+    }
+
+    .price {
+        font-size: 24px;
+    }
+
+    .characteristicsGrid {
+        gap: 10px;
+    }
+
+    .similarSection {
+        padding: 30px;
+    }
+
+    .similarTitle {
+        font-size: 28px;
+        margin-bottom: 30px;
+    }
+
+    .similarProducts {
+        gap: 30px;
+    }
+}
+
+@media (max-width: 960px) {
+    .pageContainer {
+        padding-top: 70px;
+    }
+
+    .mainContent {
+        width: calc(100% - 40px);
+        padding: 20px;
+        max-width: none;
+    }
+
+    .productContainer {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .imageSection {
+        width: 100%;
+        min-height: 400px;
+        max-height: 500px;
+        border-right: none;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    :global(html.dark) .imageSection {
+        border-bottom: 1px solid rgba(80, 80, 90, 1);
+    }
+
+    .infoSection {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .productName {
+        font-size: 24px;
+    }
+
+    .price {
+        font-size: 20px;
+    }
+
+    .description h3 {
+        font-size: 16px;
+    }
+
+    .description p {
+        font-size: 14px;
+    }
+
+    .characteristics h3 {
+        font-size: 16px;
+    }
+
+    .characteristicsGrid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .addToCartBtn,
+    .orderBtn {
+        padding: 14px 24px;
+        font-size: 15px;
+    }
+
+    .similarSection {
+        padding: 20px;
+        margin-top: 30px;
+    }
+
+    .similarTitle {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .similarProducts {
+        gap: 20px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 375px) {
+    .pageContainer {
+        padding-top: 60px;
+    }
+
+    .mainContent {
+        width: calc(100% - 20px);
+        padding: 15px;
+    }
+
+    .productContainer {
+        gap: 15px;
+    }
+
+    .imageSection {
+        min-height: 300px;
+        max-height: 400px;
+    }
+
+    .infoSection {
+        padding: 15px;
+        gap: 16px;
+    }
+
+    .productName {
+        font-size: 20px;
+        line-height: 1.1;
+    }
+
+    .price {
+        font-size: 18px;
+    }
+
+    .priceSection {
+        gap: 12px;
+    }
+
+    .description h3 {
+        font-size: 15px;
+    }
+
+    .description p {
+        font-size: 13px;
+    }
+
+    .characteristics h3 {
+        font-size: 15px;
+    }
+
+    .characteristic {
+        padding: 10px;
+    }
+
+    .label {
+        font-size: 11px;
+    }
+
+    .value {
+        font-size: 13px;
+    }
+
+    .actions {
+        gap: 10px;
+    }
+
+    .addToCartBtn,
+    .orderBtn {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    .similarSection {
+        padding: 15px;
+        margin-top: 20px;
+    }
+
+    .similarTitle {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    .similarProducts {
+        gap: 15px;
+        padding: 5px;
+    }
+
+    .errorMessage {
+        font-size: 18px;
+        padding: 50px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .notification {
+        left: 10px;
+        right: 10px;
+        min-width: auto;
+        max-width: none;
     }
 }

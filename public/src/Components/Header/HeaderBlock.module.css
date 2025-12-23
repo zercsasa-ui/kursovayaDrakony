@@ -70,38 +70,43 @@
     opacity: 100%;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
+@media (max-width: 1600px) {
     .headerBlock {
-        width: calc(100% - 40px);
+        width: calc(100% - 250px);
+    }
+}
+
+@media (max-width: 960px) {
+    .headerBlock {
+        width: calc(100% - 60px);
         height: 55px;
     }
 
     .headerBlock.scrolled {
-        width: calc(100% - 20px);
+        width: calc(100% - 30px);
         height: 45px;
     }
 
     .headerBlockBg.scrolled:hover .headerBlock {
-        width: calc(100% - 40px);
+        width: calc(100% - 60px);
         height: 55px;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 375px) {
     .headerBlock {
-        width: calc(100% - 20px);
-        height: 50px;
+        width: calc(100% - 10px);
+        height: 45px;
     }
 
     .headerBlock.scrolled {
-        width: calc(100% - 10px);
-        height: 40px;
+        width: calc(100% - 5px);
+        height: 35px;
     }
 
     .headerBlockBg.scrolled:hover .headerBlock {
-        width: calc(100% - 20px);
-        height: 50px;
+        width: calc(100% - 10px);
+        height: 45px;
     }
 }
 
@@ -117,4 +122,113 @@
 .headerBlock > :nth-child(3) {
     position: absolute;
     right: 0;
+}
+
+.burgerButton {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.burgerLine {
+    width: 100%;
+    height: 3px;
+    background: #333;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+:global(html.dark) .burgerLine {
+    background: #fff;
+}
+
+.burgerButton:hover .burgerLine {
+    background: #555;
+}
+
+:global(html.dark) .burgerButton:hover .burgerLine {
+    background: #ccc;
+}
+
+.burgerMenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+:global(html.dark) .burgerMenu {
+    background: rgba(20, 20, 30, 0.95);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 1600px) {
+    .headerBlock {
+        width: calc(100% - 250px);
+    }
+}
+
+@media (max-width: 960px) {
+    .headerBlock {
+        width: calc(100% - 60px);
+        height: 55px;
+        justify-content: space-between;
+    }
+
+    .headerBlock.scrolled {
+        width: calc(100% - 30px);
+        height: 45px;
+    }
+
+    .headerBlockBg.scrolled:hover .headerBlock {
+        width: calc(100% - 60px);
+        height: 55px;
+    }
+
+    .headerBlock > :nth-child(2) {
+        display: none;
+    }
+
+    .headerBlock > :nth-child(3) {
+        display: none;
+    }
+
+    .burgerButton {
+        display: flex;
+    }
+}
+
+@media (max-width: 375px) {
+    .headerBlock {
+        width: calc(100% - 10px);
+        height: 45px;
+    }
+
+    .headerBlock.scrolled {
+        width: calc(100% - 5px);
+        height: 35px;
+    }
+
+    .headerBlockBg.scrolled:hover .headerBlock {
+        width: calc(100% - 10px);
+        height: 45px;
+    }
 }

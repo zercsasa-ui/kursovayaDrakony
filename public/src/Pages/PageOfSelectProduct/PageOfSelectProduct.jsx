@@ -198,9 +198,40 @@ function PageOfSelectProduct() {
         }
     };
 
-    const handleOrder = () => {
-        // Пока без функционала
-        console.log('Заказать:', product);
+    const handleOrder = async () => {
+        // Check if product is in stock
+        if (inStock > 0) {
+            showNotification('Этот товар есть в наличии! Используйте кнопку "В корзину"', 'error');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:3000/api/orders/product', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    productId: id,
+                    productName: name,
+                    productType: type,
+                    price: price
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                showNotification(`Заказ на "${name}" создан!`, 'success');
+                console.log('Заказ создан:', data.orderId);
+            } else {
+                showNotification(data.error || 'Ошибка при создании заказа', 'error');
+            }
+        } catch (error) {
+            console.error('Ошибка при заказе:', error);
+            showNotification('Ошибка сети, попробуйте еще раз', 'error');
+        }
     };
 
     return (
