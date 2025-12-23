@@ -94,7 +94,7 @@ function RightHeaderBlock() {
     const menuItems = user ? [
         { label: 'Профиль', action: handleProfilePage, isLogout: false },
         { label: 'Корзина', action: handleCart, isLogout: false },
-        ...(user.role === 'Админ' ? [{ label: 'Консоль', action: handleConsole, isLogout: false }] : []),
+        ...((user.role === 'Админ' || user.role === 'Редактор') ? [{ label: 'Консоль', action: handleConsole, isLogout: false }] : []),
         { label: 'divider', action: null, isLogout: false },
         { label: 'Выйти', action: handleLogout, isLogout: true }
     ] : [];

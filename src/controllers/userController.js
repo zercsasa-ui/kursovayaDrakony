@@ -2,12 +2,32 @@ const { UserModel } = require('../database/database');
 const { deleteAvatarFile } = require('../utils/fileUtils');
 
 class UserController {
-  // Получить всех пользователей
+  // Получить всех пользователей (защищенный маршрут)
   static getAllUsers(req, res) {
     UserModel.findAll()
       .then(users => {
         console.log('Users in DB:', users);
         res.json({ users });
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
+      });
+  }
+
+  // Получить всех пользователей для галереи (публичный маршрут, без паролей)
+  static getAllUsersPublic(req, res) {
+    UserModel.findAll()
+      .then(users => {
+        // Убираем чувствительную информацию
+        const publicUsers = users.map(user => ({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          avatar: user.avatar,
+          role: user.role,
+          created_at: user.created_at
+        }));
+        res.json({ users: publicUsers });
       })
       .catch(err => {
         res.status(500).json({ error: err.message });

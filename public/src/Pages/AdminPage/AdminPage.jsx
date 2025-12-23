@@ -102,7 +102,7 @@ function AdminPage() {
             });
             const userData = await userResponse.json();
 
-            if (!userData.success || userData.user.role !== 'Админ') {
+            if (!userData.success || (userData.user.role !== 'Админ' && userData.user.role !== 'Редактор')) {
                 navigate('/');
                 return;
             }
@@ -651,85 +651,87 @@ function AdminPage() {
             <div className={styles.content}>
                 <h1>Админ Консоль</h1>
 
-                <div className={styles.section}>
-                    <h2>Пользователи</h2>
-                    <div className={styles.tableContainer}>
-                        <table className={styles.table}>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Имя пользователя</th>
-                                    <th>Email</th>
-                                    <th>Роль</th>
-                                    <th>Пароль</th>
-                                    <th>Аватар</th>
-                                    <th>Действия</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {users.map(user => (
-                                    <tr key={user.id} data-user-id={user.id}>
-                                        <td>{user.id}</td>
-                                        <td>
-                                            {editingUser === user.id ? (
-                                                <input type="text" defaultValue={user.username} />
-                                            ) : (
-                                                user.username
-                                            )}
-                                        </td>
-                                        <td>
-                                            {editingUser === user.id ? (
-                                                <input type="email" defaultValue={user.email} />
-                                            ) : (
-                                                user.email
-                                            )}
-                                        </td>
-                                        <td>
-                                            {editingUser === user.id ? (
-                                                <select defaultValue={user.role}>
-                                                    <option value="Покупатель">Покупатель</option>
-                                                    <option value="Редактор">Редактор</option>
-                                                    <option value="Админ">Админ</option>
-                                                </select>
-                                            ) : (
-                                                user.role
-                                            )}
-                                        </td>
-                                        <td>
-                                            {editingUser === user.id ? (
-                                                <input type="text" defaultValue={user.password} placeholder="Новый пароль (оставьте пустым чтобы не менять)" />
-                                            ) : (
-                                                user.password
-                                            )}
-                                        </td>
-                                        <td>
-                                            {editingUser === user.id ? (
-                                                <input type="file" accept="image/*" className={styles.fileInput} />
-                                            ) : (
-                                                user.avatar ? <img src={user.avatar} alt="avatar" className={styles.avatar} /> : 'Нет'
-                                            )}
-                                        </td>
-                                        <td>
-                                            {editingUser === user.id ? (
-                                                <div className={styles.actionButtons}>
-                                                    <button onClick={() => handleSaveUser(user.id)} className={styles.saveButton}>Сохранить</button>
-                                                    <button onClick={handleCancelUserEdit} className={styles.cancelButton}>Отмена</button>
-                                                </div>
-                                            ) : (
-                                                <div className={styles.actionButtons}>
-                                                    <button onClick={() => handleEditUser(user.id)} className={styles.editButton}>Редактировать</button>
-                                                    {currentUser && currentUser.id !== user.id && (
-                                                        <button onClick={() => handleDeleteUser(user.id)} className={styles.deleteButton}>Удалить</button>
-                                                    )}
-                                                </div>
-                                            )}
-                                        </td>
+                {currentUser?.role === 'Админ' && (
+                    <div className={styles.section}>
+                        <h2>Пользователи</h2>
+                        <div className={styles.tableContainer}>
+                            <table className={styles.table}>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Имя пользователя</th>
+                                        <th>Email</th>
+                                        <th>Роль</th>
+                                        <th>Пароль</th>
+                                        <th>Аватар</th>
+                                        <th>Действия</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {users.map(user => (
+                                        <tr key={user.id} data-user-id={user.id}>
+                                            <td>{user.id}</td>
+                                            <td>
+                                                {editingUser === user.id ? (
+                                                    <input type="text" defaultValue={user.username} />
+                                                ) : (
+                                                    user.username
+                                                )}
+                                            </td>
+                                            <td>
+                                                {editingUser === user.id ? (
+                                                    <input type="email" defaultValue={user.email} />
+                                                ) : (
+                                                    user.email
+                                                )}
+                                            </td>
+                                            <td>
+                                                {editingUser === user.id ? (
+                                                    <select defaultValue={user.role}>
+                                                        <option value="Покупатель">Покупатель</option>
+                                                        <option value="Редактор">Редактор</option>
+                                                        <option value="Админ">Админ</option>
+                                                    </select>
+                                                ) : (
+                                                    user.role
+                                                )}
+                                            </td>
+                                            <td>
+                                                {editingUser === user.id ? (
+                                                    <input type="text" defaultValue={user.password} placeholder="Новый пароль (оставьте пустым чтобы не менять)" />
+                                                ) : (
+                                                    user.password
+                                                )}
+                                            </td>
+                                            <td>
+                                                {editingUser === user.id ? (
+                                                    <input type="file" accept="image/*" className={styles.fileInput} />
+                                                ) : (
+                                                    user.avatar ? <img src={user.avatar} alt="avatar" className={styles.avatar} /> : 'Нет'
+                                                )}
+                                            </td>
+                                            <td>
+                                                {editingUser === user.id ? (
+                                                    <div className={styles.actionButtons}>
+                                                        <button onClick={() => handleSaveUser(user.id)} className={styles.saveButton}>Сохранить</button>
+                                                        <button onClick={handleCancelUserEdit} className={styles.cancelButton}>Отмена</button>
+                                                    </div>
+                                                ) : (
+                                                    <div className={styles.actionButtons}>
+                                                        <button onClick={() => handleEditUser(user.id)} className={styles.editButton}>Редактировать</button>
+                                                        {currentUser && currentUser.id !== user.id && (
+                                                            <button onClick={() => handleDeleteUser(user.id)} className={styles.deleteButton}>Удалить</button>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                )}
 
                 <div className={styles.section}>
                     <h2>Товары</h2>
@@ -1169,38 +1171,40 @@ function AdminPage() {
                     </div>
                 </div>
 
-                <div className={styles.section}>
-                    <h2>Список API маршрутов</h2>
-                    <div className={styles.apiList}>
-                        <ul>
-                            <li><strong>GET /api/products</strong> - Получить все товары</li>
-                            <li><strong>GET /api/figurines</strong> - Получить все драконы</li>
-                            <li><strong>POST /api/figurines</strong> - Создать нового дракона</li>
-                            <li><strong>PUT /api/figurines/:id</strong> - Обновить дракона</li>
-                            <li><strong>DELETE /api/figurines/:id</strong> - Удалить дракона</li>
-                            <li><strong>GET /api/kykly</strong> - Получить все куклы</li>
-                            <li><strong>POST /api/kykly</strong> - Создать новую куклу</li>
-                            <li><strong>PUT /api/kykly/:id</strong> - Обновить куклу</li>
-                            <li><strong>DELETE /api/kykly/:id</strong> - Удалить куклу</li>
-                            <li><strong>GET /api/props</strong> - Получить все пропы</li>
-                            <li><strong>POST /api/props</strong> - Создать новый проп</li>
-                            <li><strong>PUT /api/props/:id</strong> - Обновить проп</li>
-                            <li><strong>DELETE /api/props/:id</strong> - Удалить проп</li>
-                            <li><strong>GET /api/navigate</strong> - Навигационные маршруты</li>
-                            <li><strong>POST /api/auth/login</strong> - Авторизация</li>
-                            <li><strong>POST /api/auth/logout</strong> - Выход</li>
-                            <li><strong>GET /api/auth/session</strong> - Проверить сессию</li>
-                            <li><strong>GET /api/auth/user</strong> - Получить данные пользователя</li>
-                            <li><strong>GET /api/users</strong> - Получить всех пользователей</li>
-                            <li><strong>PUT /api/users/:id</strong> - Обновить пользователя</li>
-                            <li><strong>GET /api/orders</strong> - Получить заказы пользователя</li>
-                            <li><strong>GET /api/orders/all</strong> - Получить все заказы (админ)</li>
-                            <li><strong>PUT /api/orders/:id/status</strong> - Обновить статус заказа</li>
-                            <li><strong>DELETE /api/orders/:id</strong> - Удалить заказ (админ)</li>
-                            <li><strong>GET /debug/users</strong> - Отладка пользователей</li>
-                        </ul>
+                {currentUser?.role === 'Админ' && (
+                    <div className={styles.section}>
+                        <h2>Список API маршрутов</h2>
+                        <div className={styles.apiList}>
+                            <ul>
+                                <li><strong>GET /api/products</strong> - Получить все товары</li>
+                                <li><strong>GET /api/figurines</strong> - Получить все драконы</li>
+                                <li><strong>POST /api/figurines</strong> - Создать нового дракона</li>
+                                <li><strong>PUT /api/figurines/:id</strong> - Обновить дракона</li>
+                                <li><strong>DELETE /api/figurines/:id</strong> - Удалить дракона</li>
+                                <li><strong>GET /api/kykly</strong> - Получить все куклы</li>
+                                <li><strong>POST /api/kykly</strong> - Создать новую куклу</li>
+                                <li><strong>PUT /api/kykly/:id</strong> - Обновить куклу</li>
+                                <li><strong>DELETE /api/kykly/:id</strong> - Удалить куклу</li>
+                                <li><strong>GET /api/props</strong> - Получить все пропы</li>
+                                <li><strong>POST /api/props</strong> - Создать новый проп</li>
+                                <li><strong>PUT /api/props/:id</strong> - Обновить проп</li>
+                                <li><strong>DELETE /api/props/:id</strong> - Удалить проп</li>
+                                <li><strong>GET /api/navigate</strong> - Навигационные маршруты</li>
+                                <li><strong>POST /api/auth/login</strong> - Авторизация</li>
+                                <li><strong>POST /api/auth/logout</strong> - Выход</li>
+                                <li><strong>GET /api/auth/session</strong> - Проверить сессию</li>
+                                <li><strong>GET /api/auth/user</strong> - Получить данные пользователя</li>
+                                <li><strong>GET /api/users</strong> - Получить всех пользователей</li>
+                                <li><strong>PUT /api/users/:id</strong> - Обновить пользователя</li>
+                                <li><strong>GET /api/orders</strong> - Получить заказы пользователя</li>
+                                <li><strong>GET /api/orders/all</strong> - Получить все заказы (админ)</li>
+                                <li><strong>PUT /api/orders/:id/status</strong> - Обновить статус заказа</li>
+                                <li><strong>DELETE /api/orders/:id</strong> - Удалить заказ (админ)</li>
+                                <li><strong>GET /debug/users</strong> - Отладка пользователей</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {showDeleteModal && (
                     <div className={styles.modalOverlay}>

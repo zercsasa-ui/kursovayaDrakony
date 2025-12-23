@@ -175,6 +175,59 @@ const createDefaultProps = () => {
     });
 };
 
+// ВРЕМЕННЫЙ КОД ДЛЯ ТЕСТИРОВАНИЯ - СОЗДАНИЕ 20 ТЕСТОВЫХ ТОВАРОВ
+// ЭТОТ КОД БУДЕТ УДАЛЕН ПОСЛЕ ТЕСТИРОВАНИЯ
+const createTestProducts = () => {
+    return new Promise((resolve, reject) => {
+        const sqlite3 = require('sqlite3').verbose();
+        const path = require('path');
+        const dbPath = path.join(__dirname, 'database.db');
+        const db = new sqlite3.Database(dbPath);
+
+        // Удаляем предыдущие тестовые товары (если есть)
+        db.run('DELETE FROM Products WHERE name LIKE "Тестовый товар%"', [], (err) => {
+            if (err) {
+                console.error('Ошибка при очистке тестовых товаров:', err);
+                db.close();
+                reject(err);
+                return;
+            }
+
+            const testProduct = {
+                type: 'dragon',
+                price: 10000.00,
+                name: "Тестовый товар",
+                description: "Тестовое описание товара для тестирования",
+                composition: "-Тестовый материал;\n- Тестовая краска.",
+                imageUrl: "/utImages/DrakonNaBorde.jpg",
+                color: "Разноцветный",
+                inStock: 1
+            };
+
+            let inserted = 0;
+            for (let i = 1; i <= 20; i++) {
+                const product = { ...testProduct, name: `Тестовый товар ${i}` };
+                db.run(
+                    'INSERT INTO Products (type, price, name, description, composition, imageUrl, color, inStock) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                    [product.type, product.price, product.name, product.description, product.composition, product.imageUrl, product.color, product.inStock],
+                    function (err) {
+                        if (err) {
+                            console.error('Ошибка при создании тестового товара:', err);
+                        } else {
+                            console.log(`Тестовый товар "${product.name}" создан`);
+                        }
+                        inserted++;
+                        if (inserted === 20) {
+                            db.close();
+                            resolve();
+                        }
+                    }
+                );
+            }
+        });
+    });
+};
+
 // Функция для создания администратора при запуске
 const createDefaultAdmin = () => {
     return new Promise((resolve, reject) => {
@@ -210,6 +263,47 @@ const createDefaultAdmin = () => {
                 );
             } else {
                 console.log('Администратор "Анд" уже существует');
+                resolve();
+            }
+        });
+    });
+};
+
+// Функция для создания редактора при запуске
+const createDefaultEditor = () => {
+    return new Promise((resolve, reject) => {
+        const sqlite3 = require('sqlite3').verbose();
+        const path = require('path');
+        const dbPath = path.join(__dirname, 'database.db');
+        const db = new sqlite3.Database(dbPath);
+
+        // Проверяем, существует ли редактор
+        db.get('SELECT * FROM users WHERE username = ?', ['Редактор'], (err, row) => {
+            if (err) {
+                console.error('Ошибка при проверке редактора:', err);
+                db.close();
+                reject(err);
+                return;
+            }
+
+            if (!row) {
+                // Создаем редактора
+                db.run(
+                    'INSERT INTO users (username, email, password, avatar, role) VALUES (?, ?, ?, ?, ?)',
+                    ['Редактор', 'editor@drakony.ru', '123', '/images/PrivetAva.jpg', 'Редактор'],
+                    function (err) {
+                        if (err) {
+                            console.error('Ошибка при создании редактора:', err);
+                            reject(err);
+                        } else {
+                            console.log('Редактор "Редактор" создан');
+                            resolve();
+                        }
+                        db.close();
+                    }
+                );
+            } else {
+                console.log('Редактор "Редактор" уже существует');
                 resolve();
             }
         });
@@ -261,11 +355,13 @@ app.listen(port, async () => {
         await sequelize.sync({ force: true });
         console.log('База данных подключена успешно');
 
-        // Создаем админа, драконов, кукол и пропы при запуске
+        // Создаем админа, редактора, драконов, кукол, пропы и тестовые товары при запуске
         await createDefaultAdmin();
+        await createDefaultEditor();
         await createDefaultDragons();
         await createDefaultDolls();
         await createDefaultProps();
+        await createTestProducts();
     } catch (e) {
         console.log('Ошибка подключения к базе данных:', e);
     }

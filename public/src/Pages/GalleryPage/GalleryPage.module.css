@@ -6,22 +6,81 @@
 
 main {
     flex: 1;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 120px 20px 20px 20px;
+}
+
+.titleContainer {
+    position: fixed;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    z-index: 100;
+    margin-bottom: 0;
+}
+
+.titleContainer h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.titleContainerRight {
+    position: fixed;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    z-index: 100;
+    margin-bottom: 0;
+}
+
+.titleContainerRight h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    white-space: nowrap;
 }
 
 .content {
-    text-align: center;
-}
-
-.content h1 {
-    margin-bottom: 1rem;
-    color: #333;
+    max-width: 1200px;
+    width: 70%;
+    margin: 0 auto;
 }
 
 .content p {
     color: #666;
     font-size: 18px;
+}
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+}
+
+.loading p {
+    color: #666;
+    font-size: 16px;
+}
+
+.error {
+    text-align: center;
+    padding: 2rem;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    color: #721c24;
+}
+
+.error p {
+    margin: 0;
+    font-size: 16px;
+}
+
+/* CSS3 Columns Layout for Pinterest-style gallery */
+.galleryGrid {
+    columns: 280px;
+    column-gap: 30px;
+    padding: 0 20px;
 }

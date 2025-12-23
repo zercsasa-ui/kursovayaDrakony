@@ -29,6 +29,7 @@ const upload = multer({
 
 // Публичные маршруты (без аутентификации)
 router.post('/', UserController.createUser);
+router.get('/public', UserController.getAllUsersPublic); // Публичный маршрут для галереи
 
 // Защищенные маршруты (требуют аутентификации)
 router.use(requireAuth); // Все следующие маршруты требуют аутентификации

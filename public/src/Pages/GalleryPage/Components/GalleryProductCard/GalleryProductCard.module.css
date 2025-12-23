@@ -1,0 +1,55 @@
+.productCard {
+    background: white;
+    border: 1px solid rgba(236, 234, 231, 1);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    break-inside: avoid;
+}
+
+.imageContainer {
+    width: 100%;
+    flex: 1;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.productImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: filter 0.3s ease;
+}
+
+/* Fallback для сломанных изображений */
+.fallbackImage {
+    font-size: 48px;
+    color: #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.productInfo {
+    padding: 12px;
+    text-align: center;
+}
+
+.productName {
+    font-size: 18px;
+    font-weight: 600;
+    color: #292929;
+    margin: 0;
+    line-height: 1.3;
+}
